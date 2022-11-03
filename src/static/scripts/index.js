@@ -1,24 +1,27 @@
 url = "/translate-api";
 
-function send_text() {
+async function send_text() {
 
-  var request = new Object();
+  let request = {};
   request.from = document.getElementById('from').value.toLowerCase();
   request.to = document.getElementById('to').value.toLowerCase();
   request.from_text = document.getElementById('from_text').value;
   request.id = parseInt(1000000000 * Math.random())
 
-  fetch(url, {
+  let res = await fetch(url, {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request)
   })
 
-    .then( res => res.json()
-    
-    ).then(json => {
-      document.getElementById('to_text').value = json.to_text
-    })
+  if (!res.ok){
+    alert(await res.text())
+    return 
+  }
+
+  let json = await res.json()
+
+  document.getElementById('to_text').value = json.to_text
 
 }
 

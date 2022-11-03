@@ -27,11 +27,16 @@ def translate():
     to = request.json['to']
 
     installed_languages = argostranslate.translate.get_installed_languages()
+    installed_lang_codes = {l.code for l in installed_languages}
 
-    if not {_from, to} & {l.code for l in installed_languages}:
-        # TODO: language not found, bucket request
-        return 'language not available :\'-( ', 400
-
+    if _from not in installed_lang_codes:
+        # TODO: language not found, try requesting it from bucket
+        return f'language "{_from}" not available :\'-(', 400
+    
+    if to not in installed_lang_codes:
+        # TODO: language not found, try requesting it from bucket
+        return f'language "{to}" not available :\'-(', 400
+   
     from_lang = list(filter(lambda x: x.code == _from, installed_languages))[0]
     to_lang = list(filter(lambda x: x.code == to, installed_languages))[0]
 
