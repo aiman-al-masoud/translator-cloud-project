@@ -1,0 +1,1 @@
+wget -O- --post-data='{"from" : "it", "to":"en", "from_text":"sopra la panca la capra campa, sotto la panca la capra crepa! :-) buruf", "id":1 }'  --header='Content-Type:application/json' 'http://localhost:5000/translate-api'

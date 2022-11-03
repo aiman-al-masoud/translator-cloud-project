@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Unipv Translator</title>
+  </head>
+
+  <script src="{{url_for('static', filename='scripts/index.js')}}"></script>
+
+  <body>
+    <select id="from" name="from" data-placeholder="Choose a Language...">
+      <option value="AR">Arabic</option>
+      <option value="AZ">Azerbaijani</option>
+      <option value="ZH">Chinese</option>
+      <option value="CS">Czech</option>
+      <option value="DA">Danish</option>
+      <option value="NL">Dutch</option>
+      <option value="EN">English</option>
+      <option value="EO">Esperanto</option>
+      <option value="FI">Finnish</option>
+      <option value="FR">French</option>
+      <option value="DE">German</option>
+      <option value="EL">Greek</option>
+      <option value="HE">Hebrew</option>
+      <option value="HI">Hindi</option>
+      <option value="HU">Hungarian</option>
+      <option value="ID">Indonesian</option>
+      <option value="GA">Irish</option>
+      <option value="IT" selected>Italian</option>
+      <option value="JA">Japanese</option>
+      <option value="KO">Korean</option>
+      <option value="FA">Persian</option>
+      <option value="PL">Polish</option>
+      <option value="PT">Portuguese</option>
+      <option value="PA">Punjabi</option>
+      <option value="RU">Russian</option>
+      <option value="SK">Slovak</option>
+      <option value="ES">Spanish</option>
+      <option value="SV">Swedish </option>
+      <option value="TR">Turkish</option>
+      <option value="UK">Ukrainian</option>
+    </select>
+    <textarea id="from_text" name="name" rows="8" cols="40%""></textarea>
+
+    <img src="switch.png" id="invert" width="20px" onClick="switch_lang();">
+
+    <select id="to" name="to" data-placeholder="Choose a Language...">
+      <option value="AR">Arabic</option>
+      <option value="AZ">Azerbaijani</option>
+      <option value="ZH">Chinese</option>
+      <option value="CS">Czech</option>
+      <option value="DA">Danish</option>
+      <option value="NL">Dutch</option>
+      <option value="EN" selected>English</option>
+      <option value="EO">Esperanto</option>
+      <option value="FI">Finnish</option>
+      <option value="FR">French</option>
+      <option value="DE">German</option>
+      <option value="EL">Greek</option>
+      <option value="HE">Hebrew</option>
+      <option value="HI">Hindi</option>
+      <option value="HU">Hungarian</option>
+      <option value="ID">Indonesian</option>
+      <option value="GA">Irish</option>
+      <option value="IT">Italian</option>
+      <option value="JA">Japanese</option>
+      <option value="KO">Korean</option>
+      <option value="FA">Persian</option>
+      <option value="PL">Polish</option>
+      <option value="PT">Portuguese</option>
+      <option value="PA">Punjabi</option>
+      <option value="RU">Russian</option>
+      <option value="SK">Slovak</option>
+      <option value="ES">Spanish</option>
+      <option value="SV">Swedish </option>
+      <option value="TR">Turkish</option>
+      <option value="UK">Ukrainian</option>
+    </select>
+    <textarea id="to_text" name="to_text" rows="8" cols="40%"></textarea>
+    <input type="button" name="Traduci" value="Traduci" onclick="send_text();">
+  </body>
+</html>

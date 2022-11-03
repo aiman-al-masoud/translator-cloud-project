@@ -1,0 +1,1 @@
+wget -O- --post-data='{"from" : "it", "to":"en", "id":1 }'  --header='Content-Type:application/json' 'http://localhost:5000/translate-api'
