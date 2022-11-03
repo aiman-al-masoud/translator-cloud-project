@@ -20,19 +20,58 @@ Response
 }
 ```
 
-## Installing Python Dependencies
+## Set-Up
+### Virtual Enviroment set-up
 
-```bash
-pip install -r requirements.txt
+#### 1) Clone this repo
+```
+$ git clone https://github.com/aiman-al-masoud/translator-cloud-project.git
+```
+and navigate to its root directory.
+
+  
+#### 2) Create a python virtual environment 
+Use this name necessarily, because of the *.gitignore*
+```
+$ python3 -m venv .venv
 ```
 
-## Testing 
+(You'll be prompted to install the 'venv' module if you don't have it yet).
 
-To launch a testing server:
+  
+#### 3) Activate the virtual environment
 
-```bash
-python3 -m flask run
+```
+$ source .venv/bin/activate
 ```
 
-... from [`src/`](./src).
+(You should notice that the console starts displaying the virtual environment's name before your username and the dollar-sign).
 
+  
+#### 4) Install this app's dependencies 
+Inside the virtual environment you just created:
+  
+```
+(venv)$ pip install -r requirements.txt
+```
+
+#### 5) Get the models
+Move to the *test* directory and execute
+```sh
+python3 install-packages.py -f en -t it -txt "Hello World"
+# en -> it 
+```
+
+```sh
+python3 install-packages.py -f it -t en -txt "Ciao Mondo"
+# it -> en 
+```
+## Testing
+### 1) Launch the server
+Move to the *src* directory and execute
+```
+$ python3 -m flask run
+```
+and navigate to its root directory.
+
+Open the browser on `http://127.0.0.1:5000`
