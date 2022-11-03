@@ -20,7 +20,19 @@ Response
 }
 ```
 
+## Installing Python Dependencies
 
+```bash
+pip install -r requirements.txt
+```
 
+## Testing 
 
+To launch a testing server:
+
+```bash
+python3 -m flask run
+```
+
+... from [`src/`](./src).
 
