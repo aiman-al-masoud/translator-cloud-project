@@ -1,24 +1,22 @@
-https://www.localhost/
+# API Documentation
 
+## Translate API
 
-https://localhost/translate-api/
-
-
-```json
+```typescript
 {
 
-"from" : string // lingua 
-"to" : string, //lingua
-"from_text" : string,
-"id" : int
+"from" : string // source language 
+"to" : string, // target language
+"from_text" : string, // text to be translated
+"id" : int // request id
 }
 ```
 
 Response
-```json
+```typescript
 {
-"to_text" : string,
-"id" : int 
+"to_text" : string, // translated text
+"id" : int // request id
 }
 ```
 

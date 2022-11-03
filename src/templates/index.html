@@ -42,7 +42,7 @@
     </select>
     <textarea id="from_text" name="name" rows="8" cols="40%""></textarea>
 
-    <img src="switch.png" id="invert" width="20px" onClick="switch_lang();">
+    <img src="{{url_for('static', filename='res/switch.png')}}" id="invert" width="20px" onClick="switch_lang();">
 
     <select id="to" name="to" data-placeholder="Choose a Language...">
       <option value="AR">Arabic</option>
