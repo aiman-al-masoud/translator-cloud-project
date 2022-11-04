@@ -18,19 +18,25 @@ ul.topnav {
   position: relative;
 }
 
-ul.topnav li {float: left;}
+ul.topnav li {
+    float: left;
+}
 
 ul.topnav li a {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  height: 60px;
+  font-size: 30px;
 }
 
 ul.topnav li a:hover:not(.active) {background-color: #111;}
 
-ul.topnav li a.active {background-color: #04AA6D;}
+ul.topnav li a.active {background-color: #97c3f4;}
 
 ul.topnav li.right {float: right;}
 
