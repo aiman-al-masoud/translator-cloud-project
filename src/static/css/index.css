@@ -6,6 +6,7 @@
 body {
     margin: 0;
     font-family: Quicksand;
+    background-image: linear-gradient(265deg,#97c3f4 2%,#e2eef2 55%,#fff 95%);
 }
 
 ul.topnav {
