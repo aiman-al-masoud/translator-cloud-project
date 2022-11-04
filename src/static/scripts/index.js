@@ -1,5 +1,9 @@
 url = "/translate-api";
 
+function focus_on_input() {
+  document.getElementById("from_text").focus();
+}
+
 async function send_text() {
 
   let request = {};
@@ -16,7 +20,7 @@ async function send_text() {
 
   if (!res.ok){
     alert(await res.text())
-    return 
+    return
   }
 
   let json = await res.json()
