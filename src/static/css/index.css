@@ -6,7 +6,9 @@
 body {
     margin: 0;
     font-family: Quicksand;
-    background-image: linear-gradient(265deg,#97c3f4 2%,#e2eef2 55%,#fff 95%);
+    /*background-image: linear-gradient(265deg,#97c3f4 2%,#e2eef2 55%,#fff 95%);*/
+    background: rgb(255,255,255);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(151,195,244,1) 100%);
 }
 
 ul.topnav {
@@ -16,10 +18,14 @@ ul.topnav {
   overflow: hidden;
   background-color: #333;
   position: relative;
+
 }
 
 ul.topnav li {
     float: left;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #333;
 }
 
 ul.topnav li a {
@@ -36,7 +42,14 @@ ul.topnav li a {
 
 ul.topnav li a:hover:not(.active) {background-color: #111;}
 
-ul.topnav li a.active {background-color: #97c3f4;}
+ul.topnav li a.active {background-color: seagreen;
+color: white;
+}
+
+ul.topnav li a.logo {background-color: #97c3f4;}
+
+ul.topnav li a.logo:hover {background-color: #97c3f4;}
+
 
 ul.topnav li.right {float: right;}
 
@@ -61,6 +74,22 @@ ul.topnav li.right {float: right;}
 
 .complex .invert {
     margin: 10px;
+}
+
+#footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #333;
+    text-align: center;
+    font-size: 100%;
+    padding-top: 1em; padding-bottom: 1em;
+    color: aliceblue;
+}
+
+a.aliceblue {
+    color: aliceblue;
 }
 
 /*ciao*/
