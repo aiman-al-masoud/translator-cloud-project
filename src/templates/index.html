@@ -12,8 +12,8 @@
 
   <body>
     <ul class="topnav">
-      <li><a class="active" title="Home" href="/"><img src="{{url_for('static', filename='res/logoCloudTranslatorSVG.svg')}}" width="150px" height="60px"></a></li>
-      <li><a href="/">Home</a></li>
+      <li><a class="logo" title="Home" href="/"><img src="{{url_for('static', filename='res/logoCloudTranslatorSVG.svg')}}" width="150px" height="60px"></a></li>
+      <li><a class="active" href="/">Home</a></li>
       <li><a href="community.html">Community</a></li>
       <li class="right"><a href="about.html">About</a></li>
     </ul>
@@ -90,7 +90,18 @@
     </select>
     <textarea id="to_text" class="to_text" name="to_text" rows="8" cols="40%"></textarea>
     <input type="button" id="translate" class="translate "name="translate" value="Translate">
-  </div> 
+  </div>
+
+  <footer id="footer">
+    <span>
+      <p>
+        <a href="https://web.unipv.it/" class="aliceblue">Università degli Studi di Pavia</a>
+        <br>
+         Cloud Computing Project UNIPV © 2022
+      </p>
+    </span>
+  </footer>
+
   </body>
 
   <script src="{{url_for('static', filename='scripts/index.js')}}"></script>
