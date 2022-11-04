@@ -47,6 +47,11 @@ $ source .venv/bin/activate
 
 (You should notice that the console starts displaying the virtual environment's name before your username and the dollar-sign).
 
+To exit from the virtual environment
+```
+$ deactivate
+```
+
   
 #### 4) Install this app's dependencies 
 Inside the virtual environment you just created:
@@ -66,6 +71,16 @@ python3 install-packages.py -f en -t it -txt "Hello World"
 python3 install-packages.py -f it -t en -txt "Ciao Mondo"
 # it -> en 
 ```
+
+If there are any problems with downloading language packages:
+```
+$ python3
+>>> import argostranslate.package
+>>> argostranslate.package.update_package_index()
+>>> exit()
+```
+
+And then run the two commands above.
 ## Testing
 ### 1) Launch the server
 Move to the *src* directory and execute
