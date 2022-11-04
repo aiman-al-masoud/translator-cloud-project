@@ -1,16 +1,17 @@
 URL = "/translate-api";
-const MAX_CACHE_SIZE = 100;// max number of cache entries in localStorage
+const MAX_CACHE_SIZE = 100; //max number of cache entries in localStorage
 
-function focus_on_input() {
+function focusOnInput() {
   document.getElementById("from_text").focus();
 }
 
 /**
+ * generating the hash of the input string enabling a cache mechanism for storing up to 100 input strings
  * 
  * @param {string} string 
  * @returns {number}
  */
-function hash(string) {
+function hashGenerator(string) {
     var hash = 0, i, chr;
     if (string.length === 0) return hash;
     for (i = 0; i < string.length; i++) {
@@ -21,25 +22,24 @@ function hash(string) {
     return hash;
 }
 
-async function send_text() {
-
+async function sendText() {
   let request = {};
   request.from = document.getElementById('from').value.toLowerCase();
   request.to = document.getElementById('to').value.toLowerCase();
   request.from_text = document.getElementById('from_text').value;
-  // request.id = parseInt(1000000000 * Math.random());
+  request.id = hashGenerator(request.from_text); //generating the hash of the input string
+  
 
-  request.id = hash(request.from_text);
-
+  //clearing the localStorage of the browser to prevent hash collisions after caching 100 entries
   if(localStorage.length >= MAX_CACHE_SIZE){
     localStorage.clear();
   }
-
   let cached = localStorage.getItem(request.id)
   if(cached){
-    document.getElementById('to_text').value = cached
+    document.getElementById('to_text').value = cached;
     return
   }
+
 
   let res = await fetch(URL, {
     method: "POST",
@@ -55,10 +55,12 @@ async function send_text() {
   let json = await res.json()
 
   document.getElementById('to_text').value = json.to_text
+  
   localStorage.setItem(request.id, json.to_text)
 }
 
-function switch_lang() {
+//switching both selected languages and textAreas
+function switchLang() {
   from = document.getElementById('from').value;
   to = document.getElementById('to').value;
   from_text = document.getElementById('from_text').value;
