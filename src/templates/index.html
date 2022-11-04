@@ -7,26 +7,8 @@
   </head>
 
   <script src="{{url_for('static', filename='scripts/index.js')}}"></script>
-  <style media="screen">
-  .menu {
-    background: yellow;
-    border-radius: 3px;
-    width: 100%;
-    align-items: center;
-    position: sticky;
-    top: 1%;
-  }
+  <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}"></link>
 
-  .menu a.currentpage {
-    font-weight: bolder;
-    filter: drop-shadow(0px 0px 4px white);
-  }
-
-  a:hover {
-    transition: 0.5s;
-    transform: scale(1.2) perspective(1px);
-  }
-  </style>
 
   <body onload="focus_on_input();">
     <div id="menu" class="menu">
