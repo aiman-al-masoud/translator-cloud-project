@@ -71,3 +71,8 @@ function switchLang() {
   document.getElementById('from_text').value = '' + to_text;
   document.getElementById('to_text').value = '' + from_text;
 }
+
+console.log(document.getElementById("translate"));
+document.getElementById("translate").onclick=sendText;
+document.body.onload=focusOnInput;
+document.getElementById("invert").onclick=switchLang;
