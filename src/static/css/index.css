@@ -61,6 +61,12 @@ ul.topnav li.right {float: right;}
 .complex {
     text-align: center;
     margin-top: 10%;
+    margin-left: 18%;
+    margin-right: 18%;
+    padding: 3.2% 4% 3% 2%;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 10px 10px 30px rgb(35 71 163 / 50%);
 }
 
 .complex select {
