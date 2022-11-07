@@ -72,7 +72,18 @@ function switchLang() {
   document.getElementById('to_text').value = '' + from_text;
 }
 
+var timeout = 2000; // milliseconds to wait for request the translate to the server
+var timer;
+
+function sendTextDelayed() {
+  clearTimeout(timer);
+  timer = setTimeout(function(){
+    sendText();
+  }, timeout);
+}
+
 console.log(document.getElementById("translate"));
 document.getElementById("translate").onclick=sendText;
 document.body.onload=focusOnInput;
 document.getElementById("invert").onclick=switchLang;
+document.getElementById("from_text").onkeyup=sendTextDelayed;
