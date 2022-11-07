@@ -7,8 +7,8 @@ function focusOnInput() {
 
 /**
  * generating the hash of the input string enabling a cache mechanism for storing up to 100 input strings
- * 
- * @param {string} string 
+ *
+ * @param {string} string
  * @returns {number}
  */
 function hashGenerator(string) {
@@ -28,7 +28,7 @@ async function sendText() {
   request.to = document.getElementById('to').value.toLowerCase();
   request.from_text = document.getElementById('from_text').value;
   request.id = hashGenerator(request.from_text); //generating the hash of the input string
-  
+
 
   //clearing the localStorage of the browser to prevent hash collisions after caching 100 entries
   if(localStorage.length >= MAX_CACHE_SIZE){
@@ -55,7 +55,7 @@ async function sendText() {
   let json = await res.json()
 
   document.getElementById('to_text').value = json.to_text
-  
+
   localStorage.setItem(request.id, json.to_text)
 }
 
@@ -72,10 +72,11 @@ function switchLang() {
   document.getElementById('to_text').value = '' + from_text;
 }
 
-var timeout = 2000; // milliseconds to wait for request the translate to the server
+var timeout = 1000; // milliseconds to wait for request the translate to the server
 var timer;
 
 function sendTextDelayed() {
+  document.getElementById('to_text').value = "...";
   clearTimeout(timer);
   timer = setTimeout(function(){
     sendText();

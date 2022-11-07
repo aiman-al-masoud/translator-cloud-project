@@ -36,8 +36,8 @@ ul.topnav li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  height: 60px;
-  font-size: 30px;
+  height: auto;
+  font-size: 2em;
 }
 
 ul.topnav li a:hover:not(.active) {background-color: #111;}
@@ -53,33 +53,90 @@ ul.topnav li a.logo:hover {background-color: #97c3f4;}
 
 ul.topnav li.right {float: right;}
 
-@media screen and (max-width: 600px) {
-  ul.topnav li.right, 
-  ul.topnav li {float: none;}
-}
-
 .complex {
     text-align: center;
-    margin-top: 10%;
+    margin-top: 5%;
     margin-left: 10%;
     margin-right: 10%;
-    padding: 3.2% 4% 3% 2%;
+    margin-bottom: 5%;
+    padding: 3% 4% 3% 4%;
     background-color: white;
     border-radius: 15px;
     box-shadow: 10px 10px 30px rgb(35 71 163 / 50%);
 }
 
 .complex select {
-    margin-left: 20px;
-    margin-right: 20px;
+  margin-right: 25%;
+  margin-left: 25%;
 }
 
 .complex textarea {
-    margin-right: 20px;
+    font-family: Quicksand;
+    font-size: 15px;
+    width: 30%;
+    min-height: 15em;
+    resize: none;
+    border-radius: 10px;
 }
 
-.complex .invert {
-    margin: 10px;
+.complex .line1 {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1%;
+}
+
+.complex .line {
+  display: flex;
+  justify-content:center;
+}
+
+.invert {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 8%;
+}
+
+.translate {
+  align-items: center;
+  background-color: #fff;
+  border: 2px solid #000;
+  box-sizing: border-box;
+  color: #000;
+  cursor: pointer;
+  display: inline-flex;
+  fill: #000;
+  font-family: Inter,sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  height: 48px;
+  justify-content: center;
+  letter-spacing: -.8px;
+  line-height: 24px;
+  min-width: 140px;
+  outline: 0;
+  padding: 0 17px;
+  text-align: center;
+  text-decoration: none;
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.translate:focus {
+  color: #171e29;
+}
+
+.translate:hover {
+  border-color: #06f;
+  color: #06f;
+  fill: #06f;
+}
+
+.translate:active {
+  border-color: #06f;
+  color: #06f;
+  fill: #06f;
 }
 
 #footer {
@@ -98,6 +155,21 @@ a.aliceblue {
     color: aliceblue;
 }
 
-/*ciao*/
+@media (min-width: 768px) {
+  .translate {
+    min-width: 170px;
+  }
+}
 
+@media screen and (max-width: 600px) {
+  ul.topnav li.right,
+  ul.topnav li { float: none; }
+  ul.topnav li a {
+    font-size: 1.2em;
+  }
 
+  #footer {
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+  }
+}
