@@ -4,7 +4,7 @@
 }
 
 body {
-    margin: 0;
+    margin: 0; padding: 0;
     font-family: Quicksand;
     /*background-image: linear-gradient(265deg,#97c3f4 2%,#e2eef2 55%,#fff 95%);*/
     background: rgb(255,255,255);
@@ -18,7 +18,6 @@ ul.topnav {
   overflow: hidden;
   background-color: #333;
   position: relative;
-
 }
 
 ul.topnav li {
@@ -42,24 +41,21 @@ ul.topnav li a {
 
 ul.topnav li a:hover:not(.active) {background-color: #111;}
 
-ul.topnav li a.active {background-color: seagreen;
-color: white;
+ul.topnav li a.active {
+  background-color: seagreen;
+  color: white;
 }
 
 ul.topnav li a.logo {background-color: #97c3f4;}
 
 ul.topnav li a.logo:hover {background-color: #97c3f4;}
 
-
 ul.topnav li.right {float: right;}
 
 .complex {
     text-align: center;
-    margin-top: 5%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 5%;
-    padding: 3% 4% 3% 4%;
+    margin: 5% 10% 5% 10%;
+    padding: 5%;
     background-color: white;
     border-radius: 15px;
     box-shadow: 10px 10px 30px rgb(35 71 163 / 50%);
@@ -68,15 +64,36 @@ ul.topnav li.right {float: right;}
 .complex select {
   margin-right: 25%;
   margin-left: 25%;
+  font-family: Quicksand;
+  font-size: 15px;
+}
+
+.complex select:focus {
+  color: #06f;
+  fill: #06f;
+  border-color: #06f;
+}
+
+.complex select:hover {
+  color: #06f;
+  fill: #06f;
+  border-color: #06f;
+}
+
+.complex select:active {
+  border-color: rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
 }
 
 .complex textarea {
     font-family: Quicksand;
-    font-size: 15px;
+    font-size: 20px;
     width: 30%;
     min-height: 15em;
     resize: none;
-    border-radius: 10px;
+    border-radius: 15px;
+    padding: 1%;
+    box-shadow: 10px 10px 30px rgb(35 71 163 / 50%);
 }
 
 .complex .line1 {
@@ -87,7 +104,7 @@ ul.topnav li.right {float: right;}
 
 .complex .line {
   display: flex;
-  justify-content:center;
+  justify-content: center;
 }
 
 .invert {
@@ -105,16 +122,16 @@ ul.topnav li.right {float: right;}
   cursor: pointer;
   display: inline-flex;
   fill: #000;
-  font-family: Inter,sans-serif;
-  font-size: 16px;
+  font-family: Quicksand;
+  font-size: 25px;
   font-weight: 600;
-  height: 48px;
+  height: 10%;
   justify-content: center;
   letter-spacing: -.8px;
   line-height: 24px;
-  min-width: 140px;
+  min-width: 5%;
   outline: 0;
-  padding: 0 17px;
+  padding: 0.5%;
   text-align: center;
   text-decoration: none;
   transition: all .3s;
@@ -124,7 +141,9 @@ ul.topnav li.right {float: right;}
 }
 
 .translate:focus {
-  color: #171e29;
+  color: #06f;
+  fill: #06f;
+  border-color: #06f;
 }
 
 .translate:hover {
@@ -140,7 +159,7 @@ ul.topnav li.right {float: right;}
 }
 
 #footer {
-    position: fixed;
+    position: relative;
     left: 0;
     bottom: 0;
     width: 100%;
