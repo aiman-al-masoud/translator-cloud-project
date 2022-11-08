@@ -12,6 +12,14 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+@app.route('/community.html')
+def community():
+    return render_template('community.html')
+
+@app.route('/about.html')
+def about():
+    return render_template('about.html')
+
 
 @app.route('/translate-api', methods=['GET', 'POST'])
 def translate():
