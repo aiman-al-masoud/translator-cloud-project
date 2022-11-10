@@ -96,7 +96,7 @@ ul.topnav li.right {float: right;}
     box-shadow: 10px 10px 30px rgb(35 71 163 / 50%);
 }
 
-#from_text {
+#button_speak_from {
   margin-right: 5%;
 }
 
@@ -114,11 +114,6 @@ ul.topnav li.right {float: right;}
   display: flex;
   justify-content: center;
 }
-
-/* #invert {
-  margin-left: 5%;
-  margin-right: 5%;
-} */
 
 .button {
   align-items: center;
