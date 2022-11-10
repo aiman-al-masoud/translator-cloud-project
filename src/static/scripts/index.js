@@ -112,17 +112,16 @@ function speak(languageCode, text){
 function copyToClipboard() {
   let copyText = document.getElementById("to_text").value;
   navigator.clipboard.writeText(copyText);
-  alert("Copied the text: " + copyText);
+  prompt("Copied the text");
 }
 
 /**
  * Paste text from clipboard
  */
 async function pasteFromClipboard() {
-  let pasteArea = document.getElementById("from_text");
   let pastedText = await navigator.clipboard.readText();
-  pasteArea.value += pastedText;
   state.fromText += pastedText;
+  update();
 }
 
 /**
