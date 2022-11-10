@@ -29,7 +29,6 @@ async function sendText() {
   request.from_text = document.getElementById('from_text').value;
   request.id = hashGenerator(request.from_text); //generating the hash of the input string
 
-
   //clearing the localStorage of the browser to prevent hash collisions after caching 100 entries
   if(localStorage.length >= MAX_CACHE_SIZE){
     localStorage.clear();
@@ -39,7 +38,6 @@ async function sendText() {
     document.getElementById('to_text').value = cached;
     return
   }
-
 
   let res = await fetch(URL, {
     method: "POST",
@@ -53,9 +51,7 @@ async function sendText() {
   }
 
   let json = await res.json()
-
   document.getElementById('to_text').value = json.to_text
-
   localStorage.setItem(request.id, json.to_text)
 }
 
@@ -83,8 +79,33 @@ function sendTextDelayed() {
   }, timeout);
 }
 
-console.log(document.getElementById("translate"));
+
+/**
+ * 
+ * @param {string} languageCode 
+ * @param {string} text 
+ */
+function speak(languageCode, text){
+  const speech = new SpeechSynthesisUtterance();
+  speech.lang = languageCode
+  speech.text = text
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(speech)
+} 
+
 document.getElementById("translate").onclick=sendText;
 document.body.onload=focusOnInput;
 document.getElementById("invert").onclick=switchLang;
 document.getElementById("from_text").onkeyup=sendTextDelayed;
+
+document.getElementById("button_speak_from").onclick = ()=>{
+  const langCode = document.getElementById('from').value.toLowerCase()
+  const text = document.getElementById('from_text').value
+  speak(langCode, text)
+}
+
+document.getElementById("button_speak_to").onclick = ()=>{
+  const langCode = document.getElementById('to').value.toLowerCase()
+  const text = document.getElementById('to_text').value
+  speak(langCode, text)
+}
