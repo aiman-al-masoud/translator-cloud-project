@@ -82,6 +82,9 @@ function switchLang() {
   update()
 }
 
+/**
+ * Automatically translate text after users when the user stops typing after TIMEOUT seconds
+ */
 function sendTextDelayed() {
   document.getElementById('to_text').value = "...";
   clearTimeout(state.timer);
@@ -104,6 +107,25 @@ function speak(languageCode, text){
 }
 
 /**
+ * Copy the translated text to clipboard
+ */
+function copyToClipboard() {
+  let copyText = document.getElementById("to_text").value;
+  navigator.clipboard.writeText(copyText);
+  alert("Copied the text: " + copyText);
+}
+
+/**
+ * Paste text from clipboard
+ */
+async function pasteFromClipboard() {
+  let pasteArea = document.getElementById("from_text");
+  let pastedText = await navigator.clipboard.readText();
+  pasteArea.value += pastedText;
+  state.fromText += pastedText;
+}
+
+/**
  * Updates the UI, to be called after {@link state} has been modified.
  */
  function update(){
@@ -117,6 +139,8 @@ document.body.onload=focusOnInput;
 document.getElementById("translate").onclick=sendText;
 document.getElementById("invert").onclick=switchLang;
 document.getElementById("from_text").onkeyup=sendTextDelayed;
+document.getElementById("button_copy_to").onclick=copyToClipboard;
+document.getElementById("button_paste_from").onclick=pasteFromClipboard;
 document.getElementById("button_speak_from").onclick = ()=> speak(state.fromLangCode, state.fromText)
 document.getElementById("button_speak_to").onclick = ()=> speak(state.toLangCode, state.toText)
 
