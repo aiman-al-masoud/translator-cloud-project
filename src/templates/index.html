@@ -14,12 +14,12 @@
   <ul class="topnav">
     <li><a class="logo" title="Home" href="/"><img src="static/res/logoCloudTranslatorSvg.svg"></a></li>
     <li><a class="active" href="/">Home</a></li>
-    <li><a href="community">Community</a></li>
-    <li class="right"><a href="about">About</a></li>
+    <li><a href="community.html">Community</a></li>
+    <li class="right"><a href="about.html">About</a></li>
   </ul>
 
   <div class="complex">
-    <div class="line1">
+    <p class="selects_line">
       <select id="from" name="from" class="from" data-placeholder="Choose a Language...">
         <option value="AR">Arabic</option>
         <option value="AZ">Azerbaijani</option>
@@ -53,6 +53,8 @@
         <option value="UK">Ukrainian</option>
       </select>
 
+      <button type="button" name="invert" id="invert" class= "button"><i class="ri-arrow-left-right-fill"></i></button>
+
       <select id="to" name="to" class="to" data-placeholder="Choose a Language...">
         <option value="AR">Arabic</option>
         <option value="AZ">Azerbaijani</option>
@@ -85,14 +87,22 @@
         <option value="TR">Turkish</option>
         <option value="UK">Ukrainian</option>
       </select>
-    </div>
+    </p>
 
-    <div class="line">
-      <textarea id="from_text" name="name"></textarea>
-      <button type="button" name="invert" id="invert" class= "invert translate"><i class="ri-arrow-left-right-fill"></i></button>
+    <p class="textareas_line">
+      <textarea id="from_text" name="from_text"></textarea>
+      <span class="vertical_buttons">
+        <button id="button_speak_from" class="speaker">Speak</button>
+        <button id="button_paste_from">Paste</button>
+      </span>
+
       <textarea id="to_text" class="to_text" name="to_text"></textarea><br>
-    </div>
-    <input type="button" id="translate" class="translate" name="translate" value="Translate">
+      <span class="vertical_buttons">
+        <button id="button_speak_to" class="speaker">Speak</button>
+        <button id="button_copy_to">Copy</button>
+      </span>
+    </p>
+    <input type="button" id="translate" class="button" name="translate" value="Translate">
   </div>
 
   <footer id="footer">

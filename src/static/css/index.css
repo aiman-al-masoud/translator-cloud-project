@@ -4,7 +4,7 @@
 }
 
 body {
-    margin: 0; padding: 0;
+    margin: 0;
     font-family: Quicksand;
     /*background-image: linear-gradient(265deg,#97c3f4 2%,#e2eef2 55%,#fff 95%);*/
     background: rgb(255,255,255);
@@ -88,32 +88,38 @@ ul.topnav li.right {float: right;}
 .complex textarea {
     font-family: Quicksand;
     font-size: 20px;
-    width: 30%;
+    width: 40%;
     min-height: 15em;
     resize: none;
-    border-radius: 15px;
+    border-radius: 10px;
     padding: 1%;
     box-shadow: 10px 10px 30px rgb(35 71 163 / 50%);
 }
 
-.complex .line1 {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1%;
+.vertical_buttons {
+  display: grid;
 }
 
-.complex .line {
-  display: flex;
-  justify-content: center;
-}
-
-.invert {
-  margin-left: 5%;
+#button_speak_from {
   margin-right: 5%;
-  margin-top: 8%;
 }
 
-.translate {
+#to_text {
+  margin-left: 5%;
+}
+
+.complex .selects_line {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.complex .textareas_line {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
   align-items: center;
   background-color: #fff;
   border: 2px solid #000;
@@ -123,15 +129,15 @@ ul.topnav li.right {float: right;}
   display: inline-flex;
   fill: #000;
   font-family: Quicksand;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 600;
-  height: 10%;
+  height: 48px;
   justify-content: center;
   letter-spacing: -.8px;
   line-height: 24px;
-  min-width: 5%;
+  min-width: 140px;
   outline: 0;
-  padding: 0.5%;
+  padding: 0 17px;
   text-align: center;
   text-decoration: none;
   transition: all .3s;
@@ -140,19 +146,19 @@ ul.topnav li.right {float: right;}
   touch-action: manipulation;
 }
 
-.translate:focus {
+.button:focus {
   color: #06f;
   fill: #06f;
   border-color: #06f;
 }
 
-.translate:hover {
+.button:hover {
   border-color: #06f;
   color: #06f;
   fill: #06f;
 }
 
-.translate:active {
+.button:active {
   border-color: #06f;
   color: #06f;
   fill: #06f;
@@ -175,7 +181,7 @@ a.aliceblue {
 }
 
 @media (min-width: 768px) {
-  .translate {
+  .button {
     min-width: 170px;
   }
 }
