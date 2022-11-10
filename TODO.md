@@ -11,8 +11,8 @@ Cose da fare:
 
 ### In Progress
 
-- [ ] 
+-
 
 ### Done ✓
 
-- [ ]  
+-  
