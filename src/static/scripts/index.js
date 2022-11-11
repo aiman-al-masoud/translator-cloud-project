@@ -144,7 +144,7 @@ async function pasteFromClipboard() {
   let pastedText = await navigator.clipboard.readText();
   state.fromText += pastedText;
   update();
-  sendTextDelayed()
+  sendTextDelayed();
 }
 
 /**
