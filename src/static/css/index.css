@@ -104,6 +104,10 @@ ul.topnav li.right {float: right;}
   margin-right: 5%;
 }
 
+#button_paste_from {
+  margin-right: 5%;
+}
+
 #to_text {
   margin-left: 5%;
 }
