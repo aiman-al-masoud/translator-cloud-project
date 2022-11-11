@@ -135,7 +135,6 @@ function speak(languageCode, text){
 function copyToClipboard() {
   let copyText = document.getElementById("to_text").value;
   navigator.clipboard.writeText(copyText);
-  prompt("Copied the text");
 }
 
 /**
@@ -145,6 +144,7 @@ async function pasteFromClipboard() {
   let pastedText = await navigator.clipboard.readText();
   state.fromText += pastedText;
   update();
+  sendTextDelayed()
 }
 
 /**
