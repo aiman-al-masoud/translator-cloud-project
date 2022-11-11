@@ -168,7 +168,7 @@ document.getElementById("button_speak_from").onclick = ()=> speak(state.fromLang
 document.getElementById("button_speak_to").onclick = ()=> speak(state.toLangCode, state.toText)
 
 document.getElementById("from_text").oninput = ()=>{
-  state.fromText = document.getElementById("from_text").value
+  state.fromText = document.getElementById("from_text").value.toLowerCase();
 }
 
 document.getElementById("to_text").oninput = ()=>{
