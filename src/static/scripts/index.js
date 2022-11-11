@@ -80,7 +80,8 @@ async function sendQueryToDB() {
   request.from_text = state.fromText;
   request.to_text = state.toText;
   request.id = hashGenerator(request.from_text + request.to); //will be changed
-
+  
+  
   let res = await fetch(URL1, {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
@@ -88,8 +89,11 @@ async function sendQueryToDB() {
   })
 
   if (!res.ok){
-    alert(await res.text())
+    alert("Database Error!")
     return
+  }
+  else {
+    alert("Query sent!")
   }
 }
 
