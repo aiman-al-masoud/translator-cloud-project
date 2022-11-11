@@ -1,4 +1,5 @@
 const URL = "/translate-api";
+const URL1 = "/query-db-api";
 const TIMEOUT = 1000; // milliseconds to wait for request the translate to the server
 const MAX_CACHE_SIZE = 100; //max number of cache entries in localStorage
 
@@ -71,6 +72,28 @@ async function sendText() {
   update()
 }
 
+//generation of the JSON file invoked in case of a bad translation
+async function sendQueryToDB() {
+  let request = {};
+  request.from = state.fromLangCode;
+  request.to = state.toLangCode;
+  request.from_text = state.fromText;
+  request.to_text = state.toText;
+  request.id = hashGenerator(request.from_text + request.to); //will be changed
+
+  let res = await fetch(URL1, {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request)
+  })
+
+  if (!res.ok){
+    alert(await res.text())
+    return
+  }
+}
+
+
 /**
  * Switching both selected languages and textAreas
  */
@@ -113,7 +136,8 @@ function speak(languageCode, text){
   document.getElementById("to").value = state.toLangCode.toUpperCase()
 }
 
-document.body.onload=focusOnInput;
+document.body.onload=focusOnInput;sendQueryToDB
+document.getElementById("button_query_to_db").onclick=sendQueryToDB;
 document.getElementById("translate").onclick=sendText;
 document.getElementById("invert").onclick=switchLang;
 document.getElementById("from_text").onkeyup=sendTextDelayed;
