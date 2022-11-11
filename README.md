@@ -108,7 +108,7 @@ sudo mysql_secure_installation
 # enter "2"
 ```
 
-Use as password: `**Cloud_08**`
+Use as password: `Cloud_08`
 ```sh
 sudo mysql
 ```
@@ -156,6 +156,10 @@ PRIMARY KEY (ID)
 #### 6) Install the python library
 ```sh
 pip install flask-mysqldb
+```
+For Linux/Unix platforms, before it, install
+```sh
+sudo apt install libmysqlclient-dev
 ```
 </details>
 
