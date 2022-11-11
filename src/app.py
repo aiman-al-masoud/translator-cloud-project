@@ -4,19 +4,33 @@ from flask import Flask, request, render_template
 import argostranslate.package
 import argostranslate.translate
 import argostranslate
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 
+#configuration of the connection to the local mysqlDB named "flask" as root
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'Cloud_08'
+app.config['MYSQL_DB'] = 'flask'
+
+#connection with db
+mysql = MySQL(app)
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/community')
-def community():
-    return render_template('community.html')
+#display all records when the page "community.html" is loaded using the mysql's cursor for scrolling and fetching the records
+@app.route('/community.html', methods=['GET', 'POST'])
+def displayRecords():
+    if request.method == 'GET':
+        cursor = mysql.connection.cursor() 
+        cursor.execute(''' SELECT * FROM badTranslations''')
+        results = cursor.fetchall()
+        return render_template('community.html', data = results)
 
-@app.route('/about')
+@app.route('/about.html')
 def about():
     return render_template('about.html')
 
@@ -54,3 +68,23 @@ def translate():
         'to_text': translation.translate(request.json['from_text']),
         'id': int(request.json['id'])
     })
+
+
+#query to the mysql db for storing the bad translation
+@app.route('/query-db-api', methods = ['POST', 'GET'])
+def sendQuery():
+    if request.method == 'POST':
+        fromTag = request.json['from']
+        toTag = request.json['to']
+        from_text = request.json['from_text']
+        to_text = request.json['to_text']
+        id = request.json['id']
+        cursor = mysql.connection.cursor()
+        cursor.execute(''' INSERT INTO badTranslations VALUES(%s,%s,%s,%s,%s)''',(fromTag,toTag,from_text,to_text,id))
+        mysql.connection.commit()
+        cursor.close()
+        return "Query sent!!"
+
+
+#added for running the server directly with the run button
+app.run(host='localhost', port=5000)
