@@ -86,7 +86,7 @@ And then run the two commands above.
 </details>
 
 <details>
-<summary><strong>MySQL set-up</strong></summary>
+<summary><strong>MySQL set-up using Ubuntu</strong></summary>
 
 #### 1) Update repositories
 ```sh
@@ -163,6 +163,56 @@ sudo apt install libmysqlclient-dev
 ```
 </details>
 
+<details>
+<summary><strong>MySQL set-up on Mac (M1)</strong></summary>
+  
+#### 1) Update repositories
+```sh
+brew update
+```
+  
+```sh
+brew upgrade
+```
+
+#### 2) Install MySQL
+```sh
+brew install mysql
+```
+
+#### 3) Set password
+```sh
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Cloud_08';
+```
+
+```sh
+FLUSH PRIVILEGES;
+```
+
+#### 4) Enter in mySQL
+```sh
+mysql -u root -p
+```
+
+#### 5) Create database and tables
+```sh
+CREATE DATABASE `flask`;
+```
+```
+use flask;
+```
+```sh
+CREATE TABLE badTranslations ( 
+FROMTAG varchar(2) not null, 
+TOTAG varchar(2) not null, 
+FROM_TEXT varchar(60) not null, 
+TO_TEXT varchar(60) not null,
+ID integer(30) not null, 
+PRIMARY KEY (ID) 
+);
+```
+</details>
+  
 ## Testing
 ### Launch the server
 Move to the *src* directory and execute
