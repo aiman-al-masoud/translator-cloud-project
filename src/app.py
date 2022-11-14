@@ -21,8 +21,8 @@ mysql = MySQL(app)
 def index():
     return render_template('index.html')
 
-#display all records when the page "community.html" is loaded using the mysql's cursor for scrolling and fetching the records
-@app.route('/community.html', methods=['GET', 'POST'])
+#display all records when the page "community" is loaded using the mysql's cursor for scrolling and fetching the records
+@app.route('/community', methods=['GET', 'POST'])
 def displayRecords():
     if request.method == 'GET':
         cursor = mysql.connection.cursor() 
@@ -30,7 +30,7 @@ def displayRecords():
         results = cursor.fetchall()
         return render_template('community.html', data = results)
 
-@app.route('/about.html')
+@app.route('/about')
 def about():
     return render_template('about.html')
 
