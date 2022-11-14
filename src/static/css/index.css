@@ -52,6 +52,18 @@ ul.topnav li a.logo:hover {background-color: #97c3f4;}
 
 ul.topnav li.right {float: right;}
 
+.short-bio{
+  position: relative;
+  width: 80%;
+  left: 10%;
+  margin-top: 5%;
+  padding: 1%;
+  background-color:rgb(35 71 163 / 50%);
+  font-size: larger;
+  border-radius: 15px;
+  box-shadow: 10px 10px 30px rgb(35 71 163 / 50%);
+}
+
 .complex {
     text-align: center;
     margin: 5% 10% 5% 10%;
