@@ -185,16 +185,3 @@ document.getElementById("from").oninput = ()=>{
 document.getElementById("to").oninput = ()=>{
   state.toLangCode = document.getElementById("to").value.toLowerCase();
 }
-
-
-lightSchemeIcon = document.querySelector('link#light-scheme-icon');
-darkSchemeIcon = document.querySelector('link#dark-scheme-icon');
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    console.log("Dark mode on");
-    lightSchemeIcon.remove();
-    document.head.append(darkSchemeIcon);
-  } else {
-    console.log("Light mode on");
-    document.head.append(lightSchemeIcon);
-    darkSchemeIcon.remove();
-}
