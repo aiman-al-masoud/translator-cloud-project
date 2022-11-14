@@ -82,18 +82,17 @@ async function sendQueryToDB() {
   request.id = hashGenerator(request.from_text + request.to); //will be changed
   
   
-  let res = await fetch(URL1, {
+  try {
+    let res = await fetch(URL1, {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request)
   })
-
-  if (!res.ok){
-    alert("Database Error!")
-    return
+  } catch (error) {
+    console.log(error); //Translation with this id is already under supervision
   }
-  else {
-    alert("Query sent!")
+  finally{
+    alert("Thank you for your feedback")
   }
 }
 

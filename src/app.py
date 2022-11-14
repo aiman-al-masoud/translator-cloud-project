@@ -1,6 +1,6 @@
 import json
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, abort
 import argostranslate.package
 import argostranslate.translate
 import argostranslate
@@ -79,11 +79,23 @@ def sendQuery():
         from_text = request.json['from_text']
         to_text = request.json['to_text']
         id = request.json['id']
-        cursor = mysql.connection.cursor()
-        cursor.execute(''' INSERT INTO badTranslations VALUES(%s,%s,%s,%s,%s)''',(fromTag,toTag,from_text,to_text,id))
-        mysql.connection.commit()
-        cursor.close()
-        return "Query sent!!"
+
+        #avoiding to send the response with error 500 (since there is already an equal request saved in the database)
+        #users will see "Thank you for your feedback" regardless
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' INSERT INTO badTranslations VALUES(%s,%s,%s,%s,%s)''',(fromTag,toTag,from_text,to_text,id))
+            mysql.connection.commit()
+        except:
+            abort(500) #handled by "@app.errorhandler(500)"
+        finally:
+            cursor.close()
+            return
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return "500 error"
 
 
 #added for running the server directly with the run button
