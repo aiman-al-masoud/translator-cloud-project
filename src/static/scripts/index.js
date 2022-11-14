@@ -185,3 +185,24 @@ document.getElementById("from").oninput = ()=>{
 document.getElementById("to").oninput = ()=>{
   state.toLangCode = document.getElementById("to").value.toLowerCase();
 }
+
+
+lightSchemeIcon = document.querySelector('link#light-scheme-icon');
+darkSchemeIcon = document.querySelector('link#dark-scheme-icon');
+matcher = window.matchMedia('(prefers-color-scheme: dark)');
+
+
+function onUpdate() {
+  if (matcher.matches) {
+    lightSchemeIcon.remove();
+    document.head.append(darkSchemeIcon);
+  } else {
+    document.head.append(lightSchemeIcon);
+    darkSchemeIcon.remove();
+  }
+}
+matcher.addListener(onUpdate);
+onUpdate();
+
+
+
