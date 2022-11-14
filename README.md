@@ -63,7 +63,7 @@ Inside the virtual environment you just created:
 
 <details>
 <summary><strong>Get the models</strong> </summary>
-Move to the *test* directory and execute
+Move to the *tests* directory and execute
 ```sh
 python3 install-packages.py -f en -t it -txt "Hello World"
 # en -> it 
