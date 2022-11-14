@@ -80,8 +80,8 @@ async function sendQueryToDB() {
   request.from_text = state.fromText;
   request.to_text = state.toText;
   request.id = hashGenerator(request.from_text + request.to); //will be changed
-  
-  
+
+
   try {
     let res = await fetch(URL1, {
     method: "POST",
@@ -189,20 +189,12 @@ document.getElementById("to").oninput = ()=>{
 
 lightSchemeIcon = document.querySelector('link#light-scheme-icon');
 darkSchemeIcon = document.querySelector('link#dark-scheme-icon');
-matcher = window.matchMedia('(prefers-color-scheme: dark)');
-
-
-function onUpdate() {
-  if (matcher.matches) {
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    console.log("Dark mode on");
     lightSchemeIcon.remove();
     document.head.append(darkSchemeIcon);
   } else {
+    console.log("Light mode on");
     document.head.append(lightSchemeIcon);
     darkSchemeIcon.remove();
-  }
 }
-matcher.addListener(onUpdate);
-onUpdate();
-
-
-
