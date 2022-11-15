@@ -21,10 +21,9 @@
 
   <ul class="big-list">
       {% for row in data %}
-      <li class="item">
+      <li id="{{ row[4] }}" class="item">
           <td>
             <ul class="list-item">
-              <!-- ID of the original phrase is {{ row[4] }} -->
               <li class="complaints">COMPLAINTS: {{ row[5] }}</li>
               <li>FROM_LANG: {{ row[0] }}</li>
               <li>TO_LANG: {{ row[1] }}</li>
