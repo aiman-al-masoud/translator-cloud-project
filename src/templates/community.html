@@ -24,10 +24,14 @@
       <li class="item">
           <td>
             <ul class="list-item">
+              <!-- ID of the original phrase is {{ row[4] }} -->
+              <li class="complaints">COMPLAINTS: {{ row[5] }}</li>
               <li>FROM_LANG: {{ row[0] }}</li>
               <li>TO_LANG: {{ row[1] }}</li>
-              <li>FROM_TEXT: {{ row[2] }}</li>
+              <li id="fromText">FROM_TEXT: {{ row[2] }}</li>
               <li>TO_TEXT: {{ row[3] }}</li>
+              <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
+              <li class="possible-translations-area"><button id="possible-translations-button">Possible Translations</button></li>
             </ul>
           </td>
         </li>
@@ -46,5 +50,6 @@
 
 </body>
 
+<script src="{{url_for('static', filename='scripts/community.js')}}"></script>
 <script src="{{url_for('static', filename='scripts/common.js')}}"></script>
 </html>

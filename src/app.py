@@ -26,7 +26,7 @@ def index():
 def displayRecords():
     if request.method == 'GET':
         cursor = mysql.connection.cursor() 
-        cursor.execute(''' SELECT * FROM badTranslations''')
+        cursor.execute(''' SELECT * FROM badTranslations order by complaints desc;''')
         results = cursor.fetchall()
         return render_template('community.html', data = results)
 
@@ -84,18 +84,43 @@ def sendQuery():
         #users will see "Thank you for your feedback" regardless
         try:
             cursor = mysql.connection.cursor()
-            cursor.execute(''' INSERT INTO badTranslations VALUES(%s,%s,%s,%s,%s)''',(fromTag,toTag,from_text,to_text,id))
+            cursor.execute(''' INSERT INTO badTranslations VALUES(%s,%s,%s,%s,%s,1)''',(fromTag,toTag,from_text,to_text,id))
             mysql.connection.commit()
         except:
-            abort(500) #handled by "@app.errorhandler(500)"
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' UPDATE badTranslations SET complaints=complaints+1 WHERE id = (%s)''', (id,)) # do not remove "," which is needed to create a tuple
+            mysql.connection.commit()
+            # abort(500) #handled by "@app.errorhandler(500)" # Not needed any more
         finally:
             cursor.close()
-            return
-
+            return ""
 
 @app.errorhandler(500)
 def internal_error(error):
     return "500 error"
+
+#query to the mysql db for storing the bad translation
+@app.route('/query-db-api2', methods = ['POST', 'GET'])
+def sendQuery2():
+    if request.method == 'POST':
+        from_text = request.json['from_text']
+        to_text = request.json['to_text']
+        second_id = request.json['secondid']
+        fid = request.json['fid']
+
+        #avoiding to send the response with error 500 (since there is already an equal request saved in the database)
+        #users will see "Thank you for your feedback" regardless
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' INSERT INTO possibleBetterTranslations VALUES(%s,%s,%s,%s)''',(from_text,to_text,second_id,fid))
+            mysql.connection.commit()
+        except Exception as e: 
+            print(e)
+            # TODO: upgrade votes value
+            abort(500) #handled by "@app.errorhandler(500)"
+        finally:
+            cursor.close()
+            return ""
 
 
 #added for running the server directly with the run button

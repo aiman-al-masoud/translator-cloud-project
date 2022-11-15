@@ -19,3 +19,39 @@
 ul{
     list-style: none;
 }
+
+.complaints{
+    position: relative;
+    width: 10%;
+    left: 85%;
+    font-size: smaller;
+    padding: 1%;
+    border-radius: 15px;
+    background-color:rgb(35 71 163 / 50%);
+}
+
+.possible-translations-area{
+    position: relative;
+    width: 10%;
+    left: 85%;
+}
+
+.to_text_possible{
+    position: relative;
+    left: 30%;
+    width: 40%;
+    margin-top: 2%;
+    padding: 1%;
+    font-family: Quicksand;
+    font-size: 20px;
+    resize: none;
+}
+
+/* #fid{
+    display: none;
+} */
+
+#possible-translations-button{
+    border-radius: 15px;
+    background-color:rgba(2, 27, 91, 0.5);
+}
