@@ -1,17 +1,6 @@
 const URL2 = "/query-db-api2";
 
 /**
- * All mutable state from the session should go in here.
- * Changes go to state first, then UI is updated with {@link update} following state.
- */
-const state = {
-    fromText : '',
-    to_text_possible : '',
-    fid : '',
-    timer : -1 // reference to (possibly existing) old timer to be cleared
-}
-
-/**
  * Generating the hash of the input string enabling a cache mechanism for storing up to 100 input strings
  *
  * @param {string} string
@@ -29,12 +18,12 @@ const state = {
 }
 
 //generation of the JSON file invoked in case of a bad translation
-async function sendQueryToDB2() {
+async function sendQueryToDB2(idTextarea) {
     let request = {};
-    request.from_text = state.fromText;
-    request.to_text = state.to_text_possible;
-    request.secondid = hashGenerator(request.from_text); //will be changed
-    request.fid = state.fid;
+    request.from_text = document.getElementById(idTextarea).getElementsByClassName("fromText")[0].innerHTML;
+    request.to_text = document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value;
+    request.secondid = hashGenerator(request.to_text); //will be changed
+    request.fid = parseInt(idTextarea);
   
   
     try {
@@ -47,17 +36,9 @@ async function sendQueryToDB2() {
       console.log(error); //Translation with this id is already under supervision
     }
     finally{
-      alert("Thank you for your help")
+      alert("Thank you for your help");
+      document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value="";
     }
 }
 
-/**
- * Updates the UI, to be called after {@link state} has been modified.
- */
- function update(){
-    document.getElementById("fromText").value = state.fromText
-    document.getElementById("to_text_possible").value = state.to_text_possible
-    document.getElementById("fid").value = state.fid
-}
 
-document.getElementById("possible-translations-button").onclick=sendQueryToDB2;

@@ -21,22 +21,22 @@
 
   <ul class="big-list">
       {% for row in data %}
-      <li id="{{ row[4] }}" class="item">
+      <li id="{{ row[4] }}" class="item {{ row[4] }}">
           <td>
             <ul class="list-item">
-              <li>ID: {{ row[4] }}</li>
+              <li id="id_textarea">{{ row[4] }}</li>
               <li class="complaints">COMPLAINTS: {{ row[5] }}</li>
               <li>FROM_LANG: {{ row[0] }}</li>
               <li>TO_LANG: {{ row[1] }}</li>
-              <li id="fromText">FROM_TEXT: {{ row[2] }}</li>
+              <li id="fromText" class="fromText" name="fromText">{{ row[2] }}</li>
               <li>TO_TEXT: {{ row[3] }}</li>
               <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
-              <li class="possible-translations-area"><button id="possible-translations-button">Possible Translations</button></li>
+              <li class="possible-translations-area"><button id="possible-translations-button" onclick="sendQueryToDB2('{{ row[4] }}')">Possible Translations</button></li>
             </ul>
           </td>
         </li>
       {% endfor %}
-    </ul>
+  </ul>
 
   <footer id="footer">
     <span>
