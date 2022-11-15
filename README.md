@@ -176,6 +176,7 @@ Add the new column to the database
 ```
 mysql> ALTER TABLE badTranslations ADD COMPLAINTS integer(5) not null;
 ```
+```
 CREATE TABLE possibleBetterTranslations ( 
 FROM_TEXT varchar(60) not null, 
 TO_TEXT varchar(60) not null,
@@ -186,9 +187,6 @@ PRIMARY KEY (SECONDID)
 );
 ```
 
-### 8) Create a new table with foreign key
-```
-mysql 
 </details>
 
 <details>
