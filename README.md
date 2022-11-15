@@ -161,6 +161,34 @@ For Linux/Unix platforms, before it, install
 ```sh
 sudo apt install libmysqlclient-dev
 ```
+
+### 7) Upgrade the database
+Login to MySQL
+```sh
+mysql -u root -p
+# pswd is "Cloud_08"
+```
+Set the using database
+```
+mysql> use flask;
+```
+Add the new column to the database
+```
+mysql> ALTER TABLE badTranslations ADD COMPLAINTS integer(5) not null;
+```
+CREATE TABLE possibleBetterTranslations ( 
+FROM_TEXT varchar(60) not null, 
+TO_TEXT varchar(60) not null,
+SECONDID integer(30) not null, 
+FID integer(30) not null,
+FOREIGN KEY (FID) REFERENCES badTranslations(ID),
+PRIMARY KEY (SECONDID)
+);
+```
+
+### 8) Create a new table with foreign key
+```
+mysql 
 </details>
 
 <details>
