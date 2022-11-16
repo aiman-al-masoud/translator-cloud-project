@@ -11,6 +11,8 @@ app = Flask(__name__) # init app
 # database connection credentials
 DB_CONFIG = os.path.join(app.root_path, 'config', 'db.json')
 DB_DEFAULT_CONFIG = os.path.join(app.root_path,'config', 'db-default.json')
+LANGS = os.path.join(app.root_path,'config', 'langs.json')
+langs = json.loads(open(LANGS).read())
 
 if os.path.exists(DB_CONFIG):
     config = json.loads(open(DB_CONFIG).read())
@@ -26,7 +28,7 @@ mysql = MySQL(app)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', langs=langs.items())
 
 #display all records when the page "community" is loaded using the mysql's cursor for scrolling and fetching the records
 @app.route('/community', methods=['GET', 'POST'])

@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Website for a translator. This is a universitary project for the exam Cloud Computing, University of Pavia, Italy">
+  <meta name="description"
+    content="Website for a translator. This is a universitary project for the exam Cloud Computing, University of Pavia, Italy">
   <title>Cloud Translator</title>
   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 
-<link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}"></link>
+<link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+</link>
 
 
 <body>
@@ -21,79 +24,32 @@
 
   <div class="short-bio">
     <p>
-      This translator is a university project. <br>Created by 5 students of the master's degree in Computer Engineering at the <a href="https://web.unipv.it/" class="aliceblue">University of Pavia</a>, Italy.
-      <br>It is based on the open-source project <a href="https://www.argosopentech.com/" class="aliceblue">Argos Translate</a> , that is, a Python library base on <a href="https://opennmt.net/" class="aliceblue">OpenNMT</a>.
+      This translator is a university project. <br>Created by 5 students of the master's degree in Computer Engineering
+      at the <a href="https://web.unipv.it/" class="aliceblue">University of Pavia</a>, Italy.
+      <br>It is based on the open-source project <a href="https://www.argosopentech.com/" class="aliceblue">Argos
+        Translate</a> , that is, a Python library base on <a href="https://opennmt.net/" class="aliceblue">OpenNMT</a>.
     </p>
   </div>
 
   <div class="complex">
     <p class="selects_line">
+
       <select id="from" name="from" class="from" data-placeholder="Choose a Language...">
-        <option value="AR">Arabic</option>
-        <option value="AZ">Azerbaijani</option>
-        <option value="ZH">Chinese</option>
-        <option value="CS">Czech</option>
-        <option value="DA">Danish</option>
-        <option value="NL">Dutch</option>
-        <option value="EN">English</option>
-        <option value="EO">Esperanto</option>
-        <option value="FI">Finnish</option>
-        <option value="FR">French</option>
-        <option value="DE">German</option>
-        <option value="EL">Greek</option>
-        <option value="HE">Hebrew</option>
-        <option value="HI">Hindi</option>
-        <option value="HU">Hungarian</option>
-        <option value="ID">Indonesian</option>
-        <option value="GA">Irish</option>
-        <option value="IT" selected>Italian</option>
-        <option value="JA">Japanese</option>
-        <option value="KO">Korean</option>
-        <option value="FA">Persian</option>
-        <option value="PL">Polish</option>
-        <option value="PT">Portuguese</option>
-        <option value="PA">Punjabi</option>
-        <option value="RU">Russian</option>
-        <option value="SK">Slovak</option>
-        <option value="ES">Spanish</option>
-        <option value="SV">Swedish </option>
-        <option value="TR">Turkish</option>
-        <option value="UK">Ukrainian</option>
+
+        {% for row in langs %}
+        <option value="{{ row[0] }}">{{ row[1] }}</option>
+        {% endfor %}
+
       </select>
 
-      <button type="button" name="invert" id="invert" class= "button"><i class="ri-arrow-left-right-fill"></i></button>
+      <button type="button" name="invert" id="invert" class="button"><i class="ri-arrow-left-right-fill"></i></button>
 
       <select id="to" name="to" class="to" data-placeholder="Choose a Language...">
-        <option value="AR">Arabic</option>
-        <option value="AZ">Azerbaijani</option>
-        <option value="ZH">Chinese</option>
-        <option value="CS">Czech</option>
-        <option value="DA">Danish</option>
-        <option value="NL">Dutch</option>
-        <option value="EN" selected>English</option>
-        <option value="EO">Esperanto</option>
-        <option value="FI">Finnish</option>
-        <option value="FR">French</option>
-        <option value="DE">German</option>
-        <option value="EL">Greek</option>
-        <option value="HE">Hebrew</option>
-        <option value="HI">Hindi</option>
-        <option value="HU">Hungarian</option>
-        <option value="ID">Indonesian</option>
-        <option value="GA">Irish</option>
-        <option value="IT">Italian</option>
-        <option value="JA">Japanese</option>
-        <option value="KO">Korean</option>
-        <option value="FA">Persian</option>
-        <option value="PL">Polish</option>
-        <option value="PT">Portuguese</option>
-        <option value="PA">Punjabi</option>
-        <option value="RU">Russian</option>
-        <option value="SK">Slovak</option>
-        <option value="ES">Spanish</option>
-        <option value="SV">Swedish </option>
-        <option value="TR">Turkish</option>
-        <option value="UK">Ukrainian</option>
+
+        {% for row in langs %}
+        <option value="{{ row[0] }}">{{ row[1] }}</option>
+        {% endfor %}
+
       </select>
     </p>
 
@@ -127,4 +83,5 @@
 </body>
 
 <script type="module" src="{{url_for('static', filename='scripts/index.js')}}"></script>
+
 </html>
