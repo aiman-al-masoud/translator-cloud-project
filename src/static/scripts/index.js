@@ -22,6 +22,8 @@ function focusOnInput() {
 }
 
 async function sendText() {
+  if (!state.fromText.trim()) return
+
   let request = {};
   request.from = state.fromLangCode;
   request.to = state.toLangCode;
