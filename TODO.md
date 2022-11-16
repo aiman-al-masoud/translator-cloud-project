@@ -7,7 +7,12 @@ Cose da fare:
 - [ ] Quale strategia scegliere per mostrare le possibili traduzioni nella pagine commnunity.html
     - `SELECT * ` non è scalabile, andrà tolto
     - forse delle API sono la scelta migliore
-    - oppure caricare con templates un pezzetto alla volta
+    
+    - Visualizzare prime dieci bad translations
+    - Ordinare badTranslations in base alla colonna complaints
+    - api che carica 10 entries del db
+    - stesso approccio per possibleBetterTranslations
+    
 - [ ] Provare a trainare modello italiano/inglese o inglese/italiano (documentazione https://github.com/argosopentech/argos-train) (+docker)
 
 ### In Progress
