@@ -11,7 +11,7 @@ Cose da fare:
 - [ ] Provare a trainare modello italiano/inglese o inglese/italiano (documentazione https://github.com/argosopentech/argos-train) (+docker)
 
 ### In Progress
-- [ ] nuova colonna con i voti
-- [ ] Stringhe vuote nel DB
+- [ ] Stringhe vuote nel DB, mostrare questo errore sul front-end
+    -   il back-end non inserisce stringhe vuote nel DB
 
 ### Done ✓

@@ -4,7 +4,6 @@
 
 ```typescript
 {
-
 "from" : string // source language 
 "to" : string, // target language
 "from_text" : string, // text to be translated
@@ -19,6 +18,11 @@ Response
 "id" : int // request id
 }
 ```
+
+## Community
+Here some notes about the `community.html` page:
+*   suggesting an exsisting translation is equal to an **upvote** for that translation
+*   
 
 ## Set-Up
 <details>
@@ -172,7 +176,7 @@ Set the using database
 ```
 mysql> use flask;
 ```
-Add the new column to the database
+Add the new column to the table **badTranslations**
 ```
 mysql> ALTER TABLE badTranslations ADD COMPLAINTS integer(5) not null;
 ```
@@ -185,6 +189,10 @@ FID integer(30) not null,
 FOREIGN KEY (FID) REFERENCES badTranslations(ID),
 PRIMARY KEY (SECONDID)
 );
+```
+Add a new column to the table **possibleBetterTranslations**
+```
+mysql> ALTER TABLE possibleBetterTranslations ADD VOTES integer(5) not null;
 ```
 
 </details>

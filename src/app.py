@@ -26,6 +26,18 @@ else:
 app.config.update(config)
 mysql = MySQL(app)
 
+def check_json(request):
+    if request.json is None:
+        return 'error: must include json in request', 400
+
+    for k in ['from', 'to', 'from_text', 'id']:
+        if k not in request.json:
+            return f'error: missing {k} in json', 400
+
+    if not request.json['from_text'].strip():
+        return f'error: empty requested translation', 400
+
+    return 1
 
 @app.route('/')
 def index():
@@ -50,12 +62,8 @@ def about():
 @app.route('/translate-api', methods=['GET', 'POST'])
 def translate():
 
-    if request.json is None:
-        return 'error: must include json in request', 400
-
-    for k in ['from', 'to', 'from_text', 'id']:
-        if k not in request.json:
-            return f'error: missing {k} in json', 400
+    if (check:=check_json(request)) != '1':
+        return check
 
     _from = request.json['from']
     to = request.json['to']
@@ -85,6 +93,10 @@ def translate():
 # query to the mysql db for storing the bad translation
 @app.route('/query-db-api', methods=['POST', 'GET'])
 def send_query():
+
+    if (check:=check_json(request)) != '1':
+        return check
+
     if request.method == 'POST':
         fromTag = request.json['from']
         toTag = request.json['to']
@@ -108,9 +120,13 @@ def send_query():
             cursor.close()
             return ""
 
-# query to the mysql db for storing the bad translation
+# query to the mysql db for storing the new possible better translations
 @app.route('/query-db-api2', methods=['POST', 'GET'])
 def send_query2():
+
+    if (check:=check_json(request)) != '1':
+        return check
+    
     if request.method == 'POST':
         from_text = request.json['from_text']
         to_text = request.json['to_text']
@@ -124,10 +140,11 @@ def send_query2():
             cursor.execute(''' INSERT INTO possibleBetterTranslations VALUES(%s,%s,%s,%s)''',
                            (from_text, to_text, second_id, fid))
             mysql.connection.commit()
-        except Exception as e:
-            print(e)
-            # TODO: upgrade votes value
-            return "Error proposed translation already presents", 400
+        except:
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' UPDATE possibleBetterTranslations SET votes=votes+1 WHERE secondid = (%s)''',
+                           (second_id,))  # do not remove "," which is needed to create a tuple
+            mysql.connection.commit()
         finally:
             cursor.close()
             return ""
