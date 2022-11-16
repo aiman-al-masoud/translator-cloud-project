@@ -32,7 +32,7 @@ def index():
 
 #display all records when the page "community" is loaded using the mysql's cursor for scrolling and fetching the records
 @app.route('/community', methods=['GET', 'POST'])
-def displayRecords():
+def display_records():
     if request.method == 'GET':
         cursor = mysql.connection.cursor() 
         cursor.execute(''' SELECT * FROM badTranslations order by complaints desc;''')
@@ -81,7 +81,7 @@ def translate():
 
 #query to the mysql db for storing the bad translation
 @app.route('/query-db-api', methods = ['POST', 'GET'])
-def sendQuery():
+def send_query():
     if request.method == 'POST':
         fromTag = request.json['from']
         toTag = request.json['to']
@@ -110,7 +110,7 @@ def internal_error(error):
 
 #query to the mysql db for storing the bad translation
 @app.route('/query-db-api2', methods = ['POST', 'GET'])
-def sendQuery2():
+def send_query2():
     if request.method == 'POST':
         from_text = request.json['from_text']
         to_text = request.json['to_text']
