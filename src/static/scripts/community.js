@@ -1,4 +1,5 @@
-import hashGenerator from "./hash_generator.js";
+import hashGenerator from "./utils/hash_generator.js";
+import './utils/common.js';
 const URL2 = "/query-db-api2";
 
 //generation of the JSON file invoked in case of a bad translation

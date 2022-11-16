@@ -1,4 +1,5 @@
-import hashGenerator from "./hash_generator.js";
+import hashGenerator from "./utils/hash_generator.js";
+import './utils/common.js';
 const URL = "/translate-api";
 const URL1 = "/query-db-api";
 const TIMEOUT = 1000; // milliseconds to wait for request the translate to the server
