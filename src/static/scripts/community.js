@@ -24,3 +24,5 @@ async function sendQueryToDB2(idTextarea) {
     document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value = "";
   }
 }
+
+window.sendQueryToDB2 = sendQueryToDB2 //do not remove this, because we call 'sendQueryToDB2' inline in HTML

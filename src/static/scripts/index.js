@@ -169,3 +169,5 @@ document.getElementById("from").oninput = ()=>{
 document.getElementById("to").oninput = ()=>{
   state.toLangCode = document.getElementById("to").value.toLowerCase();
 }
+
+update() //do not remove this

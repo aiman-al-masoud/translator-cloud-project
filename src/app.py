@@ -17,7 +17,7 @@ langs = json.loads(open(LANGS).read())
 if os.path.exists(DB_CONFIG):
     config = json.loads(open(DB_CONFIG).read())
 elif os.path.exists(DB_DEFAULT_CONFIG):
-    config = json.loads(open(DB_CONFIG).read())
+    config = json.loads(open(DB_DEFAULT_CONFIG).read())
 else:
     print('Please add a DB config file in /src/config/db.json !')
     exit(1)
@@ -32,8 +32,6 @@ def index():
     return render_template('index.html', langs=langs.items())
 
 # display all records when the page "community" is loaded using the mysql's cursor for scrolling and fetching the records
-
-
 @app.route('/community', methods=['GET', 'POST'])
 def display_records():
     if request.method == 'GET':
@@ -106,19 +104,11 @@ def send_query():
             cursor.execute(''' UPDATE badTranslations SET complaints=complaints+1 WHERE id = (%s)''',
                            (_id,))  # do not remove "," which is needed to create a tuple
             mysql.connection.commit()
-            # abort(500) #handled by "@app.errorhandler(500)" # Not needed any more
         finally:
             cursor.close()
             return ""
 
-
-@app.errorhandler(500)
-def internal_error(error):
-    return "500 error"
-
 # query to the mysql db for storing the bad translation
-
-
 @app.route('/query-db-api2', methods=['POST', 'GET'])
 def send_query2():
     if request.method == 'POST':
@@ -137,7 +127,7 @@ def send_query2():
         except Exception as e:
             print(e)
             # TODO: upgrade votes value
-            abort(500)  # handled by "@app.errorhandler(500)"
+            return "Error proposed translation already presents", 400
         finally:
             cursor.close()
             return ""
