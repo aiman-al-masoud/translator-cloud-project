@@ -6,15 +6,22 @@ import argostranslate.translate
 import argostranslate
 from flask_mysqldb import MySQL
 
-app = Flask(__name__)
+app = Flask(__name__) # init app
 
-#configuration of the connection to the local mysqlDB named "flask" as root
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Cloud_08'
-app.config['MYSQL_DB'] = 'flask'
+# database connection credentials
+DB_CONFIG = os.path.join(app.root_path, 'config', 'db.json')
+DB_DEFAULT_CONFIG = os.path.join(app.root_path,'config', 'db-default.json')
+
+if os.path.exists(DB_CONFIG):
+    config = json.loads(open(DB_CONFIG).read())
+elif os.path.exists(DB_DEFAULT_CONFIG):
+    config = json.loads(open(DB_CONFIG).read())
+else:
+    print('Please add a DB config file in /src/config/db.json !')
+    exit(1)
 
 #connection with db
+app.config.update(config)
 mysql = MySQL(app)
 
 @app.route('/')
