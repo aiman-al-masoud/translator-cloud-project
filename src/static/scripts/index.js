@@ -140,7 +140,7 @@ async function pasteFromClipboard() {
  function update(){
   document.getElementById("to_text").value = state.toText
   document.getElementById("from_text").value = state.fromText
-  document.getElementById("from").value = state.fromLangCode.toUpperCase() //TODO: this is because lang code is upper case in html
+  document.getElementById("from").value = state.fromLangCode.toUpperCase()
   document.getElementById("to").value = state.toLangCode.toUpperCase()
 }
 

@@ -3,15 +3,15 @@
 Cose da fare:
 
 ### To Do
-- [ ] Sistemare Layout
+- [ ] Fare pagina about.html
+- [ ] Quale strategia scegliere per mostrare le possibili traduzioni nella pagine commnunity.html
+    - `SELECT * ` non è scalabile, andrà tolto
+    - forse delle API sono la scelta migliore
+    - oppure caricare con templates un pezzetto alla volta
 - [ ] Provare a trainare modello italiano/inglese o inglese/italiano (documentazione https://github.com/argosopentech/argos-train) (+docker)
 
 ### In Progress
-
-- [ ] Database locale (mysql?) con record (id from to from_text to_text)
-    -   stringhe vuote
-- [ ] Problema con traduzione dal testo in Maiuscolo (non lo traduce) -> mandare come request l'input text con caratteri solo minuscoli(?)
+- [ ] nuova colonna con i voti
+- [ ] Stringhe vuote nel DB
 
 ### Done ✓
-
--  

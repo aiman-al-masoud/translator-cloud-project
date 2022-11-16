@@ -1,3 +1,6 @@
+/**
+ * Change the favicon based on the current browser theme used
+ */
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
   let link = document.createElement('link')
   link.rel = 'icon';
