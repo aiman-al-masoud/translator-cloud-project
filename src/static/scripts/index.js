@@ -1,3 +1,4 @@
+import hashGenerator from "./hash_generator.js";
 const URL = "/translate-api";
 const URL1 = "/query-db-api";
 const TIMEOUT = 1000; // milliseconds to wait for request the translate to the server
@@ -17,23 +18,6 @@ const state = {
 
 function focusOnInput() {
   document.getElementById("from_text").focus();
-}
-
-/**
- * Generating the hash of the input string enabling a cache mechanism for storing up to 100 input strings
- *
- * @param {string} string
- * @returns {number}
- */
-function hashGenerator(string) {
-    var hash = 0, i, chr;
-    if (string.length === 0) return hash;
-    for (i = 0; i < string.length; i++) {
-      chr = string.charCodeAt(i);
-      hash = ((hash << 5) - hash) + chr;
-      hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
 }
 
 async function sendText() {
@@ -95,7 +79,6 @@ async function sendQueryToDB() {
     alert("Thank you for your feedback")
   }
 }
-
 
 /**
  * Switching both selected languages and textAreas
