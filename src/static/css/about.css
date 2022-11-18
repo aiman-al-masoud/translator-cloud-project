@@ -2,19 +2,17 @@
     box-sizing: inherit;
 }
 
-.about{
-    position: relative;
-    width: 90%;
-    left: 5%;
-    margin-bottom: 5% 0 0 0;
-    font-size: larger;
-}
-
-.small-section{
-    padding: 2%;
-    background-color:rgb(35 71 163 / 50%);
-    border-radius: 15px;
-    box-shadow: 10px 10px 30px rgb(35 71 163 / 50%);
+.short-bio {
+  position: relative;
+  text-align: center;
+  width: 80%;
+  left: 10%;
+  margin-top: 5%;
+  padding: 1%;
+  background-color:rgb(35 71 163 / 45%);
+  font-size: larger;
+  border-radius: 15px;
+  box-shadow: 10px 10px 30px rgb(35 71 163 / 50%);
 }
 
 .font-xlarger{
@@ -36,11 +34,11 @@
     float: left;
     width: 18%;
     margin: 1%;
-    background-color: rgba(46, 139, 86);
+    background-color: #A3E7D6;
     box-shadow: 0 4px 8px 0;
     border-radius: 15px;
 }
-  
+
 .creators-column::after, .creators::after {
     content: "";
     clear: both;
