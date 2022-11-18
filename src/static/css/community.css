@@ -23,7 +23,7 @@ ul{
 .complaints{
     position: relative;
     width: fit-content;
-    left: 85%;
+    left: 95%;
     font-size: 0.7em;
     text-align: center;
     padding: 1%;
@@ -35,72 +35,28 @@ ul{
     color: #fff;
 }
 
-.possible-translations-area{
-    position: relative;
-    width: 10%;
-    left: 85%;
+.possible-translations-area {
+  display: flex;
+  align-items:center;
+  margin-left: 30%;
+  justify-content: flex-start;
 }
 
-.to_text_possible{
-    position: relative;
-    left: 30%;
-    width: 40%;
-    margin-top: 2%;
+.possible-translations-area textarea{
     padding: 1%;
+    border: 2px solid #000;
+    border-radius: 15px;
+    min-width: 60%;
     font-family: Quicksand;
     font-size: 20px;
     resize: none;
+    margin-right: 1%;
 }
 
-/* #fid{
-    display: none;
-} */
-
-#possible-translations-button{
-    border-radius: 15px;
+.possible-translations-area button#possible-translations-button{
+  border-radius: 15px;
+  font-family: Quicksand;
+  font-size: 20px;
+  height: 3.5em;
+  min-width: 70px;
 }
-
-.button {
-    align-items: center;
-    background-color: #fff;
-    border: 2px solid #000;
-    box-sizing: border-box;
-    color: #000;
-    cursor: pointer;
-    display: inline-flex;
-    fill: #000;
-    font-family: Quicksand;
-    font-size: 20px;
-    font-weight: 600;
-    height: 48px;
-    justify-content: center;
-    letter-spacing: -.8px;
-    line-height: 24px;
-    min-width: 140px;
-    outline: 0;
-    padding: 0 17px;
-    text-align: center;
-    text-decoration: none;
-    transition: all .3s;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  }
-  
-  .button:focus {
-    color: #06f;
-    fill: #06f;
-    border-color: #06f;
-  }
-  
-  .button:hover {
-    border-color: #06f;
-    color: #06f;
-    fill: #06f;
-  }
-  
-  .button:active {
-    border-color: #06f;
-    color: #06f;
-    fill: #06f;
-  }

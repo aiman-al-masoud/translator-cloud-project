@@ -19,24 +19,24 @@
     <li class="right"><a href="about"><i class="ri-information-line"></i>&nbsp;About</a></li>
   </ul>
 
-  <ul class="big-list">
+  <div class="big-list">
       {% for row in data %}
-      <li id="{{ row[4] }}" class="item {{ row[4] }}">
-          <td>
-            <ul class="list-item">
+      <div id="{{ row[4] }}" class="item {{ row[4] }}">
               <!-- <li id="id_textarea">{{ row[4] }}</li> -->
-              <li class="complaints">COMPLAINTS: {{ row[5] }}</li>
-              <li>FROM_LANG: {{ row[0] }}</li>
-              <li>TO_LANG: {{ row[1] }}</li>
-              <li id="fromText" class="fromText" name="fromText">{{ row[2] }}</li>
-              <li>TO_TEXT: {{ row[3] }}</li>
-              <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
-              <li class="possible-translations-area"><button id="possible-translations-button" class="button" onclick="sendQueryToDB2('{{ row[4] }}')">Submit</button></li>
-            </ul>
-          </td>
-        </li>
+              <div class="complaints"><i class="ri-emotion-sad-line"></i>&nbsp&nbsp{{ row[5] }}</div>
+              <div>FROM_LANG: {{ row[0] }}</div>
+              <div>TO_LANG: {{ row[1] }}</div>
+              <div id="fromText" class="fromText" name="fromText">{{ row[2] }}</div>
+              <div>TO_TEXT: {{ row[3] }}</div>
+              <div class="possible-translations-area">
+                <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
+                <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('{{ row[4] }}')">
+                  <i class="ri-send-plane-2-fill"></i>
+                </button>
+              </div>
+        </div>
       {% endfor %}
-  </ul>
+  </div>
 
   <footer id="footer">
     <span>
