@@ -20,10 +20,19 @@ ul{
     list-style: none;
 }
 
-.complaints{
-    position: relative;
-    width: fit-content;
-    left: 95%;
+summary {
+  display: flex;
+  justify-content: flex-start;
+  cursor: pointer;
+  padding: 1em .5em;
+  list-style: none;
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+summary .complaints{
+    margin-right: 1%;
     font-size: 0.7em;
     text-align: center;
     padding: 1%;

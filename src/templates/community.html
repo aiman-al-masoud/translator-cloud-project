@@ -21,20 +21,21 @@
 
   <div class="big-list">
       {% for row in data %}
-      <div id="{{ row[4] }}" class="item {{ row[4] }}">
-              <!-- <li id="id_textarea">{{ row[4] }}</li> -->
-              <div class="complaints"><i class="ri-emotion-sad-line"></i>&nbsp&nbsp{{ row[5] }}</div>
-              <div>FROM_LANG: {{ row[0] }}</div>
-              <div>TO_LANG: {{ row[1] }}</div>
-              <div id="fromText" class="fromText" name="fromText">{{ row[2] }}</div>
-              <div>TO_TEXT: {{ row[3] }}</div>
+      <details id="{{ row[4] }}" class="item {{ row[4] }}">
+              <summary>
+              <span class="complaints"><i class="ri-emotion-sad-line"></i>&nbsp&nbsp{{ row[5] }}</span>
+              <div> <strong>{{ row[0] }}:</strong>
+                <span id="fromText" class="fromText" name="fromText">{{ row[2] }}</span><br>
+                <strong>{{ row[1] }}:</strong> {{ row[3] }}
+              </div>
+              </summary>
               <div class="possible-translations-area">
                 <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
                 <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('{{ row[4] }}')">
                   <i class="ri-send-plane-2-fill"></i>
                 </button>
               </div>
-        </div>
+        </details>
       {% endfor %}
   </div>
 
