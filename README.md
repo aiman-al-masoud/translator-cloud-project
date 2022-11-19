@@ -4,7 +4,7 @@
 
 ```typescript
 {
-"from" : string // source language 
+"from" : string, // source language
 "to" : string, // target language
 "from_text" : string, // text to be translated
 "id" : int // request id
@@ -16,6 +16,53 @@ Response
 {
 "to_text" : string, // translated text
 "id" : int // request id
+}
+```
+
+## badTranslations write
+```typescript
+{
+"from" : string, // source language
+"to" : string, // target language
+"from_text" : string, // text to be translated
+"to_text" : string, // bad translation
+"id" : int // request id
+}
+```
+
+## badTranslations read (to do)
+```typescript
+{
+  "page" : int, //page number to be loaded
+  "from" : string, // source language if we want to filter the results
+  "to" : string // target language if we want to filter the results
+}
+```
+
+## possibleBetterTranslations write
+```typescript
+{
+  "from_text" : string, // text to be translated
+  "to_text" : string, // proposed translation
+  "secondid" : int, // request id
+  "fid" : int // foreign key pointing at the bad translation
+}
+```
+
+## possibleBetterTranslations read (to do)
+```typescript
+{
+  "fid" : int, // foreign key pointing at the bad translation
+  "page" : int // page number of the possible translations to be seen
+}
+```
+
+## possibleBetterTranslations read (to do)
+```typescript
+{
+  "fid" : int, // foreign key pointing at the bad translation
+  "secondid" : int, // id of the possibleBetterTranslation
+  "operation": boolean //true for plus and false to remove a vote
 }
 ```
 
@@ -34,8 +81,8 @@ $ git clone https://github.com/aiman-al-masoud/translator-cloud-project.git
 ```
 and navigate to its root directory.
 
-  
-#### 2) Create a python virtual environment 
+
+#### 2) Create a python virtual environment
 Use this name necessarily, because of the *.gitignore*
 ```
 $ python3 -m venv .venv
@@ -43,7 +90,7 @@ $ python3 -m venv .venv
 
 (You'll be prompted to install the 'venv' module if you don't have it yet).
 
-  
+
 #### 3) Activate the virtual environment
 
 ```
@@ -56,10 +103,10 @@ To exit from the virtual environment
 ```
 $ deactivate
 ```
-  
-#### 4) Install this app's dependencies 
+
+#### 4) Install this app's dependencies
 Inside the virtual environment you just created:
-  
+
 ```
 (venv)$ pip install -r requirements.txt
 ```
@@ -70,12 +117,12 @@ Inside the virtual environment you just created:
 Move to the *tests* directory and execute
 ```sh
 python3 install-packages.py -f en -t it -txt "Hello World"
-# en -> it 
+# en -> it
 ```
 
 ```sh
 python3 install-packages.py -f it -t en -txt "Ciao Mondo"
-# it -> en 
+# it -> en
 ```
 
 If there are any problems with downloading language packages:
@@ -147,13 +194,13 @@ CREATE DATABASE `flask`;
 use flask;
 ```
 ```sh
-CREATE TABLE badTranslations ( 
-FROMTAG varchar(2) not null, 
-TOTAG varchar(2) not null, 
-FROM_TEXT varchar(60) not null, 
+CREATE TABLE badTranslations (
+FROMTAG varchar(2) not null,
+TOTAG varchar(2) not null,
+FROM_TEXT varchar(60) not null,
 TO_TEXT varchar(60) not null,
-ID integer(30) not null, 
-PRIMARY KEY (ID) 
+ID integer(30) not null,
+PRIMARY KEY (ID)
 );
 ```
 
@@ -181,10 +228,10 @@ Add the new column to the table **badTranslations**
 mysql> ALTER TABLE badTranslations ADD COMPLAINTS integer(5) not null;
 ```
 ```
-CREATE TABLE possibleBetterTranslations ( 
-FROM_TEXT varchar(60) not null, 
+CREATE TABLE possibleBetterTranslations (
+FROM_TEXT varchar(60) not null,
 TO_TEXT varchar(60) not null,
-SECONDID integer(30) not null, 
+SECONDID integer(30) not null,
 FID integer(30) not null,
 FOREIGN KEY (FID) REFERENCES badTranslations(ID),
 PRIMARY KEY (SECONDID)
@@ -199,12 +246,12 @@ mysql> ALTER TABLE possibleBetterTranslations ADD VOTES integer(5) not null;
 
 <details>
 <summary><strong>MySQL set-up on Mac (M1)</strong></summary>
-  
+
 #### 1) Update repositories
 ```sh
 brew update
 ```
-  
+
 ```sh
 brew upgrade
 ```
@@ -236,17 +283,17 @@ CREATE DATABASE `flask`;
 use flask;
 ```
 ```sh
-CREATE TABLE badTranslations ( 
-FROMTAG varchar(2) not null, 
-TOTAG varchar(2) not null, 
-FROM_TEXT varchar(60) not null, 
+CREATE TABLE badTranslations (
+FROMTAG varchar(2) not null,
+TOTAG varchar(2) not null,
+FROM_TEXT varchar(60) not null,
 TO_TEXT varchar(60) not null,
-ID integer(30) not null, 
-PRIMARY KEY (ID) 
+ID integer(30) not null,
+PRIMARY KEY (ID)
 );
 ```
 </details>
-  
+
 ## Testing
 ### Launch the server
 Move to the *src* directory and execute

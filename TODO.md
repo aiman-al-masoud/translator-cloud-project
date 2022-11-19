@@ -10,6 +10,7 @@ Cose da fare:
         - Ordinare badTranslations in base alla colonna complaints
         - api che carica 10 entries del db
         - stesso approccio per possibleBetterTranslations
+        - ATTENZIONE perché bisogna ordinare tutte le badTranslations prima di presentare le prime 10 dato che la select non mantiene l'ordine
 - [ ] Usare i cookie per non far commentare troppo gli utenti
 - [ ] Provare a trainare modello italiano/inglese o inglese/italiano (documentazione https://github.com/argosopentech/argos-train) (+docker)
 
