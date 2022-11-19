@@ -26,9 +26,10 @@ summary {
   cursor: pointer;
   padding: 1em .5em;
   list-style: none;
-  &::-webkit-details-marker {
-    display: none;
-  }
+}
+
+details summary::-webkit-details-marker {
+  display:none;
 }
 
 summary .complaints{

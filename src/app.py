@@ -49,7 +49,7 @@ def display_records():
     if request.method == 'GET':
         cursor = mysql.connection.cursor()
         cursor.execute(
-            ''' SELECT * FROM badTranslations order by complaints desc;''')
+            ''' SELECT * FROM badTranslations ORDER BY complaints DESC LIMIT 2''')
         results = cursor.fetchall()
         return render_template('community.html', data=results)
 
