@@ -71,3 +71,10 @@ summary .complaints{
   height: 3.5em;
   min-width: 70px;
 }
+
+#get-new-data{
+  position: relative;
+  width: 10%;
+  left: 45%; right: 45%;
+  margin: 2% 0 5% 0;
+}

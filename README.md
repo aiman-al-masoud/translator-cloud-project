@@ -30,7 +30,7 @@
 }
 ```
 
-## badTranslations read (to do)
+## badTranslations read (update for the **filter**)
 ### Query
 ```typescript
 {
@@ -60,7 +60,7 @@
 }
 ```
 
-## possibleBetterTranslations read (to do)
+## possibleBetterTranslations read (TODO)
 ```typescript
 {
   "fid" : int, // foreign key pointing at the bad translation
@@ -68,7 +68,7 @@
 }
 ```
 
-## possibleBetterTranslations read (to do)
+## possibleBetterTranslations read (TODO)
 ```typescript
 {
   "fid" : int, // foreign key pointing at the bad translation

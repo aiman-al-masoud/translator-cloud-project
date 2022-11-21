@@ -159,7 +159,7 @@ def send_query3():
 
         try:
             cursor = mysql.connection.cursor()
-            cursor.execute(''' SELECT * FROM badTranslations ORDER BY complaints DESC LIMIT 2 OFFSET %s''', (page,))
+            cursor.execute(''' SELECT * FROM badTranslations ORDER BY complaints DESC LIMIT 2 OFFSET %s''', (2*page,)) # multipled by 2
             data = cursor.fetchall()
         except Exception as e:
             print("ERROR: Query exception:", e)

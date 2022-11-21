@@ -21,3 +21,4 @@ Cose da fare:
 ### To be approved
 - [ ] Pagina about.html
 - [ ] Modifiche index.html e community.html
+- [ ] Controllare come va `query-db-api3`
