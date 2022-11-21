@@ -1,0 +1,1 @@
+wget -O- --post-data='{"page" : 0}' --header='Content-Type:application/json' 'http://localhost:5000/query-db-api3'

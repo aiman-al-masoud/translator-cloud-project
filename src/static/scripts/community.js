@@ -1,6 +1,7 @@
 import hashGenerator from "./utils/hash_generator.js";
 import './utils/common.js';
 const URL2 = "/query-db-api2";
+const URL3 = "/query-db-api3";
 
 //generation of the JSON file invoked in case of a bad translation
 async function sendQueryToDB2(idTextarea) {
@@ -26,3 +27,16 @@ async function sendQueryToDB2(idTextarea) {
 }
 
 window.sendQueryToDB2 = sendQueryToDB2 //do not remove this, because we call 'sendQueryToDB2' inline in HTML
+
+window.onload = async () => {
+  try {
+    var res = await fetch(URL3, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({page : 0})
+    })
+  } catch (error) {
+    console.log(error);
+  }
+  console.log(await res.json());
+}

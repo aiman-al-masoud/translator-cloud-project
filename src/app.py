@@ -150,6 +150,24 @@ def send_query2():
             cursor.close()
             return ""
 
+# query to the mysql db for read the bad translations
+@app.route('/query-db-api3', methods=['POST', 'GET'])
+def send_query3():
+
+    if request.method == 'POST':
+        page =  request.json['page']
+
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' SELECT * FROM badTranslations ORDER BY complaints DESC LIMIT 2 OFFSET %s''', (page,))
+            data = cursor.fetchall()
+        except Exception as e:
+            print("ERROR: Query exception:", e)
+        finally:
+            cursor.close()
+    
+    return json.dumps(data)
+
 
 # added for running the server directly with the run button
 app.run(host='localhost', port=5000)

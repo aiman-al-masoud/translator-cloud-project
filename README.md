@@ -1,7 +1,7 @@
 # API Documentation
 
 ## Translate API
-
+### Query
 ```typescript
 {
 "from" : string, // source language
@@ -11,7 +11,7 @@
 }
 ```
 
-Response
+### Response
 ```typescript
 {
 "to_text" : string, // translated text
@@ -31,6 +31,7 @@ Response
 ```
 
 ## badTranslations read (to do)
+### Query
 ```typescript
 {
   "page" : int, //page number to be loaded
@@ -38,7 +39,17 @@ Response
   "to" : string // target language if we want to filter the results
 }
 ```
-
+### Response
+```typescript
+{
+"from" : string, // source language
+"to" : string, // target language
+"from_text" : string, // text to be translated
+"to_text" : string, // bad translation
+"id" : int // request id
+"complaints": int // number of complaints
+}
+```
 ## possibleBetterTranslations write
 ```typescript
 {
