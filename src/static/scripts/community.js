@@ -5,6 +5,9 @@ const URL3 = "/query-db-api3";
 
 const state = {
   badTranslations : [],
+  possibleTranslations : {
+    2139615360 : ['migliore traduzione 1', 'migliore traduzione 2', 'migliore traduzione 3']
+  },
   page: 0
 }
 
@@ -25,22 +28,39 @@ function update(){
   state.badTranslations.forEach(e => {
     let html = `
     <details id="${e[4]}" class="item">
-      <summary>
+      <summary onclick="loadPossibleTranslations('${e[4]}')">
       <span class="complaints"><i class="ri-emotion-sad-line"></i>&nbsp&nbsp${e[5]}</span>
       <div> <strong>${e[0]}:</strong>
         <span id="fromText" class="fromText" name="fromText">${e[2]}</span><br>
         <strong>${e[1]}:</strong> ${e[3]}
       </div>
       </summary>
-      <div class="possible-translations-area">
+      <div class="possible-translations-area" id="inner-${e[4]}">
         <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
         <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('${e[4]}')">
           <i class="ri-send-plane-2-fill"></i>
         </button>
-       </div>
+        <ul class="possible-translations-list"></ul>
+      </div>
     </details>
     `
     bigList.appendChild(createElementFromHTML('div', html))
+  })
+}
+
+function loadPossibleTranslations(id){
+  let detailsSection = document.getElementById(id)
+  if(detailsSection.hasAttribute("open")){
+    return ""
+  }
+
+  let innerEl = document.getElementById(`inner-${id}`).getElementsByClassName('possible-translations-list')[0]
+
+  state.possibleTranslations[id].forEach(e => {
+    let html = `
+        ${e}
+    `
+    innerEl.appendChild(createElementFromHTML('p', html))
   })
 }
 
@@ -68,6 +88,7 @@ async function sendQueryToDB2(idTextarea) {
 }
 
 window.sendQueryToDB2 = sendQueryToDB2 //do not remove this, because we call 'sendQueryToDB2' inline in HTML
+window.loadPossibleTranslations = loadPossibleTranslations //do not remove this
 
 async function getData() {
   try {

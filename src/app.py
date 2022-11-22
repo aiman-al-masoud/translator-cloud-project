@@ -127,11 +127,14 @@ def send_query2():
     # if (check:=check_json(request)) != 1:
     #     return check
 
+
     if request.method == 'POST':
         from_text = request.json['from_text']
         to_text = request.json['to_text']
         second_id = request.json['secondid']
         fid = request.json['fid']
+        if(not from_text.strip() or not to_text.strip()):
+            return "Empty from_text or to_text", 400
 
         # avoiding to send the response with error 500 (since there is already an equal request saved in the database)
         # users will see "Thank you for your feedback" regardless
