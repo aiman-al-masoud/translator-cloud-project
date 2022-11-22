@@ -80,7 +80,12 @@ async function getData() {
     console.log(error);
   }
   state.page += 1;
-  state.badTranslations = state.badTranslations.concat(await res.json());
+  let result = await res.json();
+  if(Object.keys( result ).length==0){
+    document.getElementById("get-new-data").style.visibility = "hidden";
+    return ""
+  }
+  state.badTranslations = state.badTranslations.concat(result);
   update();
 }
 
