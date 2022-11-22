@@ -35,12 +35,13 @@ function update(){
         <strong>${e[1]}:</strong> ${e[3]}
       </div>
       </summary>
-      <div class="possible-translations-area" id="inner-${e[4]}">
-        <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
-        <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('${e[4]}')">
-          <i class="ri-send-plane-2-fill"></i>
-        </button>
-        <ul class="possible-translations-list"></ul>
+      <div id="inner-${e[4]}">
+        <div class="possible-translations-area">
+          <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
+          <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('${e[4]}')">
+            <i class="ri-send-plane-2-fill"></i>
+          </button>
+        </div>
       </div>
     </details>
     `
@@ -54,13 +55,13 @@ function loadPossibleTranslations(id){
     return ""
   }
 
-  let innerEl = document.getElementById(`inner-${id}`).getElementsByClassName('possible-translations-list')[0]
+  let innerEl = document.getElementById(`inner-${id}`)
 
   state.possibleTranslations[id].forEach(e => {
     let html = `
-        ${e}
+      <div class="possible-translation-el"> ${e} </div>
     `
-    innerEl.appendChild(createElementFromHTML('p', html))
+    innerEl.appendChild(createElementFromHTML('div', html))
   })
 }
 
