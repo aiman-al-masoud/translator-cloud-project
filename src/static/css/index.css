@@ -167,11 +167,6 @@ ul.topnav li.right {float: right;}
   touch-action: manipulation;
 }
 
-.button:focus {
-  color: #06f;
-  fill: #06f;
-  border-color: #06f;
-}
 
 .button:hover {
   border-color: #06f;
@@ -183,6 +178,28 @@ ul.topnav li.right {float: right;}
   border-color: #06f;
   color: #06f;
   fill: #06f;
+}
+
+.button .buttonHoverImage {
+  display: none;
+}
+
+
+.button:hover .buttonImage{
+  display: none;
+}
+
+.button:active .buttonImage{
+  display: none;
+}
+
+
+.button:hover .buttonHoverImage{
+  display: block;
+}
+
+.button:active .buttonHoverImage{
+  display: block;
 }
 
 #footer {
