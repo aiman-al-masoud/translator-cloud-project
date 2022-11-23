@@ -19,6 +19,3 @@ Cose da fare:
     -   il back-end non inserisce stringhe vuote nel DB
 
 ### To be approved
-- [ ] Pagina about.html
-- [ ] Modifiche index.html e community.html
-- [ ] Controllare come va `query-db-api3`

@@ -30,7 +30,7 @@
 }
 ```
 
-## badTranslations read (update for the **filter**)
+## badTranslations read (TODO: update for the **filter**)
 ### Query
 ```typescript
 {
@@ -60,7 +60,7 @@
 }
 ```
 
-## possibleBetterTranslations read (TODO)
+## possibleBetterTranslations read (TODO: update with page)
 ```typescript
 {
   "fid" : int, // foreign key pointing at the bad translation
@@ -68,7 +68,7 @@
 }
 ```
 
-## possibleBetterTranslations read (TODO)
+## possibleBetterTranslations votes (TODO)
 ```typescript
 {
   "fid" : int, // foreign key pointing at the bad translation
@@ -79,8 +79,9 @@
 
 ## Community
 Here some notes about the `community.html` page:
-*   suggesting an exsisting translation is equal to an **upvote** for that translation
-*   
+*   suggesting an exsisting translation is equal to an **upvote** for that translation (bad translation)
+*   hash from_text and to_text in the better translation
+*   suggesting an exsisting translation is equal to an **upvote** for that translation (better translation)
 
 ## Set-Up
 <details>

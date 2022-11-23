@@ -144,7 +144,6 @@ def send_query2():
                            (from_text, to_text, second_id, fid))
             mysql.connection.commit()
         except Exception as e:
-            print(e)
             cursor = mysql.connection.cursor()
             cursor.execute(''' UPDATE possibleBetterTranslations SET votes=votes+1 WHERE secondid = (%s)''',
                            (second_id,))  # do not remove "," which is needed to create a tuple

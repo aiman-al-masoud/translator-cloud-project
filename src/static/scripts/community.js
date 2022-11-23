@@ -51,6 +51,12 @@ function update(){
   })
 }
 
+/**
+ * Load the possible better translations for the given section
+ * @param {string} source to show the possible better translations in any case, expect for when details are reduced
+ * @param {int} id of the bad translation section
+ * @returns 
+ */
 async function loadPossibleTranslations(source, id){
   let detailsSection = document.getElementById(id)
 
@@ -88,13 +94,15 @@ async function loadPossibleTranslations(source, id){
 }
 
 
-
-//generation of the JSON file invoked in case of a bad translation
+/**
+ * write the possible better translations of a given bad translation section
+ * @param {int} idTextarea of the bad translations
+ */
 async function sendQueryToDB2(idTextarea) {
   let request = {};
   request.from_text = document.getElementById(idTextarea).getElementsByClassName("fromText")[0].innerHTML;
   request.to_text = document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value;
-  request.secondid = hashGenerator(request.from_text+request.to_text); //will be changed
+  request.secondid = hashGenerator(request.from_text+request.to_text); //will be changed ?!
   request.fid = parseInt(idTextarea);
 
   try {
@@ -109,14 +117,14 @@ async function sendQueryToDB2(idTextarea) {
   finally {
     alert("Thank you for your help");
     document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value = "";
-
-    loadPossibleTranslations("js", idTextarea)      //da gestire l'aggiornamento delle frasi subito dopo aver proposto la propria traduzione
+    loadPossibleTranslations("js", idTextarea);
   }
 }
 
-window.sendQueryToDB2 = sendQueryToDB2 //do not remove this, because we call 'sendQueryToDB2' inline in HTML
-window.loadPossibleTranslations = loadPossibleTranslations //do not remove this
-
+/**
+ * Get (in the state) the list of the bad translations from the database
+ * @returns 
+ */
 async function getData() {
   try {
     var res = await fetch(URL3, {
@@ -129,15 +137,19 @@ async function getData() {
   }
   state.page += 1;
   let result = await res.json();
+
   if(Object.keys( result ).length==0){
     document.getElementById("get-new-data").style.visibility = "hidden";
     return ""
   }
+
   state.badTranslations = state.badTranslations.concat(result);
   update();
 }
 
 window.state = state;
-
 window.onload = getData;
 document.getElementById("get-new-data").onclick = getData;
+
+window.sendQueryToDB2 = sendQueryToDB2; //do not remove
+window.loadPossibleTranslations = loadPossibleTranslations; //do not remove
