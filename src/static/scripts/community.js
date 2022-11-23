@@ -28,7 +28,7 @@ function update(){
     let html = `
     <details id="${e[4]}" class="item">
       <summary onclick="loadPossibleTranslations('${e[4]}')">
-      <span class="complaints"><i class="ri-emotion-sad-line"></i>&nbsp&nbsp${e[5]}</span>
+      <span class="complaints"><img src="static/res/emotion-sad-line-white.png" class="complaints-image">&nbsp&nbsp${e[5]}</span>
       <div> <strong>${e[0]}:</strong>
         <span id="fromText" class="fromText" name="fromText">${e[2]}</span><br>
         <strong>${e[1]}:</strong> ${e[3]}
@@ -38,7 +38,8 @@ function update(){
         <div class="possible-translations-area">
           <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
           <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('${e[4]}')">
-            <i class="ri-send-plane-2-fill"></i>
+          <img src="static/res/send-plane-2-fill.png" class="button-image">
+          <img src="static/res/send-plane-2-fill-hover.png" class="button-hover-image">
           </button>
         </div>
       </div>
@@ -93,7 +94,7 @@ async function sendQueryToDB2(idTextarea) {
   let request = {};
   request.from_text = document.getElementById(idTextarea).getElementsByClassName("fromText")[0].innerHTML;
   request.to_text = document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value;
-  request.secondid = hashGenerator(request.to_text); //will be changed
+  request.secondid = hashGenerator(request.from_text+request.to_text); //will be changed
   request.fid = parseInt(idTextarea);
 
   try {

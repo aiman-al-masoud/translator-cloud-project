@@ -180,25 +180,25 @@ ul.topnav li.right {float: right;}
   fill: #06f;
 }
 
-.button .buttonHoverImage {
+.button .button-hover-image {
   display: none;
 }
 
 
-.button:hover .buttonImage{
+.button:hover .button-image{
   display: none;
 }
 
-.button:active .buttonImage{
+.button:active .button-image{
   display: none;
 }
 
 
-.button:hover .buttonHoverImage{
+.button:hover .button-hover-image{
   display: block;
 }
 
-.button:active .buttonHoverImage{
+.button:active .button-hover-image{
   display: block;
 }
 

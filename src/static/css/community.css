@@ -89,3 +89,8 @@ summary .complaints{
   left: 45%; right: 45%;
   margin: 2% 0 5% 0;
 }
+
+.complaints-image {
+  width: 20px;
+  height: 20px;
+}
