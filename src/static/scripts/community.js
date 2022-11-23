@@ -27,7 +27,7 @@ function update(){
   state.badTranslations.forEach(e => {
     let html = `
     <details id="${e[4]}" class="item">
-      <summary onclick="loadPossibleTranslations('${e[4]}')">
+      <summary onclick="loadPossibleTranslations('frontend', '${e[4]}')">
       <span class="complaints"><img src="static/res/emotion-sad-line-white.png" class="complaints-image">&nbsp&nbsp${e[5]}</span>
       <div> <strong>${e[0]}:</strong>
         <span id="fromText" class="fromText" name="fromText">${e[2]}</span><br>
@@ -51,15 +51,15 @@ function update(){
   })
 }
 
-async function loadPossibleTranslations(id){
+async function loadPossibleTranslations(source, id){
   let detailsSection = document.getElementById(id)
 
-  if(detailsSection.hasAttribute("open")){
+  if(detailsSection.hasAttribute("open") && source=="frontend"){
     return ""
   }
 
   let innerEl = document.getElementById(`inner-${id}`)
-  
+
   while (innerEl.lastElementChild) {
     innerEl.removeChild(innerEl.lastElementChild);
   }
@@ -74,7 +74,7 @@ async function loadPossibleTranslations(id){
     console.log(error);
   }
   let result = await res.json();
-  
+
   state.possibleTranslations[id] = result
 
   state.possibleTranslations[id].forEach(e => {
@@ -109,8 +109,8 @@ async function sendQueryToDB2(idTextarea) {
   finally {
     alert("Thank you for your help");
     document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value = "";
-    
-    //loadPossibleTranslations(idTextarea)      //da gestire l'aggiornamento delle frasi subito dopo aver proposto la propria traduzione
+
+    loadPossibleTranslations("js", idTextarea)      //da gestire l'aggiornamento delle frasi subito dopo aver proposto la propria traduzione
   }
 }
 
