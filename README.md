@@ -1,5 +1,14 @@
 # API Documentation
 
+## Community
+Here some notes about the `community.html` page:
+*   suggesting an exsisting *bad* translation is equal to an **upvote** for that translation 
+*   hash from_text and to_text in the better translation
+*   suggesting an exsisting *better* translation *proposal* is equal to an **upvote** for that translation
+
+<details>
+<summary><strong>API</strong></summary>
+
 ## Translate API
 ### Query
 ```typescript
@@ -76,14 +85,8 @@
   "operation": boolean //true for plus and false to remove a vote
 }
 ```
+</details>
 
-## Community
-Here some notes about the `community.html` page:
-*   suggesting an exsisting translation is equal to an **upvote** for that translation (bad translation)
-*   hash from_text and to_text in the better translation
-*   suggesting an exsisting translation is equal to an **upvote** for that translation (better translation)
-
-## Set-Up
 <details>
 <summary><strong>Virtual Enviroment set-up</strong></summary>
 
