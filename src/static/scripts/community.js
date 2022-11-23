@@ -2,12 +2,11 @@ import hashGenerator from "./utils/hash_generator.js";
 import './utils/common.js';
 const URL2 = "/query-db-api2";
 const URL3 = "/query-db-api3";
+const URL4 = "/query-db-api4";
 
 const state = {
   badTranslations : [],
-  possibleTranslations : {
-    2139615360 : ['migliore traduzione 1', 'migliore traduzione 2', 'migliore traduzione 3']
-  },
+  possibleTranslations : {},
   page: 0
 }
 
@@ -35,7 +34,7 @@ function update(){
         <strong>${e[1]}:</strong> ${e[3]}
       </div>
       </summary>
-      <div id="inner-${e[4]}">
+      <div>
         <div class="possible-translations-area">
           <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
           <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('${e[4]}')">
@@ -43,19 +42,39 @@ function update(){
           </button>
         </div>
       </div>
+      <div id="inner-${e[4]}">
+      </div>
     </details>
     `
     bigList.appendChild(createElementFromHTML('div', html))
   })
 }
 
-function loadPossibleTranslations(id){
+async function loadPossibleTranslations(id){
   let detailsSection = document.getElementById(id)
+
   if(detailsSection.hasAttribute("open")){
     return ""
   }
 
   let innerEl = document.getElementById(`inner-${id}`)
+  
+  while (innerEl.lastElementChild) {
+    innerEl.removeChild(innerEl.lastElementChild);
+  }
+
+  try {
+    var res = await fetch(URL4, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({id_prop : id})
+    })
+  } catch (error) {
+    console.log(error);
+  }
+  let result = await res.json();
+  
+  state.possibleTranslations[id] = result
 
   state.possibleTranslations[id].forEach(e => {
     let html = `
@@ -63,7 +82,11 @@ function loadPossibleTranslations(id){
     `
     innerEl.appendChild(createElementFromHTML('div', html))
   })
+
+  state.possibleTranslations[id] = ""
 }
+
+
 
 //generation of the JSON file invoked in case of a bad translation
 async function sendQueryToDB2(idTextarea) {
@@ -85,6 +108,8 @@ async function sendQueryToDB2(idTextarea) {
   finally {
     alert("Thank you for your help");
     document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value = "";
+    
+    //loadPossibleTranslations(idTextarea)      //da gestire l'aggiornamento delle frasi subito dopo aver proposto la propria traduzione
   }
 }
 
