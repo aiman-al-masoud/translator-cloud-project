@@ -78,3 +78,31 @@ summary .complaints{
   left: 45%; right: 45%;
   margin: 2% 0 5% 0;
 }
+
+.arrowHover {
+  display: none;
+}
+
+.button:focus .arrowHover{
+  display: inline;
+}
+
+.button:focus .arrow{
+  display: none;
+}
+
+.button:hover .arrowHover{
+  display: inline;
+}
+
+.button:hover .arrow{
+  display: none;
+}
+
+.button:active .arrowHover {
+  display: inline;
+}
+
+.button:active .arrow{
+  display: none;
+}
