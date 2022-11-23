@@ -14,7 +14,8 @@ const state = {
   toLangCode : 'en',
   fromText : '',
   toText : '',
-  timer : -1 // reference to (possibly existing) old timer to be cleared
+  timer : -1, // reference to (possibly existing) old timer to be cleared
+  complainButtonActive : false
 }
 
 function focusOnInput() {
@@ -38,7 +39,9 @@ async function sendText() {
   let cached = localStorage.getItem(request.id)
 
   if(cached){
-    document.getElementById('to_text').value = cached;
+    state.toText = cached;
+    state.complainButtonActive = true
+    update()
     return
   }
 
@@ -55,6 +58,7 @@ async function sendText() {
 
   let json = await res.json()
   state.toText = json.to_text
+  state.complainButtonActive = true
   localStorage.setItem(request.id, json.to_text)
   update()
 }
@@ -68,7 +72,6 @@ async function sendQueryToDB() {
   request.to_text = state.toText;
   request.id = hashGenerator(request.from_text + request.to); //will be changed
 
-
   try {
     let res = await fetch(URL1, {
     method: "POST",
@@ -80,6 +83,8 @@ async function sendQueryToDB() {
   }
   finally{
     alert("Thank you for your feedback")
+    state.complainButtonActive = false
+    update()
   }
 }
 
@@ -144,6 +149,8 @@ async function pasteFromClipboard() {
   document.getElementById("from_text").value = state.fromText
   document.getElementById("from").value = state.fromLangCode.toUpperCase()
   document.getElementById("to").value = state.toLangCode.toUpperCase()
+  document.getElementById("button_query_to_db").disabled = !state.complainButtonActive
+  console.log(state.complainButtonActive)
 }
 
 document.body.onload=focusOnInput;sendQueryToDB

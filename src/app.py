@@ -127,11 +127,14 @@ def send_query2():
     # if (check:=check_json(request)) != 1:
     #     return check
 
+
     if request.method == 'POST':
         from_text = request.json['from_text']
         to_text = request.json['to_text']
         second_id = request.json['secondid']
         fid = request.json['fid']
+        if(not from_text.strip() or not to_text.strip()):
+            return "Empty from_text or to_text", 400
 
         # avoiding to send the response with error 500 (since there is already an equal request saved in the database)
         # users will see "Thank you for your feedback" regardless
@@ -160,6 +163,26 @@ def send_query3():
         try:
             cursor = mysql.connection.cursor()
             cursor.execute(''' SELECT * FROM badTranslations ORDER BY complaints DESC LIMIT 2 OFFSET %s''', (2*page,)) # multipled by 2
+            data = cursor.fetchall()
+        except Exception as e:
+            print("ERROR: Query exception:", e)
+        finally:
+            cursor.close()
+    
+    return json.dumps(data)
+
+
+
+#return all the "possibleBetterTranslation" given the id of the specific text-translation
+@app.route('/query-db-api4', methods=['POST', 'GET'])
+def send_query4():
+
+    if request.method == 'POST':
+        id_prop =  request.json['id_prop']
+
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' SELECT * FROM possibleBetterTranslations WHERE fid = (%s)''', (id_prop,))
             data = cursor.fetchall()
         except Exception as e:
             print("ERROR: Query exception:", e)

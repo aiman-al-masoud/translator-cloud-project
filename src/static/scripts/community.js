@@ -2,9 +2,11 @@ import hashGenerator from "./utils/hash_generator.js";
 import './utils/common.js';
 const URL2 = "/query-db-api2";
 const URL3 = "/query-db-api3";
+const URL4 = "/query-db-api4";
 
 const state = {
   badTranslations : [],
+  possibleTranslations : {},
   page: 0
 }
 
@@ -25,24 +27,66 @@ function update(){
   state.badTranslations.forEach(e => {
     let html = `
     <details id="${e[4]}" class="item">
-      <summary>
+      <summary onclick="loadPossibleTranslations('${e[4]}')">
       <span class="complaints"><i class="ri-emotion-sad-line"></i>&nbsp&nbsp${e[5]}</span>
       <div> <strong>${e[0]}:</strong>
         <span id="fromText" class="fromText" name="fromText">${e[2]}</span><br>
         <strong>${e[1]}:</strong> ${e[3]}
       </div>
       </summary>
-      <div class="possible-translations-area">
-        <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
-        <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('${e[4]}')">
-          <i class="ri-send-plane-2-fill"></i>
-        </button>
-       </div>
+      <div>
+        <div class="possible-translations-area">
+          <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
+          <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('${e[4]}')">
+            <i class="ri-send-plane-2-fill"></i>
+          </button>
+        </div>
+      </div>
+      <div id="inner-${e[4]}">
+      </div>
     </details>
     `
     bigList.appendChild(createElementFromHTML('div', html))
   })
 }
+
+async function loadPossibleTranslations(id){
+  let detailsSection = document.getElementById(id)
+
+  if(detailsSection.hasAttribute("open")){
+    return ""
+  }
+
+  let innerEl = document.getElementById(`inner-${id}`)
+  
+  while (innerEl.lastElementChild) {
+    innerEl.removeChild(innerEl.lastElementChild);
+  }
+
+  try {
+    var res = await fetch(URL4, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({id_prop : id})
+    })
+  } catch (error) {
+    console.log(error);
+  }
+  let result = await res.json();
+  
+  state.possibleTranslations[id] = result
+
+  state.possibleTranslations[id].forEach(e => {
+    let html = `
+      <div class="possible-translation-el"> ${e} </div>
+    `
+    innerEl.appendChild(createElementFromHTML('div', html))
+  })
+
+  state.possibleTranslations[id] = ""
+}
+
+
 
 //generation of the JSON file invoked in case of a bad translation
 async function sendQueryToDB2(idTextarea) {
@@ -64,10 +108,13 @@ async function sendQueryToDB2(idTextarea) {
   finally {
     alert("Thank you for your help");
     document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value = "";
+    
+    //loadPossibleTranslations(idTextarea)      //da gestire l'aggiornamento delle frasi subito dopo aver proposto la propria traduzione
   }
 }
 
 window.sendQueryToDB2 = sendQueryToDB2 //do not remove this, because we call 'sendQueryToDB2' inline in HTML
+window.loadPossibleTranslations = loadPossibleTranslations //do not remove this
 
 async function getData() {
   try {
