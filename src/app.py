@@ -172,5 +172,25 @@ def send_query3():
     return json.dumps(data)
 
 
+
+#return all the "possibleBetterTranslation" given the id of the specific text-translation
+@app.route('/query-db-api4', methods=['POST', 'GET'])
+def send_query4():
+
+    if request.method == 'POST':
+        id_prop =  request.json['id_prop']
+
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute(''' SELECT * FROM possibleBetterTranslations WHERE fid = (%s)''', (id_prop,))
+            data = cursor.fetchall()
+        except Exception as e:
+            print("ERROR: Query exception:", e)
+        finally:
+            cursor.close()
+    
+    return json.dumps(data)
+
+
 # added for running the server directly with the run button
 app.run(host='localhost', port=5000)
