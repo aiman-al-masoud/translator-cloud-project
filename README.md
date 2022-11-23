@@ -255,6 +255,7 @@ PRIMARY KEY (SECONDID)
 Add a new column to the table **possibleBetterTranslations**
 ```
 mysql> ALTER TABLE possibleBetterTranslations ADD VOTES integer(5) not null;
+mysql> ALTER TABLE possibleBetterTranslations ADD TIMESTAMP timestamp not null;
 ```
 
 </details>

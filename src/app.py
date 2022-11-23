@@ -141,7 +141,7 @@ def send_query2():
         # users will see "Thank you for your feedback" regardless
         try:
             cursor = mysql.connection.cursor()
-            cursor.execute(''' INSERT INTO possibleBetterTranslations VALUES(%s,%s,%s,%s,0)''',
+            cursor.execute(''' INSERT INTO possibleBetterTranslations VALUES(%s,%s,%s,%s,0,NOW())''',
                            (from_text, to_text, second_id, fid))
             mysql.connection.commit()
         except Exception as e:
@@ -183,7 +183,8 @@ def send_query4():
 
         try:
             cursor = mysql.connection.cursor()
-            cursor.execute(''' SELECT * FROM possibleBetterTranslations WHERE fid = (%s) ORDER BY votes DESC LIMIT %s OFFSET %s''', (id_prop, OFFSET, OFFSET*page,))
+            cursor.execute(''' SELECT from_text, to_text, secondid, fid, votes FROM possibleBetterTranslations WHERE fid = (%s) 
+            ORDER BY votes DESC, timestamp LIMIT %s OFFSET %s''', (id_prop, OFFSET, OFFSET*page,))
             data = cursor.fetchall()
         except Exception as e:
             print("ERROR: Query exception:", e)

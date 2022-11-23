@@ -89,7 +89,7 @@ async function asyncCallForBetterTranslations(request) {
   state.possibleTranslations[state.openDetails] = result
 
   state.possibleTranslations[state.openDetails].forEach(e => {
-    let html = `<div class="possible-translation-el"> ${e[1]} <span> ${e[4]} </span> </div>`
+    let html = `<div class="possible-translation-el"> ${e[1]} -- <span> VOTES : ${e[4]} </span> </div>`
     innerEl.appendChild(createElementFromHTML('div', html))
   })
 
