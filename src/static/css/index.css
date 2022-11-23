@@ -11,6 +11,10 @@ body {
     background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(151,195,244,1) 100%);
 }
 
+.navbar-image {
+  width: 28px;
+}
+
 ul.topnav {
   list-style-type: none;
   margin: 0;
@@ -201,6 +205,8 @@ ul.topnav li.right {float: right;}
 .button:active .button-hover-image{
   display: block;
 }
+
+
 
 #footer {
     position: relative;
