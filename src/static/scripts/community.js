@@ -7,7 +7,9 @@ const URL4 = "/query-db-api4";
 const state = {
   badTranslations : [],
   possibleTranslations : {},
-  page: 0
+  openDetails: "", //id of the details which are being displayed
+  page: 0,
+  pagePossible: 0
 }
 
 function clearAll(){
@@ -45,60 +47,96 @@ function update(){
       </div>
       <div id="inner-${e[4]}">
       </div>
+      <button id="get-new-proposals" class="button get-new-proposals" onclick="showMoreBetterTranslations('${e[4]}')">
+        <img src="static/res/arrow-down-fill.png" class="button-image">
+        <img src="static/res/arrow-down-fill-hover.png" class="button-hover-image">
+      </button>
     </details>
     `
     bigList.appendChild(createElementFromHTML('div', html))
   })
 }
 
-/**
- * Load the possible better translations for the given section
- * @param {string} source to show the possible better translations in any case, expect for when details are reduced
- * @param {int} id of the bad translation section
- * @returns 
- */
-async function loadPossibleTranslations(source, id){
-  let detailsSection = document.getElementById(id)
-
-  if(detailsSection.hasAttribute("open") && source=="frontend"){
-    return ""
+function checkOpenDetails(id) {
+  console.log("Entrato in check")
+  if(!state.openDetails) {
+    state.openDetails = id;
+    state.pagePossible = 0;
+    return false
+  } else if(state.openDetails != id) {
+    document.getElementById(state.openDetails).removeAttribute("open");
+    state.openDetails = id;
+    state.pagePossible = 0;
+    return false
   }
 
-  let innerEl = document.getElementById(`inner-${id}`)
+  return true
 
-  while (innerEl.lastElementChild) {
-    innerEl.removeChild(innerEl.lastElementChild);
-  }
+}
 
+async function asyncCallForBetterTranslations(request) {
   try {
     var res = await fetch(URL4, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({id_prop : id})
+      body: JSON.stringify(request)
     })
   } catch (error) {
     console.log(error);
   }
   let result = await res.json();
+  let innerEl = document.getElementById(`inner-${state.openDetails}`)
+  state.possibleTranslations[state.openDetails] = result
 
-  state.possibleTranslations[id] = result
-
-  state.possibleTranslations[id].forEach(e => {
-    let html = `
-      <div class="possible-translation-el"> ${e} </div>
-    `
+  state.possibleTranslations[state.openDetails].forEach(e => {
+    let html = `<div class="possible-translation-el"> ${e[1]} <span> ${e[4]} </span> </div>`
     innerEl.appendChild(createElementFromHTML('div', html))
   })
 
-  state.possibleTranslations[id] = ""
+  console.log(result)
+  if(Object.keys(result).length==0){
+    document.getElementById(state.openDetails).getElementsByClassName("get-new-proposals")[0].style.display = "none";
+    return ""
+  }
 }
 
+/**
+ * Load the possible better translations for the given section
+ * @param {string} source to show the possible better translations in any case, expect for when details are reduced
+ * @param {int} id of the bad translation section
+ * @returns
+ */
+function loadPossibleTranslations(source, id){
+  let detailsSection = document.getElementById(id)
+
+  if(checkOpenDetails(id) && source=="frontend")  return
+
+  let request = {};
+  request.id_prop = id;
+  request.page = state.pagePossible;
+
+  asyncCallForBetterTranslations(request)
+}
+
+function showMoreBetterTranslations(id) {
+  let request = {};
+  request.id_prop = state.openDetails;
+  state.pagePossible += 1;
+  request.page = state.pagePossible;
+
+  asyncCallForBetterTranslations(request)
+}
 
 /**
  * write the possible better translations of a given bad translation section
  * @param {int} idTextarea of the bad translations
  */
 async function sendQueryToDB2(idTextarea) {
+  if(!document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value.trim()) {
+    alert("Empty better translation")
+    return ""
+  }
+
   let request = {};
   request.from_text = document.getElementById(idTextarea).getElementsByClassName("fromText")[0].innerHTML;
   request.to_text = document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value;
@@ -115,15 +153,15 @@ async function sendQueryToDB2(idTextarea) {
     console.log(error); //Translation with this id is already under supervision
   }
   finally {
-    alert("Thank you for your help");
+    alert("Thank you for your help, scroll down the suggestions to find yours");
     document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value = "";
-    loadPossibleTranslations("js", idTextarea);
+    // add the display of the sent translation
   }
 }
 
 /**
  * Get (in the state) the list of the bad translations from the database
- * @returns 
+ * @returns
  */
 async function getData() {
   try {
@@ -153,3 +191,4 @@ document.getElementById("get-new-data").onclick = getData;
 
 window.sendQueryToDB2 = sendQueryToDB2; //do not remove
 window.loadPossibleTranslations = loadPossibleTranslations; //do not remove
+window.showMoreBetterTranslations = showMoreBetterTranslations; //do not remove

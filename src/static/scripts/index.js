@@ -150,7 +150,6 @@ async function pasteFromClipboard() {
   document.getElementById("from").value = state.fromLangCode.toUpperCase()
   document.getElementById("to").value = state.toLangCode.toUpperCase()
   document.getElementById("button_query_to_db").disabled = !state.complainButtonActive
-  console.log(state.complainButtonActive)
 }
 
 document.body.onload=focusOnInput;sendQueryToDB

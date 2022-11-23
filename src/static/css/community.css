@@ -83,7 +83,7 @@ summary .complaints{
   min-width: 70px;
 }
 
-#get-new-data{
+#get-new-data, #get-new-proposals {
   position: relative;
   width: 10%;
   left: 45%; right: 45%;

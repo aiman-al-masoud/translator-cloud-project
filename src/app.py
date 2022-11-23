@@ -25,6 +25,7 @@ else:
 # connection with db
 app.config.update(config)
 mysql = MySQL(app)
+OFFSET = 2
 
 def check_json(request):
     if request.json is None:
@@ -161,13 +162,13 @@ def send_query3():
 
         try:
             cursor = mysql.connection.cursor()
-            cursor.execute(''' SELECT * FROM badTranslations ORDER BY complaints DESC LIMIT 2 OFFSET %s''', (2*page,)) # multipled by 2
+            cursor.execute(''' SELECT * FROM badTranslations ORDER BY complaints DESC LIMIT %s OFFSET %s''', (OFFSET, OFFSET*page,)) # multipled by 2
             data = cursor.fetchall()
         except Exception as e:
             print("ERROR: Query exception:", e)
         finally:
             cursor.close()
-    
+
     return json.dumps(data)
 
 
@@ -178,16 +179,17 @@ def send_query4():
 
     if request.method == 'POST':
         id_prop =  request.json['id_prop']
+        page =  request.json['page']
 
         try:
             cursor = mysql.connection.cursor()
-            cursor.execute(''' SELECT * FROM possibleBetterTranslations WHERE fid = (%s)''', (id_prop,))
+            cursor.execute(''' SELECT * FROM possibleBetterTranslations WHERE fid = (%s) ORDER BY votes DESC LIMIT %s OFFSET %s''', (id_prop, OFFSET, OFFSET*page,))
             data = cursor.fetchall()
         except Exception as e:
             print("ERROR: Query exception:", e)
         finally:
             cursor.close()
-    
+
     return json.dumps(data)
 
 
