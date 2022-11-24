@@ -195,11 +195,11 @@ def send_query4():
 
 
 
-@app.route('query-db-api5', methods=['POST', 'GET'])
+@app.route('/query-db-api5', methods=['POST', 'GET'])
 def send_query5():
 
     if request.method == 'POST':
-        second_id = request.json['second_id']
+        second_id = request.json['secondid']
         operation = request.json["operation"]
         try:
             cursor = mysql.connection.cursor()
@@ -207,6 +207,8 @@ def send_query5():
             cursor.execute(''' UPDATE possibleBetterTranslations SET votes=votes+(%s) WHERE secondid = (%s)''',
                            (operation,second_id,))  # do not remove "," which is needed to create a tuple
             mysql.connection.commit()
+        except Exception as e:
+            print("ERROR: Query votes exception:", e)
         finally:
             cursor.close()
             return ""

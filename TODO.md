@@ -3,9 +3,10 @@
 ## First Release
 
 ### To Do
-- Implementare API per i voti e gestire i voti
+- 
 
 ### In Progress
+- Come mostrare il voto aggiunto all'utente? 
 
 
 

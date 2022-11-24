@@ -69,7 +69,7 @@ Here some notes about the `community.html` page:
 }
 ```
 
-## possibleBetterTranslations read (TODO: update with page)
+## possibleBetterTranslations read
 ```typescript
 {
   "fid" : int, // foreign key pointing at the bad translation
@@ -77,12 +77,11 @@ Here some notes about the `community.html` page:
 }
 ```
 
-## possibleBetterTranslations votes (TODO)
+## possibleBetterTranslations votes
 ```typescript
 {
-  "fid" : int, // foreign key pointing at the bad translation
   "secondid" : int, // id of the possibleBetterTranslation
-  "operation": boolean //true for plus and false to remove a vote
+  "operation": int //+1 or -1 for a vote
 }
 ```
 </details>

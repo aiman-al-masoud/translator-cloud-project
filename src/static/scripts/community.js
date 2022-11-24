@@ -3,6 +3,7 @@ import './utils/common.js';
 const URL2 = "/query-db-api2";
 const URL3 = "/query-db-api3";
 const URL4 = "/query-db-api4";
+const URL5 = "/query-db-api5";
 
 const state = {
   badTranslations : [],
@@ -58,7 +59,6 @@ function update(){
 }
 
 function checkOpenDetails(id) {
-  console.log("Entrato in check")
   if(!state.openDetails) {
     state.openDetails = id;
     state.pagePossible = 0;
@@ -89,14 +89,50 @@ async function asyncCallForBetterTranslations(request) {
   state.possibleTranslations[state.openDetails] = result
 
   state.possibleTranslations[state.openDetails].forEach(e => {
-    let html = `<div class="possible-translation-el"> ${e[1]} -- <span> VOTES : ${e[4]} </span> </div>`
+    let html = `<div class="possible-translation-el"> 
+    <span class="left">${e[1]}</span> 
+      <span class="right-votes"> VOTES : ${e[4]}  
+        <button id="votes-plus-button-${e[2]}" class="button votes-plus-button" onclick="likeToPossibleBetterTranslations('${e[2]}')">+</button>
+      </span> 
+    </div>`
     innerEl.appendChild(createElementFromHTML('div', html))
   })
 
-  console.log(result)
   if(Object.keys(result).length==0){
     document.getElementById(state.openDetails).getElementsByClassName("get-new-proposals")[0].style.display = "none";
     return ""
+  }
+}
+
+/**
+ * Update votes for a given better translation proposal
+ * @param {integer} secondid of the better translation proposal 
+ */
+async function likeToPossibleBetterTranslations(secondid) {
+  let request = {};
+  request.secondid = secondid;
+  let operation;
+
+  if(document.getElementById("votes-plus-button-"+secondid).classList.contains("pressed")){
+    operation = -1;
+  } else {
+    operation = 1;
+  }
+
+  request.operation = operation;
+  
+  try {
+    let res = await fetch(URL5, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request)
+    })
+  } catch (error) {
+    console.log(error);
+  }
+  finally {
+    document.getElementById("votes-plus-button-"+secondid).classList.add("pressed");
+    // TODO: show the votes, updated, to the user
   }
 }
 
@@ -192,3 +228,4 @@ document.getElementById("get-new-data").onclick = getData;
 window.sendQueryToDB2 = sendQueryToDB2; //do not remove
 window.loadPossibleTranslations = loadPossibleTranslations; //do not remove
 window.showMoreBetterTranslations = showMoreBetterTranslations; //do not remove
+window.likeToPossibleBetterTranslations = likeToPossibleBetterTranslations ; //do not remove
