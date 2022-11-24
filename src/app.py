@@ -194,5 +194,24 @@ def send_query4():
     return json.dumps(data)
 
 
+
+@app.route('query-db-api5', methods=['POST', 'GET'])
+def send_query5():
+
+    if request.method == 'POST':
+        second_id = request.json['second_id']
+        operation = request.json["operation"]
+        try:
+            cursor = mysql.connection.cursor()
+
+            cursor.execute(''' UPDATE possibleBetterTranslations SET votes=votes+(%s) WHERE secondid = (%s)''',
+                           (operation,second_id,))  # do not remove "," which is needed to create a tuple
+            mysql.connection.commit()
+        finally:
+            cursor.close()
+            return ""
+
+
+
 # added for running the server directly with the run button
 app.run(host='localhost', port=5000)
