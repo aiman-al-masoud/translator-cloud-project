@@ -1,3 +1,5 @@
+#!/bin/python3
+
 import argostranslate.package, argostranslate.translate, argparse
 
 # Download and install Argos Translate package
@@ -31,8 +33,6 @@ def main():
     parser.add_argument("--test_text", "-txt", help="text to test", required=True)
 
     args = parser.parse_args()
-
-    argostranslate.package.update_package_index()
     install_languages(args.start, args.to)
     argostranslate.package.update_package_index()
     translate_test(args.start, args.to, args.test_text)
