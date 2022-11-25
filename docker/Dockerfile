@@ -1,7 +1,7 @@
 FROM ubuntu/mysql:8.0-22.04_beta
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get install nano
+RUN apt-get install nano -y
 RUN apt install iputils-ping -y
 RUN apt-get install python3 -y
 RUN apt-get install git -y
