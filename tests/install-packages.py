@@ -4,6 +4,7 @@ import argostranslate.package, argostranslate.translate, argparse
 
 # Download and install Argos Translate package
 def install_languages(from_code, to_code):
+    argostranslate.package.update_package_index()
     available_packages = argostranslate.package.get_available_packages()
     available_package = list(
     filter(
@@ -34,7 +35,6 @@ def main():
 
     args = parser.parse_args()
     install_languages(args.start, args.to)
-    argostranslate.package.update_package_index()
     translate_test(args.start, args.to, args.test_text)
 
 if __name__ == "__main__":
