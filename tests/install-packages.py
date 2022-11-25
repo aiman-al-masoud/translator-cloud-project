@@ -32,7 +32,9 @@ def main():
 
     args = parser.parse_args()
 
+    argostranslate.package.update_package_index()
     install_languages(args.start, args.to)
+    argostranslate.package.update_package_index()
     translate_test(args.start, args.to, args.test_text)
 
 if __name__ == "__main__":
