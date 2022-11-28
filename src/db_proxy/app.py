@@ -1,18 +1,13 @@
 import json
 import os
-from flask import Flask, request, render_template, abort
-import argostranslate.package
-import argostranslate.translate
-import argostranslate
+from flask import Flask, request
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)  # init app
 
 # database connection credentials
-DB_CONFIG = os.path.join(app.root_path, 'config', 'db.json')
-DB_DEFAULT_CONFIG = os.path.join(app.root_path, 'config', 'db-default.json')
-LANGS = os.path.join(app.root_path, 'config', 'langs.json')
-langs = json.loads(open(LANGS).read())
+DB_CONFIG = os.path.join(app.root_path,'..', 'config', 'db.json')
+DB_DEFAULT_CONFIG = os.path.join(app.root_path, '..', 'config', 'db-default.json')
 
 if os.path.exists(DB_CONFIG):
     config = json.loads(open(DB_CONFIG).read())
@@ -40,56 +35,9 @@ def check_json(request):
 
     return 1
 
-@app.route('/')
-def index():
-    return render_template('index.html', langs=langs.items())
-
-# display all records when the page "community" is loaded using the mysql's cursor for scrolling and fetching the records
-@app.route('/community', methods=['GET', 'POST'])
-def display_records():
-    if request.method == 'GET':
-        return render_template('community.html')
-
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-
-@app.route('/translate-api', methods=['GET', 'POST'])
-def translate():
-
-    if (check:=check_json(request)) != 1:
-        return check
-
-    _from = request.json['from']
-    to = request.json['to']
-
-    installed_languages = argostranslate.translate.get_installed_languages()
-    installed_lang_codes = {l.code for l in installed_languages}
-
-    if _from not in installed_lang_codes:
-        # TODO: language not found, try requesting it from bucket
-        return f'language "{_from}" not available :\'-(', 400
-
-    if to not in installed_lang_codes:
-        # TODO: language not found, try requesting it from bucket
-        return f'language "{to}" not available :\'-(', 400
-
-    from_lang = list(filter(lambda x: x.code == _from, installed_languages))[0]
-    to_lang = list(filter(lambda x: x.code == to, installed_languages))[0]
-
-    translation = from_lang.get_translation(to_lang)
-
-    return json.dumps({
-        'to_text': translation.translate(request.json['from_text']),
-        'id': int(request.json['id'])
-    })
-
-
-# query to the mysql db for storing the bad translation
-@app.route('/query-db-api', methods=['POST', 'GET'])
-def send_query():
+@app.route('/insert-bad-translation', methods=['POST', 'GET'])
+def insert_bad_translation():
+    '''query to the mysql db for storing the bad translation'''
 
     if (check:=check_json(request)) != 1:
         return check
@@ -117,13 +65,10 @@ def send_query():
             cursor.close()
             return ""
 
-# query to the mysql db for storing the new possible better translations
-@app.route('/query-db-api2', methods=['POST', 'GET'])
-def send_query2():
+@app.route('/insert-possible-better-translation', methods=['POST', 'GET'])
+def insert_possible_better_translation():
 
-    # if (check:=check_json(request)) != 1:
-    #     return check
-
+    '''query to the mysql db for storing the new possible better translations'''
 
     if request.method == 'POST':
         from_text = request.json['from_text']
@@ -149,9 +94,10 @@ def send_query2():
             cursor.close()
             return ""
 
-# query to the mysql db for read the bad translations
-@app.route('/query-db-api3', methods=['POST', 'GET'])
-def send_query3():
+@app.route('/read-bad-translations', methods=['POST', 'GET'])
+def read_bad_translations():
+
+    '''query to the mysql db to read the bad translations'''
 
     if request.method == 'POST':
         page =  request.json['page']
@@ -167,11 +113,10 @@ def send_query3():
 
     return json.dumps(data)
 
+@app.route('/read-possible-better-translation-by-id', methods=['POST', 'GET'])
+def read_possible_better_translation_by_id():
 
-
-#return all the "possibleBetterTranslation" given the id of the specific text-translation
-@app.route('/query-db-api4', methods=['POST', 'GET'])
-def send_query4():
+    '''return all the "possibleBetterTranslation" given the id of the specific text-translation'''
 
     if request.method == 'POST':
         id_prop =  request.json['id_prop']
@@ -189,10 +134,10 @@ def send_query4():
 
     return json.dumps(data)
 
+@app.route('/vote-possible-better-translation', methods=['POST', 'GET'])
+def vote_possible_better_translation():
 
-
-@app.route('/query-db-api5', methods=['POST', 'GET'])
-def send_query5():
+    '''query to the mysql db to vote a possible better translation'''
 
     if request.method == 'POST':
         second_id = request.json['secondid']
@@ -209,7 +154,5 @@ def send_query5():
             cursor.close()
             return ""
 
-
-
 # added for running the server directly with the run button
-app.run(host='localhost', port=5000)
+app.run(host='localhost', port=8080)
