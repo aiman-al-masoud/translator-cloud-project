@@ -1,6 +1,6 @@
 import json
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 import requests
 
 app = Flask(__name__)  # init app
@@ -8,20 +8,31 @@ app = Flask(__name__)  # init app
 LANGS = os.path.join(app.root_path, '..', 'config', 'langs.json')
 langs = json.loads(open(LANGS).read())
 
-@app.route('/')
-def index():
-    return render_template('index.html', langs=langs.items())
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    new_path = 'http://localhost:8082/' + path
+    return redirect(new_path, code=302)
 
-# display all records when the page "community" is loaded using the mysql's cursor for scrolling and fetching the records
-@app.route('/community', methods=['GET', 'POST'])
-def display_records():
-    if request.method == 'GET':
-        return render_template('community.html')
+# @app.route('/')
+# def index():
+#     res = requests.get('http://localhost:8082/') #TODO: extract IP
+
+#     return res.text
+
+# # display all records when the page "community" is loaded using the mysql's cursor for scrolling and fetching the records
+# @app.route('/community', methods=['GET'])
+# def display_records():
+#     res = requests.get('http://localhost:8082/community') #TODO: extract IP
+
+#     return res.text
 
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+# @app.route('/about')
+# def about():
+#     res = requests.get('http://localhost:8082/about') #TODO: extract IP
+
+#     return res.text
 
 @app.route('/translate-api', methods=['GET', 'POST'])
 def translate():
