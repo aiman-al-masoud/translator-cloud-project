@@ -131,7 +131,9 @@ async function likeToPossibleBetterTranslations(secondid) {
     console.log(error);
   }
   finally {
-    document.getElementById("votes-plus-button-"+secondid).classList.add("pressed");
+    if(operation==1)
+      document.getElementById("votes-plus-button-"+secondid).classList.add("pressed");
+    else document.getElementById("votes-plus-button-"+secondid).classList.remove("pressed")
     // TODO: show the votes, updated, to the user
   }
 }
