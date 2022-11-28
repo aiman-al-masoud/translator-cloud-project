@@ -48,11 +48,7 @@ def index():
 @app.route('/community', methods=['GET', 'POST'])
 def display_records():
     if request.method == 'GET':
-        cursor = mysql.connection.cursor()
-        cursor.execute(
-            ''' SELECT * FROM badTranslations ORDER BY complaints DESC LIMIT 2''')
-        results = cursor.fetchall()
-        return render_template('community.html', data=results)
+        return render_template('community.html')
 
 
 @app.route('/about')
