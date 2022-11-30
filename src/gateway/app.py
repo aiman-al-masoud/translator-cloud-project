@@ -8,11 +8,11 @@ app = Flask(__name__)  # init app
 LANGS = os.path.join(app.root_path, '..', 'config', 'langs.json')
 langs = json.loads(open(LANGS).read())
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def catch_all(path):
-    new_path = 'http://localhost:8082/' + path
-    return redirect(new_path, code=302)
+# @app.route('/', defaults={'path': ''})
+# @app.route('/<path:path>')
+# def catch_all(path):
+#     new_path = 'http://localhost:8082/' + path
+#     return redirect(new_path, code=302)
 
 # @app.route('/')
 # def index():
@@ -33,6 +33,21 @@ def catch_all(path):
 #     res = requests.get('http://localhost:8082/about') #TODO: extract IP
 
 #     return res.text
+
+@app.route('/')
+def index():
+    return render_template('index.html', langs=langs.items())
+
+
+@app.route('/community', methods=['GET'])
+def display_records():
+    return render_template('community.html')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 @app.route('/translate-api', methods=['GET', 'POST'])
 def translate():
