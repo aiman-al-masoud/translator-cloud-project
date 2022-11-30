@@ -8,8 +8,8 @@ Place yourself inside the directory **db**, then execute:
 docker build --tag translator_db .
 ```
 
-## Building the image which will be responsible of the server behaviour
-Place yourself inside the directory **server**, then execute:
+## Building the image which will be responsible of the gateway behaviour
+Place yourself inside the directory **gateway**, then execute:
 ```bash
 docker build --tag translator_gateway .
 ```
@@ -38,7 +38,7 @@ docker exec -it translator_db_container bash
 echo "source init-db.sql" | mysql -u root -p"My:S3cr3t/"
 ```
 
-## Running the translator_server image
+## Running the translator_gateway image
 ### First time
 ```bash
 docker run -d -it --name translator_gateway_container translator_gateway
