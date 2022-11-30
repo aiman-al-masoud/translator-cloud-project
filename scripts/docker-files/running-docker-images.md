@@ -14,13 +14,13 @@ Place yourself inside the directory **gateway**, then execute:
 docker build --tag translator_gateway .
 ```
 
-## Building the image which will be responsible of the database behaviour
+## Building the image which will be responsible of the proxy-database behaviour
 Place yourself inside the directory **db_proxy**, then execute:
 ```bash
 docker build --tag translator_db_proxy .
 ```
 
-## Building the image which will be responsible of the gateway behaviour
+## Building the image which will be responsible of the translation behaviour
 Place yourself inside the directory **translate**, then execute:
 ```bash
 docker build --tag translator_translate .
