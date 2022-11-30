@@ -11,7 +11,7 @@ docker build --tag translator_db .
 ## Building the image which will be responsible of the server behaviour
 Place yourself inside the directory **server**, then execute:
 ```bash
-docker build --tag translator_server .
+docker build --tag translator_server_web .
 ```
 
 *To run the following commands it is not necessary to place yourself in a specific directory*
@@ -31,13 +31,17 @@ docker start translator_db_container
 ### Use the container
 To link the local terminal with the one of the docker container:
 ```bash
-docker exec -it translator_db_container
+docker exec -it translator_db_container bash
+```
+
+``` bash
+echo "source init-db.sql" | mysql -u root -p"My:S3cr3t/"
 ```
 
 ## Running the translator_server image
 ### First time
 ```bash
-docker run -d -it --name translator_server_container translator_server bash
+docker run -d -it --name translator_server_container translator_server_web
 ```
 
 ### Followitng times
