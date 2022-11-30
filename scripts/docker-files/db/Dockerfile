@@ -9,4 +9,3 @@ RUN apt install default-libmysqlclient-dev -y
 RUN git clone -n https://github.com/aiman-al-masoud/translator-cloud-project.git --depth 1
 WORKDIR translator-cloud-project/scripts
 RUN git checkout HEAD init-db.sql
-ENTRYPOINT echo "source init-db.sql" | mysql -u root -p"My:S3cr3t/"
