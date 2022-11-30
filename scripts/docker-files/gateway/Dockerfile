@@ -11,4 +11,4 @@ WORKDIR translator-cloud-project
 RUN git pull
 RUN apt install default-libmysqlclient-dev -y
 RUN pip3.10 install -r requirements.txt
-ENTRYPOINT python3 src/web/app.py
+ENTRYPOINT python3 src/gateway/app.py
