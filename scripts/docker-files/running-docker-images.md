@@ -67,3 +67,9 @@ exit
 docker stop translator_db_container
 docker stop translator_gateway_container
 ```
+
+## IP
+gateway: 172.17.0.2 - 5000
+translate: 172.17.0.3 - 8081
+db_proxy: 172.17.0.4 - 8080
+db: 172.17.0.5
