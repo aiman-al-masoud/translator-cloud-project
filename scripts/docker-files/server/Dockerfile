@@ -7,7 +7,8 @@ RUN apt-get install python3 -y
 RUN apt-get install git -y
 RUN apt install python3-pip -y
 RUN git clone https://github.com/aiman-al-masoud/translator-cloud-project.git
-RUN apt install python3.10-venv -y
+WORKDIR translator-cloud-project
+RUN git pull
 RUN apt install default-libmysqlclient-dev -y
-RUN pip3.10 install -r translator-cloud-project/requirements.txt
-RUN bash
+RUN pip3.10 install -r requirements.txt
+ENTRYPOINT python3 src/web/app.py
