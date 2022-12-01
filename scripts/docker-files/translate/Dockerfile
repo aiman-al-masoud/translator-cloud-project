@@ -10,6 +10,7 @@ RUN git clone https://github.com/aiman-al-masoud/translator-cloud-project.git
 WORKDIR translator-cloud-project
 RUN git pull
 RUN apt install default-libmysqlclient-dev -y
-RUN pip3.10 install -r requirements_translate.txt
+RUN pip3.10 install flask
+RUN pip3.10 install argostranslate
 WORKDIR src/translate
 ENTRYPOINT python3 -m flask run --host=0.0.0.0 --port=8081
