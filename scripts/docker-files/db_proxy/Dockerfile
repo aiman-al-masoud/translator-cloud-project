@@ -11,5 +11,5 @@ WORKDIR translator-cloud-project
 RUN git pull
 RUN apt install default-libmysqlclient-dev -y
 RUN pip3.10 install -r requirements.txt
-WORKDIR src/db_gateway
+WORKDIR src/db_proxy
 ENTRYPOINT python3 -m flask run --host=0.0.0.0 --port=8080
