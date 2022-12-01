@@ -13,32 +13,6 @@ IP_translate= "172.17.0.3"
 IP_db_proxy= "172.17.0.4"
 IP_db = "172.17.0.5"
 
-# @app.route('/', defaults={'path': ''})
-# @app.route('/<path:path>')
-# def catch_all(path):
-#     new_path = 'http://localhost:8082/' + path
-#     return redirect(new_path, code=302)
-
-# @app.route('/')
-# def index():
-#     res = requests.get('http://localhost:8082/') #TODO: extract IP
-
-#     return res.text
-
-# # display all records when the page "community" is loaded using the mysql's cursor for scrolling and fetching the records
-# @app.route('/community', methods=['GET'])
-# def display_records():
-#     res = requests.get('http://localhost:8082/community') #TODO: extract IP
-
-#     return res.text
-
-
-# @app.route('/about')
-# def about():
-#     res = requests.get('http://localhost:8082/about') #TODO: extract IP
-
-#     return res.text
-
 @app.route('/')
 def index():
     return render_template('index.html', langs=langs.items())
@@ -99,7 +73,7 @@ def send_query5():
     res = requests.post(f'http://${IP_db_proxy}:8080//vote-possible-better-translation', json=request.json) #TODO: extract IP
 
     return json.dumps(res.json())
-    
+
 
 # added for running the server directly with the run button
 app.run(host='localhost', port=5000)
