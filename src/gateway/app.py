@@ -8,9 +8,9 @@ app = Flask(__name__)  # init app
 LANGS = os.path.join(app.root_path, '..', 'config', 'langs.json')
 langs = json.loads(open(LANGS).read())
 
-IP_gateway="172.17.0.2"
-IP_translate= "172.17.0.3"
-IP_db_proxy= "172.17.0.4"
+IP_gateway="172.18.0.2"
+IP_translate= "172.18.0.3"
+IP_db_proxy= "172.18.0.4"
 
 # @app.route('/', defaults={'path': ''})
 # @app.route('/<path:path>')
