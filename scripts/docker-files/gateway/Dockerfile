@@ -10,6 +10,7 @@ RUN git clone https://github.com/aiman-al-masoud/translator-cloud-project.git
 WORKDIR translator-cloud-project
 RUN git pull
 RUN apt install default-libmysqlclient-dev -y
+RUN pip3.10 install requests
 RUN pip3.10 install flask
 WORKDIR src/gateway
 ENTRYPOINT python3 -m flask run --host=0.0.0.0 --port=5000
