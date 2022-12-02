@@ -3,6 +3,10 @@ docker build --tag translator_gateway .
 docker build --tag translator_translate .
 docker build --tag translator_db_proxy .
 
+docker stop translator_gateway_container
+docker stop translator_translate_container
+docker stop translator_db_proxy_container
+
 docker rm translator_gateway_container
 docker rm translator_translate_container
 docker rm translator_db_proxy_container
