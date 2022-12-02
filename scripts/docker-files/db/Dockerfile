@@ -6,6 +6,7 @@ RUN apt-get install python3 -y
 RUN apt-get install git -y
 RUN apt install python3-pip -y
 RUN apt install default-libmysqlclient-dev -y
-RUN git clone -n https://github.com/aiman-al-masoud/translator-cloud-project.git --depth 1
+ADD https://api.github.com/repos/aiman-al-masoud/translator-cloud-project/git/refs/heads/second-release version.json
+RUN git clone -b second-release -n https://github.com/aiman-al-masoud/translator-cloud-project.git --depth 1
 WORKDIR translator-cloud-project/scripts
 RUN git checkout HEAD init-db.sql

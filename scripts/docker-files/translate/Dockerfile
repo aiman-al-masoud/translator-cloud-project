@@ -6,7 +6,8 @@ RUN apt install iputils-ping -y
 RUN apt-get install python3 -y
 RUN apt-get install git -y
 RUN apt install python3-pip -y
-RUN git clone https://github.com/aiman-al-masoud/translator-cloud-project.git
+ADD https://api.github.com/repos/aiman-al-masoud/translator-cloud-project/git/refs/heads/second-release version.json
+RUN git clone -b second-release https://github.com/aiman-al-masoud/translator-cloud-project.git
 WORKDIR translator-cloud-project
 RUN git pull
 RUN apt install default-libmysqlclient-dev -y
