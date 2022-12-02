@@ -1,23 +1,11 @@
 # TODO.md
 
-## First Release
-
+## Third Release
 ### To Do
-- 
-
-### In Progress
-- Come mostrare il voto aggiunto all'utente? 
-
-
-
-## Second Release
-### To Do
-- Passare a database non relazionale
 - Studiare l'architettura
-- Spezzattare i componenti in diversi containter
 
 ### In Progress
--  
+- Passare a database non relazionale  
 
 ## Future Updates
 - Usare i cookie-IP per non far commentare troppo gli utenti
