@@ -1,7 +1,7 @@
 #!/bin/bash
-docker build --tag translator_gateway .
-docker build --tag translator_translate .
-docker build --tag translator_db_proxy .
+docker build --tag translator_gateway ./gateway
+docker build --tag translator_translate ./translate
+docker build --tag translator_db_proxy ./db_proxy
 
 docker stop translator_gateway_container
 docker stop translator_translate_container
