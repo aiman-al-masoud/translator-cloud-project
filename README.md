@@ -131,12 +131,12 @@ Inside the virtual environment you just created:
 Move to the *tests* directory and execute
 
 ```sh
-python3 install-packages.py -f en -t it -txt "Hello World"
+python3 install-language-models.py -f en -t it -txt "Hello World"
 # en -> it
 ```
 
 ```sh
-python3 install-packages.py -f it -t en -txt "Ciao Mondo"
+python3 install-language-models.py -f it -t en -txt "Ciao Mondo"
 # it -> en
 ```
 
