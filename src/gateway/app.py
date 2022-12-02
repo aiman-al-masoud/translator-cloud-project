@@ -30,10 +30,8 @@ def about():
 
 @app.route('/translate-api', methods=['GET', 'POST'])
 def translate():
-
-    print('GATEWAY', request.json)
-
     res = requests.post(f'http://{IP_translate}:8081//translate-api', json=request.json) #TODO: extract IP
+    
     return json.dumps(res.json())
 
 
