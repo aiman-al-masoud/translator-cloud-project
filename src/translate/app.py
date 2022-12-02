@@ -28,8 +28,6 @@ def check_json(request):
 @app.route('/translate-api', methods=['GET', 'POST'])
 def translate():
 
-    print('GATEWAY', request.json)
-
     if (check:=check_json(request)) != 1:
         return check
 
