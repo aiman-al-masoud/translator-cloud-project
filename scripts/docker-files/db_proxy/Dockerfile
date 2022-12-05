@@ -13,5 +13,6 @@ RUN git pull
 RUN apt install default-libmysqlclient-dev -y
 RUN pip3.10 install flask
 RUN pip3.10 install flask_mysqldb
+RUN pip3.10 install neo4j
 WORKDIR src/db_proxy
 ENTRYPOINT python3 -m flask run --host=0.0.0.0 --port=8080
