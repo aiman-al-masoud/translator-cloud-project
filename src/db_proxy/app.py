@@ -45,15 +45,33 @@ def insert_bad_translation():
 
         # avoiding to send the response with error 500 (since there is already an equal request saved in the database)
         # users will see "Thank you for your feedback" regardless
+    try:
+        with driver.session() as session:
+            query = """
+                    MERGE (b:BadTranslation { from_text: $from_text, from: $_from, to: $to, to_text: $to_text, id: $id})
+                    """
+            session.execute_write(lambda tx, fT, tT, ftx, ttx, id: tx.run(query, _from=fT, to=tT, from_text=ftx, to_text=ttx,
+                        id=id), fromTag, toTag, from_text, to_text, _id)
 
-    with driver.session() as session:
-        query = """CREATE (:User { ip: $ip })-[:REPORTED]->
-                (:BadTranslation { from: $_from, to: $to, from_text: $from_text, to_text: $to_text, from_text: $from_text, id: $id}) 
-                """
-        session.execute_write(lambda tx, ip, fT, tT, ftx, ttx, id: tx.run(query, ip=ip, _from=fT, to=tT, from_text=ftx, to_text=ttx, 
-                id=id), addr, fromTag, toTag, from_text, to_text, _id)
+            ## TODO: See if moving this at the beginning of the code
+            # query = """CREATE CONSTRAINT constraint_name IF NOT EXISTS FOR (bad:BadTranslation) REQUIRE bad.id IS UNIQUE"""
+            # session.execute_write(lambda tx: tx.run(query))
 
-    driver.close()
+            query = """MERGE (:User {ip: $ip})"""
+            session.execute_write(lambda tx, ip: tx.run(query, ip=ip), addr)
+
+            query = """MATCH (u:User)
+                    MATCH (bad:BadTranslation)
+                    WHERE bad.id = $id AND u.ip=$ip
+                    MERGE (bad)-[:REPORTED_BY]->(u)
+                    RETURN *
+                    """
+            session.execute_write(lambda tx, ip, id: tx.run(query, ip=ip, id=id), addr, _id)
+    except Exception as e:
+         print("insert-bad-translation: error in the execution of the query:", e)
+    finally:
+        driver.close()
+    ## TODO: adding a vote if someone proposes the same bad translation
 
 @app.route('/insert-possible-better-translation', methods=['POST', 'GET'])
 def insert_possible_better_translation():
@@ -72,19 +90,40 @@ def insert_possible_better_translation():
 
         # avoiding to send the response with error 500 (since there is already an equal request saved in the database)
         # users will see "Thank you for your feedback" regardless
-    
-    with driver.session() as session:
-        query = """CREATE (:User { ip: $ip })-[:PROPOSED]->(:BetterTranslation {from_text: $from_text, to_text: $to_text, id: $id});
-                    MATCH (bad:BadTranslation)
+    try:
+        with driver.session() as session:
+            query = """MERGE (:BetterTranslation {from_text: $from_text, to_text: $to_text, id: $id})"""
+            session.execute_write(lambda tx, ftx, ttx, id: tx.run(query, from_text=ftx, to_text=ttx,
+            id=id), from_text, to_text, second_id)
+
+            ## TODO: See if moving this at the beginning of the code
+            # query = """CREATE CONSTRAINT constraint_name IF NOT EXISTS FOR (bad:BadTranslation) REQUIRE bad.id IS UNIQUE"""
+            # session.execute_write(lambda tx: tx.run(query))
+
+            query = """MERGE (:User { ip: $ip })"""
+            session.execute_write(lambda tx, ip: tx.run(query, ip=ip), addr)
+
+            query = """MATCH (u:User)
+                    MATCH (better:BetterTranslation)
+                    WHERE better.id = $id AND u.ip = $ip
+                    MERGE (better)-[:PROPOSED_BY]->(u)
+                    RETURN *
+                    """
+            session.execute_write(lambda tx, ip, id: tx.run(query, ip=ip, id=id), addr, second_id)
+
+            query = """MATCH (bad:BadTranslation)
                     MATCH (better:BetterTranslation)
                     WHERE bad.id = $fid
                     MERGE (bad)-[:IMPROVED_BY]->(better)
                     RETURN *
-                """
-        session.execute_write(lambda tx, ip, ftx, ttx, id, fid: tx.run(query, ip=ip, from_text=ftx, to_text=ttx, 
-            id=id, fid=fid), addr, from_text, to_text, second_id, fid)
+                    """
+            session.execute_write(lambda tx, fid: tx.run(query, fid=fid), fid)
+    except Exception as e:
+        print('/insert-possible-better-translation: error in the execution of the query')
+    finally:
+        driver.close()
     #TODO: counts the number of votes for each better translation
-    driver.close()
+
 
 @app.route('/read-bad-translations', methods=['POST', 'GET'])
 def read_bad_translations():
@@ -93,9 +132,22 @@ def read_bad_translations():
 
     if request.method == 'POST':
         page =  request.json['page']
-    
-    #TODO
-    pass
+
+    try:
+        with driver.session() as session:
+            query = """ MATCH (u:User)-[:REPORTED]->(b:BadTranslation)
+                    WITH b, count(u) as complaints
+                    RETURN { from_tag: b.from , to_tag: b.to , from_text: b.from_text , to_text: b.to_text , id: b.id, complaints: complaints }
+                    ORDER BY complaints DESC
+                    SKIP $page*$offset
+                    LIMIT $offset
+                    """
+            result = session.execute_read(lambda tx, page, offset: list(tx.run(query, page=page, offset=offset)), page, OFFSET)
+    except Exception as e:
+        print('/read-bad-translations: error in the execution of the query')
+    finally:
+        driver.close()
+    return json.dumps(result)
 
 @app.route('/read-possible-better-translation-by-id', methods=['POST', 'GET'])
 def read_possible_better_translation_by_id():
@@ -105,9 +157,20 @@ def read_possible_better_translation_by_id():
     if request.method == 'POST':
         id_prop =  request.json['id_prop']
         page =  request.json['page']
-    
-    #TODO
-    pass
+    try:
+        with driver.session() as session:
+            query = """ MATCH (bad:BadTranslation)-[:IMPROVED_BY]->(good:BetterTranslation)-[:VOTED_BY]->(u:User)
+                        WITH good, COUNT(u) as votes
+                        RETURN { from_text: good.from_text , to_text: good.to_text , id: good.id , votes: votes}
+                        SKIP $page*$offset
+                        LIMIT $offset
+                    """
+            result = session.execute_read(lambda tx, page, offset: list(tx.run(query, page=page, offset=offset)), page, OFFSET)
+    except Exception as e:
+        print('/read-possible-better-translation-by-id: error in the execution of the query')
+    finally:
+        driver.close()
+    return json.dumps(result)
 
 @app.route('/vote-possible-better-translation', methods=['POST', 'GET'])
 def vote_possible_better_translation():
@@ -117,9 +180,25 @@ def vote_possible_better_translation():
     if request.method == 'POST':
         second_id = request.json['secondid']
         operation = request.json["operation"]
-    
-    #TODO
-    pass
+    try:
+        with driver.session() as session:
+            query = """MERGE (:User {ip: $ip})"""
+            session.execute_write(lambda tx, ip: tx.run(query, ip=ip), addr)
+
+            ## TODO: add constrain on the user, the one who proposes the translation should not be the one who votes
+
+            query = """MATCH (u:User)
+                MATCH (better:BetterTranslation)
+                WHERE better.id = $id AND u.ip=$ip
+                MERGE (better)-[:VOTED_BY]->(u)
+                RETURN *
+                """
+            session.execute_write(lambda tx, id, ip: tx.run(query, id=id, ip=ip), second_id, addr)
+    except Exception as e:
+        print('/read-possible-better-translation-by-id: error in the execution of the query')
+    finally:
+        driver.close()
+    return json.dumps(result)
 
 # added for running the server directly with the run button
 app.run(host='localhost', port=8080)

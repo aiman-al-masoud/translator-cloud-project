@@ -12,16 +12,31 @@ driver = GraphDatabase.driver(URI, auth=(user, password))
 
 fromTag = "it"
 toTag = "en"
-from_text = "Hello second World!"
-to_text = "Ciao secondo mondo!"
-_id = "4567"
-addr = "4.5.6.7"
-    
+from_text = "Hello World!"
+to_text = "Ciao mondo!"
+_id = "1234"
+addr = "1.1.1.1"
+
 with driver.session() as session:
-    query = """CREATE (:User { ip: $ip })-[:REPORTED]->
-            (:BadTranslation { from_text: $from_text, from: $_from, to: $to, to_text: $to_text, from_text: $from_text, id: $id}) 
+    query = """
+            MERGE (b:BadTranslation { from_text: $from_text, from: $_from, to: $to, to_text: $to_text, id: $id})
             """
-    session.execute_write(lambda tx, ip, fT, tT, ftx, ttx, id: tx.run(query, ip=ip, _from=fT, to=tT, from_text=ftx, to_text=ttx, 
-            id=id), addr, fromTag, toTag, from_text, to_text, _id)
+    session.execute_write(lambda tx, fT, tT, ftx, ttx, id: tx.run(query, _from=fT, to=tT, from_text=ftx, to_text=ttx,
+                id=id), fromTag, toTag, from_text, to_text, _id)
+
+    ## TODO: See if moving this at the beginning of the code
+    # query = """CREATE CONSTRAINT constraint_name IF NOT EXISTS FOR (bad:BadTranslation) REQUIRE bad.id IS UNIQUE"""
+    # session.execute_write(lambda tx: tx.run(query))
+
+    query = """MERGE (:User {ip: $ip})"""
+    session.execute_write(lambda tx, ip: tx.run(query, ip=ip), addr)
+
+    query = """MATCH (u:User)
+            MATCH (bad:BadTranslation)
+            WHERE bad.id = $id AND u.ip=$ip
+            MERGE (bad)-[:REPORTED_BY]->(u)
+            RETURN *
+            """
+    session.execute_write(lambda tx, ip, id: tx.run(query, ip=ip, id=id), addr, _id)
 
 driver.close()
