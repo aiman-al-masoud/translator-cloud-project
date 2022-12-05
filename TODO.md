@@ -7,6 +7,11 @@
 ### In Progress
 - Passare a database non relazionale
     - fare piccole modifiche ad `app.py` del db_proxy
+    - Aggiungere i return a tutte le api del db_proxy
+    - Cambiare l'ip del db per il deployment su docker
+
+### Done
+- Changed the docker file of db_proxy because of a new requirement: neo4j
 
 ## Future Updates
 - Usare i cookie-IP per non far commentare troppo gli utenti
