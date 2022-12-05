@@ -9,17 +9,26 @@ password = "password"
 # connection with db
 driver = GraphDatabase.driver(URI, auth=(user, password))
 
-page = 0;
-offset = 2;
+page = 0
+OFFSET = 3
 
-with driver.session() as session:
-    query = """ MATCH (u:User)-[:REPORTED]->(b:BadTranslation)
-                WITH b, count(u) as complaints
-                RETURN { from_tag: b.from , to_tag: b.to , from_text: b.from_text , to_text: b.to_text , id: b.id, complaints: complaints }
-                ORDER BY complaints DESC
-                SKIP $page*$offset
-                LIMIT $offset
-            """
-    result = session.execute_read(lambda tx, page, offset: list(tx.run(query, page=page, offset=offset)), page, offset)
-driver.close()
-    print(json.dumps(result))
+def functionTest():
+    try:
+        with driver.session() as session:
+            query = """ MATCH (b:BadTranslation)-[:REPORTED_BY]->(u:User)
+                    WITH b, count(u) as complaints
+                    RETURN { from_tag: b.from , to_tag: b.to , from_text: b.from_text , to_text: b.to_text , id: b.id, complaints: complaints }
+                    ORDER BY complaints DESC
+                    SKIP $page*$offset
+                    LIMIT $offset
+                    """
+            result = session.execute_read(lambda tx, page, offset: list(tx.run(query, page=page, offset=offset)), page, OFFSET)
+    except Exception as e:
+        print('/read-bad-translations: error in the execution of the query')
+    finally:
+        driver.close()
+
+    return json.dumps(result)
+
+
+print(functionTest())
