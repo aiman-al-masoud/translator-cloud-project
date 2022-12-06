@@ -7,7 +7,7 @@ from neo4j.exceptions import ConstraintError
 app = Flask(__name__)  # init app
 
 # database connection credentials
-URI = "neo4j://localhost:7687"
+URI = "neo4j://172.17.0.5:7687"
 user = "neo4j"
 password = "password"
 
@@ -73,6 +73,7 @@ def insert_bad_translation():
          print("insert-bad-translation: error in the execution of the query:", e)
     finally:
         driver.close()
+        return ""
 
 @app.route('/insert-possible-better-translation', methods=['POST', 'GET'])
 def insert_possible_better_translation():
@@ -124,6 +125,7 @@ def insert_possible_better_translation():
         print('/insert-possible-better-translation: error in the execution of the query')
     finally:
         driver.close()
+        return ""
     #TODO: counts the number of votes for each better translation
 
 
@@ -201,11 +203,12 @@ def vote_possible_better_translation():
                     """
             # a vote to a BetterTranslation is mapped with a PROPOSED_BY relation (link)
             session.execute_write(lambda tx, id, ip: tx.run(query, id=id, ip=ip), second_id, addr)
-    
+
     except Exception as e:
         print('/read-possible-better-translation-by-id: error in the execution of the query')
     finally:
         driver.close()
+        return ""
 
 # added for running the server directly with the run button
 app.run(host='localhost', port=8080)
