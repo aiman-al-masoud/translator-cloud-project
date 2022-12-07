@@ -73,7 +73,7 @@ def insert_bad_translation():
          print("insert-bad-translation: error in the execution of the query:", e)
     finally:
         driver.close()
-        return ""
+        return "{}"
 
 @app.route('/insert-possible-better-translation', methods=['POST', 'GET'])
 def insert_possible_better_translation():
@@ -125,7 +125,7 @@ def insert_possible_better_translation():
         print('/insert-possible-better-translation: error in the execution of the query')
     finally:
         driver.close()
-        return ""
+        return "{}"
     #TODO: counts the number of votes for each better translation
 
 
@@ -146,13 +146,17 @@ def read_bad_translations():
                     SKIP $page*$offset
                     LIMIT $offset
                     """
-                result = session.execute_read(lambda tx, page, offset: list(tx.run(query, page=page, offset=offset)), page, OFFSET)
+                result = session.execute_read(lambda tx, page, offset: tx.run(query, page=page, offset=offset).data(), page, OFFSET)
         except Exception as e:
             print('/read-bad-translations: error in the execution of the query')
         finally:
             driver.close()
-
-    return json.dumps(result)
+    matched_bad_translations = list()
+    for record in result:
+        b = record["b"]
+        b.update({'complaints': record['complaints']})
+        matched_bad_translations.append(b)
+    return json.dumps(matched_bad_translations)
 
 @app.route('/read-possible-better-translation-by-id', methods=['POST', 'GET'])
 def read_possible_better_translation_by_id():
@@ -193,7 +197,7 @@ def vote_possible_better_translation():
             query = """MERGE (:User {ip: $ip})"""
             session.execute_write(lambda tx, ip: tx.run(query, ip=ip), addr)
 
-            ## TODO: add constrain on the user, the one who proposes the translation should not be the one who votes
+            ## TODO: add ain on the user, the one who proposes the translation should not be the one who votes
 
             query = """MATCH (u:User)
                     MATCH (better:BetterTranslation)
