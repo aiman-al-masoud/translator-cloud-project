@@ -17,18 +17,22 @@ def functionTest():
         with driver.session() as session:
             query = """ MATCH (b:BadTranslation)-[:REPORTED_BY]->(u:User)
                     WITH b, count(u) as complaints
-                    RETURN { from_tag: b.from , to_tag: b.to , from_text: b.from_text , to_text: b.to_text , id: b.id, complaints: complaints }
+                    RETURN *
                     ORDER BY complaints DESC
                     SKIP $page*$offset
                     LIMIT $offset
                     """
-            result = session.execute_read(lambda tx, page, offset: list(tx.run(query, page=page, offset=offset)), page, OFFSET)
+            result = session.execute_read(lambda tx, page, offset: (tx.run(query, page=page, offset=offset)).data(), page, OFFSET)
     except Exception as e:
         print('/read-bad-translations: error in the execution of the query')
     finally:
         driver.close()
 
-    return json.dumps(result)
-
+    matched_bad_translations = list()
+    for record in result:
+        b = record["b"]
+        b.update({'complaints': record['complaints']})
+        tot.append(b)
+    return json.dumps(matched_bad_translations)
 
 print(functionTest())
