@@ -32,7 +32,7 @@ def functionTest():
     for record in result:
         b = record["b"]
         b.update({'complaints': record['complaints']})
-        tot.append(b)
+        matched_bad_translations.append(b)
     return json.dumps(matched_bad_translations)
 
 print(functionTest())
