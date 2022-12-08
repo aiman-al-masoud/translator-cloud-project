@@ -141,7 +141,7 @@ def read_bad_translations():
             with driver.session() as session:
                 query = """ MATCH (b:BadTranslation)-[:REPORTED_BY]->(u:User)
                     WITH b, count(u) as complaints
-                    RETURN { from_tag: b.from , to_tag: b.to , from_text: b.from_text , to_text: b.to_text , id: b.id, complaints: complaints }
+                    RETURN *
                     ORDER BY complaints DESC
                     SKIP $page*$offset
                     LIMIT $offset
@@ -151,6 +151,7 @@ def read_bad_translations():
             print('/read-bad-translations: error in the execution of the query')
         finally:
             driver.close()
+
     matched_bad_translations = list()
     for record in result:
         b = record["b"]
@@ -164,24 +165,30 @@ def read_possible_better_translation_by_id():
     '''return all the "possibleBetterTranslation" given the id of the specific text-translation'''
 
     if request.method == 'POST':
-        id_prop =  request.json['id_prop']
+        id_prop =  (int)(request.json['id_prop'])
         page =  request.json['page']
     try:
         with driver.session() as session:
             query = """ MATCH (bad:BadTranslation)-[:IMPROVED_BY]->(good:BetterTranslation)-[:PROPOSED_BY]->(u:User)
                         WHERE bad.id = $id_prop
                         WITH good, COUNT(u) as votes
-                        RETURN { from_text: good.from_text , to_text: good.to_text , id: good.id , votes: votes}
+                        RETURN *
                         ORDER BY votes DESC
                         SKIP $page*$offset
                         LIMIT $offset
                     """
-            result = session.execute_read(lambda tx, page, offset, id_prop: list(tx.run(query, page=page, offset=offset, id_prop=id_prop)), page, OFFSET, id_prop)
+            result = session.execute_read(lambda tx, page, offset, id_prop: tx.run(query, page=page, offset=offset, id_prop=id_prop).data(), page, OFFSET, id_prop)
     except Exception as e:
         print('/read-possible-better-translation-by-id: error in the execution of the query')
     finally:
         driver.close()
-    return json.dumps(result)
+
+    matched_possible_better_translations = list()
+    for record in result:
+        pb = record["good"]
+        pb.update({'votes': record['votes']})
+        matched_possible_better_translations.append(pb)
+    return json.dumps(matched_possible_better_translations)
 
 @app.route('/vote-possible-better-translation', methods=['POST', 'GET'])
 def vote_possible_better_translation():
@@ -189,7 +196,7 @@ def vote_possible_better_translation():
     '''query to the mysql db to vote a possible better translation'''
 
     if request.method == 'POST':
-        second_id = request.json['secondid']
+        second_id = (int)(request.json['secondid'])
         operation = request.json["operation"] ## TODO: remove it??
         addr = request.remote_addr
     try:
@@ -212,7 +219,7 @@ def vote_possible_better_translation():
         print('/read-possible-better-translation-by-id: error in the execution of the query')
     finally:
         driver.close()
-        return ""
+        return "{}"
 
 # added for running the server directly with the run button
 app.run(host='localhost', port=8080)

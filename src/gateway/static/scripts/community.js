@@ -29,26 +29,26 @@ function update(){
   let bigList = document.getElementsByClassName("big-list")[0]
   state.badTranslations.forEach(e => {
     let html = `
-    <details id="${e[4]}" class="item">
-      <summary onclick="loadPossibleTranslations('frontend', '${e[4]}')">
-      <span class="complaints"><img src="static/res/emotion-sad-line-white.png" class="complaints-image">&nbsp&nbsp${e[5]}</span>
-      <div> <strong>${e[0]}:</strong>
-        <span id="fromText" class="fromText" name="fromText">${e[2]}</span><br>
-        <strong>${e[1]}:</strong> ${e[3]}
+    <details id="${e['id']}" class="item">
+      <summary onclick="loadPossibleTranslations('frontend', '${e['id']}')">
+      <span class="complaints"><img src="static/res/emotion-sad-line-white.png" class="complaints-image">&nbsp&nbsp${e['complaints']}</span>
+      <div> <strong>${e['from']}:</strong>
+        <span id="fromText" class="fromText" name="fromText">${e['from_text']}</span><br>
+        <strong>${e['to']}:</strong> ${e['to_text']}
       </div>
       </summary>
       <div>
         <div class="possible-translations-area">
           <textarea id="to_text_possible" class="to_text_possible" name="to_text_possible"></textarea>
-          <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('${e[4]}')">
+          <button id="possible-translations-button" class="button" onclick="sendQueryToDB2('${e['id']}')">
           <img src="static/res/send-plane-2-fill.png" class="button-image">
           <img src="static/res/send-plane-2-fill-hover.png" class="button-hover-image">
           </button>
         </div>
       </div>
-      <div id="inner-${e[4]}">
+      <div id="inner-${e['id']}">
       </div>
-      <button id="get-new-proposals" class="button get-new-proposals" onclick="showMoreBetterTranslations('${e[4]}')">
+      <button id="get-new-proposals" class="button get-new-proposals" onclick="showMoreBetterTranslations('${e['id']}')">
         <img src="static/res/arrow-down-fill.png" class="button-image">
         <img src="static/res/arrow-down-fill-hover.png" class="button-hover-image">
       </button>
@@ -89,11 +89,11 @@ async function asyncCallForBetterTranslations(request) {
   state.possibleTranslations[state.openDetails] = result
 
   state.possibleTranslations[state.openDetails].forEach(e => {
-    let html = `<div class="possible-translation-el"> 
-    <span class="left">${e[1]}</span> 
-      <span class="right-votes"> VOTES : ${e[4]}  
-        <button id="votes-plus-button-${e[2]}" class="button votes-plus-button" onclick="likeToPossibleBetterTranslations('${e[2]}')">+</button>
-      </span> 
+    let html = `<div class="possible-translation-el">
+    <span class="left">${e['to_text']}</span>
+      <span class="right-votes"> VOTES : ${e['votes']}
+        <button id="votes-plus-button-${e['id']}" class="button votes-plus-button" onclick="likeToPossibleBetterTranslations('${e['id']}')">+</button>
+      </span>
     </div>`
     innerEl.appendChild(createElementFromHTML('div', html))
   })
@@ -106,7 +106,7 @@ async function asyncCallForBetterTranslations(request) {
 
 /**
  * Update votes for a given better translation proposal
- * @param {integer} secondid of the better translation proposal 
+ * @param {integer} secondid of the better translation proposal
  */
 async function likeToPossibleBetterTranslations(secondid) {
   let request = {};
@@ -120,7 +120,7 @@ async function likeToPossibleBetterTranslations(secondid) {
   }
 
   request.operation = operation;
-  
+
   try {
     let res = await fetch(URL5, {
       method: "POST",
