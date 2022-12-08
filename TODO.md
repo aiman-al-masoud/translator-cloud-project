@@ -1,22 +1,24 @@
 # TODO.md
 
-## Third Release
+## Fourth Release
 ### To Do
 - Studiare l'architettura
+- Implementare le **web socket** ed un micro-servizio dedicato ai voti/possibleBetterTranslations
 
-### In Progress
-- Passare a database non relazionale
-    - fare piccole modifiche ad `app.py` del db_proxy
-    - Cambiare l'ip del db per il deployment su docker
-
-### Done
-- Changed the docker file of db_proxy because of a new requirement: neo4j
-- Added return statements to all APIs of db_proxy
 
 ## Future Updates
 - Usare i cookie-IP per non far commentare troppo gli utenti
 - Provare a trainare modello italiano/inglese o inglese/italiano (documentazione https://github.com/argosopentech/argos-train) (+docker)
 
-## More Future Updates (maybe we will never ...)
-- Polling del client al server **costante** per nuove modifiche
-- In un db non relazionale si può creare una sorta di struttura a priori? (constrains a priori?)
+## More Future Updates ()
+- **API gateway** o **ALB** per fare instradamento del traffico, sulla base del path (coppia delle lingue), al container dedicato
+- Training parallelizzabile? Nel in senso di usare più GPU
+- Disaster Recovery: Infrastructure as a Code
+    - non solo cross-region
+    - anche cross-account
+    - tenere un backup dello stato (modelli)
+    - Terraform -> mantiene la descrizione delle struttura
+- CI/CD: automatizzare il deploy del codice sul server
+    - testare il codice in automatico (anche con SonarCube)
+- AB testing
+- Groung truth: verificare la bontà del nuovo modello

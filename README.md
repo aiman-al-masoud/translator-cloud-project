@@ -310,12 +310,13 @@ PRIMARY KEY (ID)
 ```
 </details>
 
-## Testing
-### Launch the server
-Move to the *src* directory and execute
-```
-$ python3 -m flask run
-```
-and navigate to its root directory.
+<details>
+<summary><strong>Neo4j set-up</strong></summary>
+To run the db use the following command:
 
-Open the browser on `http://127.0.0.1:5000`
+```sh
+docker run --publish=7474:7474 --publish=7687:7687 --volume=$HOME/neo4j/data:/data neo4j
+```
+
+For other details see the dedicated documentation file (./scripts/docker-files/db)
+</details>
