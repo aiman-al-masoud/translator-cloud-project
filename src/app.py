@@ -5,8 +5,10 @@ import argostranslate.package
 import argostranslate.translate
 import argostranslate
 from flask_mysqldb import MySQL
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)  # init app
+socketio = SocketIO(app)
 
 # database connection credentials
 DB_CONFIG = os.path.join(app.root_path, 'config', 'db.json')
@@ -50,6 +52,10 @@ def display_records():
     if request.method == 'GET':
         return render_template('community.html')
 
+@socketio.on('client-send')
+def my_event2(message):
+    print("Event:", message)
+    emit('server-response2', {'data': 'got it!'}, broadcast=True)
 
 @app.route('/about')
 def about():
@@ -203,13 +209,19 @@ def send_query5():
             cursor.execute(''' UPDATE possibleBetterTranslations SET votes=votes+(%s) WHERE secondid = (%s)''',
                            (operation,second_id,))  # do not remove "," which is needed to create a tuple
             mysql.connection.commit()
+
+            cursor.execute(''' SELECT secondid, fid, votes FROM possibleBetterTranslations WHERE secondid = (%s)''', (second_id,))
+            data = cursor.fetchall()
         except Exception as e:
             print("ERROR: Query votes exception:", e)
         finally:
             cursor.close()
+            socketio.emit('votes-update', {"secondid": data[0][0], "fid": data[0][1], "votes": data[0][2]}, broadcast=True)
             return ""
 
 
 
 # added for running the server directly with the run button
 app.run(host='localhost', port=5000)
+socketio.run(app)
+

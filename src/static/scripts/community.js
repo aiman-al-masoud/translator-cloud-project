@@ -1,9 +1,11 @@
 import hashGenerator from "./utils/hash_generator.js";
+import { io } from "./utils/socket.io.esm.min.js";
 import './utils/common.js';
 const URL2 = "/query-db-api2";
 const URL3 = "/query-db-api3";
 const URL4 = "/query-db-api4";
 const URL5 = "/query-db-api5";
+const socket = io("ws://localhost:5000");
 
 const state = {
   badTranslations : [],
@@ -91,7 +93,8 @@ async function asyncCallForBetterTranslations(request) {
   state.possibleTranslations[state.openDetails].forEach(e => {
     let html = `<div class="possible-translation-el"> 
     <span class="left">${e[1]}</span> 
-      <span class="right-votes"> VOTES : ${e[4]}  
+      <span class="right-votes"> 
+        <span id="votes-field-${e[2]}">VOTES : ${e[4]}</span> 
         <button id="votes-plus-button-${e[2]}" class="button votes-plus-button" onclick="likeToPossibleBetterTranslations('${e[2]}')">+</button>
       </span> 
     </div>`
@@ -231,3 +234,10 @@ window.sendQueryToDB2 = sendQueryToDB2; //do not remove
 window.loadPossibleTranslations = loadPossibleTranslations; //do not remove
 window.showMoreBetterTranslations = showMoreBetterTranslations; //do not remove
 window.likeToPossibleBetterTranslations = likeToPossibleBetterTranslations ; //do not remove
+
+socket.on('votes-update', function(data){
+  if(data["fid"] == state.openDetails){
+    document.getElementById("votes-field-"+data["secondid"]).innerHTML = `VOTES : ${data["votes"]}`
+  }
+  update();
+});
