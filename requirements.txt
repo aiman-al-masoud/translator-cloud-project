@@ -1,3 +1,4 @@
 flask
 argostranslate
 flask_mysqldb
+flask-socketio
