@@ -4,6 +4,7 @@
 ### To Do
 - Implementare le **web socket** ed un micro-servizio dedicato ai voti/possibleBetterTranslations? Oppure fare refrash della pagina ogni N secondi?
 - Usare i cookie-IP-[fingerprint](https://github.com/fingerprintjs/fingerprintjs) per non far commentare troppo gli utenti
+    - mettere la fingerprint nel json
 
 
 ## Future Updates
