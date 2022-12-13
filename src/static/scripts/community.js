@@ -67,6 +67,9 @@ function checkOpenDetails(id) {
     return false
   } else if(state.openDetails != id) {
     document.getElementById(state.openDetails).removeAttribute("open");
+    
+    state.possibleTranslations[state.openDetails] = []
+    update();
     state.openDetails = id;
     state.pagePossible = 0;
     return false
@@ -239,5 +242,4 @@ socket.on('votes-update', function(data){
   if(data["fid"] == state.openDetails){
     document.getElementById("votes-field-"+data["secondid"]).innerHTML = `VOTES : ${data["votes"]}`
   }
-  update();
 });
