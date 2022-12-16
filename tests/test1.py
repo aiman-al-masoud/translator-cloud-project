@@ -9,11 +9,11 @@ password = "password"
 # connection with db
 driver = GraphDatabase.driver(URI, auth=(user, password))
 
-from_text = "Hello World 555!"
-to_text = "Ciao mondo molto bello!"
-fid = "3333"
-second_id = "33514"
-addr = "11.33.11.14"
+from_text = "Hello World 999!"
+to_text = "Ciao mondo molto molto bello!"
+fid = "999"
+second_id = "9993"
+addr = "11.33.11.15"
 
 try:
     with driver.session() as session:

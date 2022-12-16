@@ -1,4 +1,5 @@
 from neo4j import GraphDatabase
+import json
 
 # database connection credentials
 URI = "neo4j://localhost:7687"
@@ -8,22 +9,19 @@ password = "password"
 # connection with db
 driver = GraphDatabase.driver(URI, auth=(user, password))
 
-second_id = "55513"
+second_id = "9993"
 addr = "123.123.33.321"
 
 with driver.session() as session:
-    query = """MERGE (:User {ip: $ip})"""
-    session.execute_write(lambda tx, ip: tx.run(query, ip=ip), addr)
-
-    ## TODO: add constrain on the user, the one who proposes the translation should not be the one who votes
-
-    query = """MATCH (u:User)
-            MATCH (better:BetterTranslation)
-            WHERE better.id = $id AND u.ip=$ip
-            MERGE (better)-[:PROPOSED_BY]->(u)
-            RETURN *
+    query = """ MATCH (bad:BadTranslation)-[:IMPROVED_BY]->(good:BetterTranslation)-[:PROPOSED_BY]->(u:User)
+                WHERE good.id = $second_id 
+                WITH good, COUNT(u) as votes, bad
+                RETURN votes, bad.id, good.id
             """
-    # a vote to a BetterTranslation is mapped with a PROPOSED_BY relation (link)
-    session.execute_write(lambda tx, id, ip: tx.run(query, id=id, ip=ip), second_id, addr)
+    record = session.execute_write(lambda tx, id: tx.run(query, second_id=id).data(), second_id)
+
+    # socketio.emit('votes-update', {"secondid": record['good.second_id'], "fid": record['bad.id'], "votes": record['votes']}, brodcast=True)
+    file = json.dumps({"secondid": record[0]["good.id"], "fid": record[0]["bad.id"], "votes": record[0]["votes"]})
+    print(file)
 
 driver.close()

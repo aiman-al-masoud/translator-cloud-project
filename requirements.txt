@@ -2,3 +2,4 @@ flask
 flask_mysqldb
 argostranslate
 neo4j
+python-socketio

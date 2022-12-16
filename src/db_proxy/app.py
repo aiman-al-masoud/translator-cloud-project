@@ -3,8 +3,10 @@ import os
 from flask import Flask, request
 from neo4j import GraphDatabase
 from neo4j.exceptions import ConstraintError
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)  # init app
+socketio = SocketIO(app)
 
 # database connection credentials
 URI = "neo4j://172.17.0.5:7687"
@@ -204,7 +206,7 @@ def vote_possible_better_translation():
             query = """MERGE (:User {ip: $ip})"""
             session.execute_write(lambda tx, ip: tx.run(query, ip=ip), addr)
 
-            ## TODO: add ain on the user, the one who proposes the translation should not be the one who votes
+            ## TODO: add constrain on the user, the one who proposes the translation should not be the one who votes
 
             query = """MATCH (u:User)
                     MATCH (better:BetterTranslation)
@@ -215,6 +217,16 @@ def vote_possible_better_translation():
             # a vote to a BetterTranslation is mapped with a PROPOSED_BY relation (link)
             session.execute_write(lambda tx, id, ip: tx.run(query, id=id, ip=ip), second_id, addr)
 
+            query = """ MATCH (bad:BadTranslation)-[:IMPROVED_BY]->(good:BetterTranslation)-[:PROPOSED_BY]->(u:User)
+                        WHERE good.id = $second_id 
+                        WITH good, COUNT(u) as votes, bad
+                        RETURN votes, bad.id, good.id
+                    """
+            record = session.execute_write(lambda tx, id, ip: tx.run(query, second_id=id), second_id)
+
+            # socketio.emit('votes-update', {"secondid": record['good.second_id'], "fid": record['bad.id'], "votes": record['votes']}, brodcast=True)
+            socketio.emit('votes-update', json.dumps({"secondid": record[0]["good.id"], "fid": record[0]["bad.id"], "votes": record[0]["votes"]}), brodcast=True)
+            
     except Exception as e:
         print('/read-possible-better-translation-by-id: error in the execution of the query')
     finally:
@@ -223,3 +235,4 @@ def vote_possible_better_translation():
 
 # added for running the server directly with the run button
 app.run(host='localhost', port=8080)
+socketio.run(app)
