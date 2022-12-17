@@ -3,3 +3,4 @@ flask_mysqldb
 argostranslate
 neo4j
 python-socketio
+progress
