@@ -228,7 +228,7 @@ def vote_possible_better_translation():
             socketio.emit('votes-update', json.dumps({"secondid": record[0]["good.id"], "fid": record[0]["bad.id"], "votes": record[0]["votes"]}), brodcast=True)
             
     except Exception as e:
-        print('/read-possible-better-translation-by-id: error in the execution of the query')
+        print('/votes-possible-better-translation-by-id: error in the execution of the query')
     finally:
         driver.close()
         return "{}"

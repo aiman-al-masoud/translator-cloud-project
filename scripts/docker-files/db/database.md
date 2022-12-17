@@ -25,3 +25,8 @@ cypher-shell
 ```
 http://localhost:7474/ 
 ```
+
+## Empty database
+```
+MATCH (n) DETACH DELETE n
+```

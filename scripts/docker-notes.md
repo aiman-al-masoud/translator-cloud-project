@@ -98,3 +98,8 @@ python3 -m flask run --host=0.0.0.0 --port=80
 ```bash
 docker build -t nome-immagine .
 ```
+
+# Empty the cache
+```bash
+docker system prune -a
+```
