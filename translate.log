@@ -1,4 +1,0 @@
-INFO:werkzeug: * Running on http://localhost:8081/ (Press CTRL+C to quit)
-INFO:werkzeug:127.0.0.1 - - [19/Dec/2022 17:25:54] "POST //translate-api HTTP/1.1" 200 -
-roduction WSGI server instead.
- * Debug mode: off
