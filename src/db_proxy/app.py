@@ -1,20 +1,16 @@
 import json
-import os
 from flask import Flask, request
 from neo4j import GraphDatabase
 from neo4j.exceptions import ConstraintError
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
+from ..config.config import getConfig
 
 app = Flask(__name__)  # init app
-socketio = SocketIO(app)
-
-# database connection credentials
-URI = "neo4j://172.17.0.5:7687"
-user = "neo4j"
-password = "password"
+socketio = SocketIO(app,  cors_allowed_origins='*')
+config = getConfig(app.root_path)
 
 # connection with db
-driver = GraphDatabase.driver(URI, auth=(user, password))
+driver = GraphDatabase.driver(f'neo4j://{config.IP_db}:{config.neo4j_port}', auth=(config.neo4j_user, config.neo4j_password))
 
 OFFSET = 2
 
@@ -198,9 +194,10 @@ def vote_possible_better_translation():
     '''query to the mysql db to vote a possible better translation'''
 
     if request.method == 'POST':
-        second_id = (int)(request.json['secondid'])
-        operation = request.json["operation"] ## TODO: remove it??
+        second_id = int(request.json['secondid'])
+        # operation = request.json["operation"] ## TODO: remove it??
         addr = request.remote_addr
+
     try:
         with driver.session() as session:
             query = """MERGE (:User {ip: $ip})"""
@@ -210,29 +207,29 @@ def vote_possible_better_translation():
 
             query = """MATCH (u:User)
                     MATCH (better:BetterTranslation)
-                    WHERE better.id = $id AND u.ip=$ip
+                    WHERE better.id = $id AND u.ip = $ip
                     MERGE (better)-[:PROPOSED_BY]->(u)
                     RETURN *
                     """
             # a vote to a BetterTranslation is mapped with a PROPOSED_BY relation (link)
             session.execute_write(lambda tx, id, ip: tx.run(query, id=id, ip=ip), second_id, addr)
+           
 
             query = """ MATCH (bad:BadTranslation)-[:IMPROVED_BY]->(good:BetterTranslation)-[:PROPOSED_BY]->(u:User)
                         WHERE good.id = $second_id 
                         WITH good, COUNT(u) as votes, bad
                         RETURN votes, bad.id, good.id
                     """
-            record = session.execute_write(lambda tx, id, ip: tx.run(query, second_id=id), second_id)
 
-            # socketio.emit('votes-update', {"secondid": record['good.second_id'], "fid": record['bad.id'], "votes": record['votes']}, brodcast=True)
+            record = session.execute_read(lambda tx, id: tx.run(query, second_id=id).data(), second_id)
             socketio.emit('votes-update', json.dumps({"secondid": record[0]["good.id"], "fid": record[0]["bad.id"], "votes": record[0]["votes"]}), brodcast=True)
             
     except Exception as e:
-        print('/votes-possible-better-translation-by-id: error in the execution of the query')
+        print('/vote_possible_better_translation: error in the execution of the query')
+        print(e)
     finally:
         driver.close()
         return "{}"
 
 # added for running the server directly with the run button
-app.run(host='localhost', port=8080)
-socketio.run(app)
+socketio.run(app, port=config.db_proxy_port)

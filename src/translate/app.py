@@ -4,12 +4,14 @@ from flask import Flask, request, render_template
 import argostranslate.package
 import argostranslate.translate
 import argostranslate
+from ..config.config import getConfig
 
 app = Flask(__name__)  # init app
 
 LANGS = os.path.join(app.root_path, '..', 'config', 'langs.json')
 langs = json.loads(open(LANGS).read())
 
+config = getConfig(app.root_path)
 
 def check_json(request):
     if request.json is None:
@@ -56,4 +58,4 @@ def translate():
     })
 
 # added for running the server directly with the run button
-app.run(host='localhost', port=8081)
+app.run(host='localhost', port=config.translate_port)

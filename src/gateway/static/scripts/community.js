@@ -1,6 +1,6 @@
 import hashGenerator from "./utils/hash_generator.js";
 import './utils/common.js';
-import {io} from "./utils/socket.io.esm.min.js"
+import { io } from "./utils/socket.io.esm.min.js"
 
 const URL2 = "/query-db-api2";
 const URL3 = "/query-db-api3";
@@ -8,27 +8,29 @@ const URL4 = "/query-db-api4";
 const URL5 = "/query-db-api5";
 
 const socket = io("ws://172.17.0.4:8080")
+// const socket = io("ws://127.0.0.1:8080")
+
 
 const state = {
-  badTranslations : [],
-  possibleTranslations : {},
+  badTranslations: [],
+  possibleTranslations: {},
   openDetails: "", //id of the details which are being displayed
   page: 0,
   pagePossible: 0
 }
 
-function clearAll(){
+function clearAll() {
   let bigList = document.getElementsByClassName("big-list")[0]
   bigList.innerHTML = "";
 }
 
-function createElementFromHTML(tag, html){
+function createElementFromHTML(tag, html) {
   let element = document.createElement(tag)
   element.innerHTML = html
   return element
 }
 
-function update(){
+function update() {
   clearAll();
   let bigList = document.getElementsByClassName("big-list")[0]
   state.badTranslations.forEach(e => {
@@ -63,11 +65,11 @@ function update(){
 }
 
 function checkOpenDetails(id) {
-  if(!state.openDetails) {
+  if (!state.openDetails) {
     state.openDetails = id;
     state.pagePossible = 0;
     return false
-  } else if(state.openDetails != id) {
+  } else if (state.openDetails != id) {
     document.getElementById(state.openDetails).removeAttribute("open");
     state.possibleTranslations[state.openDetails] = []
     update();
@@ -98,14 +100,14 @@ async function asyncCallForBetterTranslations(request) {
     let html = `<div class="possible-translation-el">
     <span class="left">${e['to_text']}</span>
       <span class="right-votes">
-        <span id="votes-field-${e[2]}">VOTES : ${e[4]}</span>
+        <span id="votes-field-${e.id}">VOTES : ${e.votes}</span>
         <button id="votes-plus-button-${e['id']}" class="button votes-plus-button" onclick="likeToPossibleBetterTranslations('${e['id']}')">+</button>
       </span>
     </div>`
     innerEl.appendChild(createElementFromHTML('div', html))
   })
 
-  if(Object.keys(result).length==0){
+  if (Object.keys(result).length == 0) {
     document.getElementById(state.openDetails).getElementsByClassName("get-new-proposals")[0].style.display = "none";
     return ""
   }
@@ -120,7 +122,7 @@ async function likeToPossibleBetterTranslations(secondid) {
   request.secondid = secondid;
   let operation;
 
-  if(document.getElementById("votes-plus-button-"+secondid).classList.contains("pressed")){
+  if (document.getElementById("votes-plus-button-" + secondid).classList.contains("pressed")) {
     operation = -1;
   } else {
     operation = 1;
@@ -138,9 +140,9 @@ async function likeToPossibleBetterTranslations(secondid) {
     console.log(error);
   }
   finally {
-    if(operation==1)
-      document.getElementById("votes-plus-button-"+secondid).classList.add("pressed");
-    else document.getElementById("votes-plus-button-"+secondid).classList.remove("pressed")
+    if (operation == 1)
+      document.getElementById("votes-plus-button-" + secondid).classList.add("pressed");
+    else document.getElementById("votes-plus-button-" + secondid).classList.remove("pressed")
     // TODO: show the votes, updated, to the user
   }
 }
@@ -151,10 +153,10 @@ async function likeToPossibleBetterTranslations(secondid) {
  * @param {int} id of the bad translation section
  * @returns
  */
-function loadPossibleTranslations(source, id){
+function loadPossibleTranslations(source, id) {
   let detailsSection = document.getElementById(id)
 
-  if(checkOpenDetails(id) && source=="frontend")  return
+  if (checkOpenDetails(id) && source == "frontend") return
 
   let request = {};
   request.id_prop = id;
@@ -177,7 +179,7 @@ function showMoreBetterTranslations(id) {
  * @param {int} idTextarea of the bad translations
  */
 async function sendQueryToDB2(idTextarea) {
-  if(!document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value.trim()) {
+  if (!document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value.trim()) {
     alert("Empty better translation")
     return ""
   }
@@ -185,7 +187,7 @@ async function sendQueryToDB2(idTextarea) {
   let request = {};
   request.from_text = document.getElementById(idTextarea).getElementsByClassName("fromText")[0].innerHTML;
   request.to_text = document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value;
-  request.secondid = hashGenerator(request.from_text+request.to_text); //will be changed ?!
+  request.secondid = hashGenerator(request.from_text + request.to_text); //will be changed ?!
   request.fid = parseInt(idTextarea);
 
   try {
@@ -213,7 +215,7 @@ async function getData() {
     var res = await fetch(URL3, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({page : state.page})
+      body: JSON.stringify({ page: state.page })
     })
   } catch (error) {
     console.log(error);
@@ -221,7 +223,7 @@ async function getData() {
   state.page += 1;
   let result = await res.json();
 
-  if(Object.keys( result ).length==0){
+  if (Object.keys(result).length == 0) {
     document.getElementById("get-new-data").style.visibility = "hidden";
     return ""
   }
@@ -237,10 +239,14 @@ document.getElementById("get-new-data").onclick = getData;
 window.sendQueryToDB2 = sendQueryToDB2; //do not remove
 window.loadPossibleTranslations = loadPossibleTranslations; //do not remove
 window.showMoreBetterTranslations = showMoreBetterTranslations; //do not remove
-window.likeToPossibleBetterTranslations = likeToPossibleBetterTranslations ; //do not remove
+window.likeToPossibleBetterTranslations = likeToPossibleBetterTranslations; //do not remove
 
-socket.on('votes-update', function(data){
-  if (data["fid"] == state.openDetails){
-    document.getElementById("votes-field-"+data["secondid"]).innerHTML = `VOTES ${data["votes"]}`;
+socket.on('votes-update', data => {
+
+  const dataObj = JSON.parse(data)
+  console.log(dataObj)
+
+  if (parseInt(dataObj.fid) == parseInt(state.openDetails)) {
+    document.getElementById("votes-field-" + dataObj.secondid).innerHTML = `VOTES : ${dataObj.votes}`;
   }
-});
+})
