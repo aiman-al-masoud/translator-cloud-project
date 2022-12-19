@@ -71,4 +71,4 @@ def send_query5():
 
 
 # added for running the server directly with the run button
-app.run(host='localhost', port=config.gateway_port)
+app.run(host=config.host, port=config.gateway_port)

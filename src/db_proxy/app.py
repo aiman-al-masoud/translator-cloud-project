@@ -232,4 +232,4 @@ def vote_possible_better_translation():
         return "{}"
 
 # added for running the server directly with the run button
-socketio.run(app, port=config.db_proxy_port)
+socketio.run(app, port=config.db_proxy_port, host=config.host)

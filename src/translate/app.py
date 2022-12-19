@@ -58,4 +58,4 @@ def translate():
     })
 
 # added for running the server directly with the run button
-app.run(host='localhost', port=config.translate_port)
+app.run(host=config.host, port=config.translate_port)

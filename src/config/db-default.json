@@ -8,6 +8,7 @@
     "neo4j_port" : 7687,
     "db_proxy_port" : 8080,
     "gateway_port" : 5000,
-    "translate_port" : 8081
+    "translate_port" : 8081,
+    "host":"0.0.0.0"
 
 }

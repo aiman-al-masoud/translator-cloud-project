@@ -14,6 +14,7 @@ class Config:
     db_proxy_port:int
     gateway_port:int
     translate_port:int
+    host:str
 
 def getConfig(root:str)->Config:
 
