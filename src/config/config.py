@@ -16,7 +16,7 @@ class Config:
     translate_port:int
     host:str
 
-def getConfig(root:str)->Config:
+def get_config(root:str)->Config:
 
     DB_CONFIG = os.path.join(root, '..', 'config', 'db.json')
     DB_DEFAULT_CONFIG = os.path.join(root, '..', 'config', 'db-default.json')

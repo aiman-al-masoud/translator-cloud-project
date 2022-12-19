@@ -4,14 +4,14 @@ from flask import Flask, request, render_template
 import argostranslate.package
 import argostranslate.translate
 import argostranslate
-from ..config.config import getConfig
+from ..config.config import get_config
 
 app = Flask(__name__)  # init app
 
 LANGS = os.path.join(app.root_path, '..', 'config', 'langs.json')
 langs = json.loads(open(LANGS).read())
 
-config = getConfig(app.root_path)
+config = get_config(app.root_path)
 
 def check_json(request):
     if request.json is None:
