@@ -38,16 +38,19 @@ docker run -d -it --name translator_db_proxy_container translator_db_proxy
 ```
 
 The last to be started is the database
-```bash
-docker run -d --name translator_db_container -e TZ=UTC -p 30306:3306 -e MYSQL_ROOT_PASSWORD=My:S3cr3t/ translator_db
+```sh
+docker run --publish=7474:7474 --publish=7687:7687 --volume=$HOME/neo4j/data:/data neo4j
 ```
-To link the local terminal with the one of the docker container:
-```bash
-docker exec -it translator_db_container bash
+
+For the first time login with
 ```
-Once you are inside the docker container initiate the database with the following command:
-``` bash
-echo "source init-db.sql" | mysql -u root -p"My:S3cr3t/"
+    user = "neo4j"
+    password = "neo4j"
+```
+then change the password with
+```
+    user = "neo4j"
+    password = "password"
 ```
 
 ## Exiting containers

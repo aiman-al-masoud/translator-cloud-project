@@ -2,10 +2,12 @@ import json
 import os
 from flask import Flask, request, render_template
 import requests
+from flask_socketio import SocketIO
 from ..config.config import getConfig
 
 app = Flask(__name__)  # init app
 LANGS = os.path.join(app.root_path, '..', 'config', 'langs.json')
+socketio = SocketIO(app,  cors_allowed_origins='*')
 langs = json.loads(open(LANGS, 'r').read())
 config = getConfig(app.root_path)
 
@@ -65,10 +67,17 @@ def send_query4():
 # query to the mysql db to vote a possible better translation
 @app.route('/query-db-api5', methods=['POST', 'GET'])
 def send_query5():
-
-    res = requests.post(f'http://{config.IP_db_proxy}:{config.db_proxy_port}//vote-possible-better-translation', json=request.json) #TODO: extract IP
-    return json.dumps(res.json())
+    request.remote_addr = "8.9.8.8" ##REMOVE IT
+    a = {**request.json, "ip":request.remote_addr}
+    print(a)
+    res = requests.post(f'http://{config.IP_db_proxy}:{config.db_proxy_port}//vote-possible-better-translation', json=a) #TODO: extract IP
+    print(res.json())
+    res = json.dumps(res.json())
+    print(res)
+    socketio.emit('votes-update', res, brodcast=True)
+    
+    return res
 
 
 # added for running the server directly with the run button
-app.run(host=config.host, port=config.gateway_port)
+socketio.run(app, host=config.host, port=config.gateway_port)

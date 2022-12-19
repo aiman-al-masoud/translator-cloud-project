@@ -6,13 +6,9 @@ RUN apt install iputils-ping -y
 RUN apt-get install python3 -y
 RUN apt-get install git -y
 RUN apt install python3-pip -y
-ADD https://api.github.com/repos/aiman-al-masoud/translator-cloud-project/git/refs/heads/second-release version.json
-RUN git clone -b second-release https://github.com/aiman-al-masoud/translator-cloud-project.git
+RUN git clone https://github.com/aiman-al-masoud/translator-cloud-project.git
 WORKDIR translator-cloud-project
 RUN git pull
-RUN apt install default-libmysqlclient-dev -y
 RUN pip3.10 install flask
-RUN pip3.10 install flask_mysqldb
 RUN pip3.10 install neo4j
-WORKDIR src/db_proxy
-ENTRYPOINT python3 -m flask run --host=0.0.0.0 --port=8080
+ENTRYPOINT python3 -m src.db_proxy.app

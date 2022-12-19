@@ -6,15 +6,13 @@ RUN apt install iputils-ping -y
 RUN apt-get install python3 -y
 RUN apt-get install git -y
 RUN apt install python3-pip -y
-ADD https://api.github.com/repos/aiman-al-masoud/translator-cloud-project/git/refs/heads/second-release version.json
-RUN git clone -b second-release https://github.com/aiman-al-masoud/translator-cloud-project.git
+RUN git clone https://github.com/aiman-al-masoud/translator-cloud-project.git
 WORKDIR translator-cloud-project
 RUN git pull
-RUN apt install default-libmysqlclient-dev -y
 RUN pip3.10 install flask
 RUN pip3.10 install argostranslate
 WORKDIR scripts
 RUN python3 install-language-models.py -f it -t en -txt "Ciao Mondo"
 RUN python3 install-language-models.py -f en -t it -txt "Hello World"
-WORKDIR ../src/translate
-ENTRYPOINT python3 -m flask run --host=0.0.0.0 --port=8081
+WORKDIR ../
+ENTRYPOINT python3 -m src.translate.app

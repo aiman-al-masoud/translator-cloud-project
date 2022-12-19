@@ -2,11 +2,9 @@ import json
 from flask import Flask, request
 from neo4j import GraphDatabase
 from neo4j.exceptions import ConstraintError
-from flask_socketio import SocketIO
 from ..config.config import getConfig
 
 app = Flask(__name__)  # init app
-socketio = SocketIO(app,  cors_allowed_origins='*')
 config = getConfig(app.root_path)
 
 # connection with db
@@ -196,7 +194,7 @@ def vote_possible_better_translation():
     if request.method == 'POST':
         second_id = int(request.json['secondid'])
         # operation = request.json["operation"] ## TODO: remove it??
-        addr = request.remote_addr
+        addr = request.json["ip"]
 
     try:
         with driver.session() as session:
@@ -222,7 +220,9 @@ def vote_possible_better_translation():
                     """
 
             record = session.execute_read(lambda tx, id: tx.run(query, second_id=id).data(), second_id)
-            socketio.emit('votes-update', json.dumps({"secondid": record[0]["good.id"], "fid": record[0]["bad.id"], "votes": record[0]["votes"]}), brodcast=True)
+            data = json.dumps({"secondid": record[0]["good.id"], "fid": record[0]["bad.id"], "votes": record[0]["votes"]})
+            print(data)
+            return data
             
     except Exception as e:
         print('/vote_possible_better_translation: error in the execution of the query')
@@ -232,4 +232,4 @@ def vote_possible_better_translation():
         return "{}"
 
 # added for running the server directly with the run button
-socketio.run(app, port=config.db_proxy_port, host=config.host)
+app.run(host=config.host, port=config.db_proxy_port)

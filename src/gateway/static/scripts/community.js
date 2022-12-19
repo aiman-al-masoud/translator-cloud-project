@@ -7,8 +7,8 @@ const URL3 = "/query-db-api3";
 const URL4 = "/query-db-api4";
 const URL5 = "/query-db-api5";
 
-const socket = io("ws://172.17.0.4:8080")
-// const socket = io("ws://127.0.0.1:8080")
+// const socket = io("ws://172.17.0.4:8080")
+const socket = io()
 
 
 const state = {
@@ -242,11 +242,12 @@ window.showMoreBetterTranslations = showMoreBetterTranslations; //do not remove
 window.likeToPossibleBetterTranslations = likeToPossibleBetterTranslations; //do not remove
 
 socket.on('votes-update', data => {
-
+  
+  console.log(data)
   const dataObj = JSON.parse(data)
   console.log(dataObj)
 
-  if (parseInt(dataObj.fid) == parseInt(state.openDetails)) {
+  if (dataObj.fid == state.openDetails) {
     document.getElementById("votes-field-" + dataObj.secondid).innerHTML = `VOTES : ${dataObj.votes}`;
   }
 })
