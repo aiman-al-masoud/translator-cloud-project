@@ -1,6 +1,13 @@
 {
-    "MYSQL_HOST" : "172.17.0.5",
-    "MYSQL_USER" : "root",
-    "MYSQL_PASSWORD" : "My:S3cr3t/",
-    "MYSQL_DB" : "flask"
+    "IP_gateway": "172.17.0.2",
+    "IP_translate": "172.17.0.3",
+    "IP_db_proxy": "172.17.0.4",
+    "IP_db": "172.17.0.5",
+    "neo4j_user" : "neo4j",
+    "neo4j_password" : "password",
+    "neo4j_port" : 7687,
+    "db_proxy_port" : 8080,
+    "gateway_port" : 5000,
+    "translate_port" : 8081
+
 }
