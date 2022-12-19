@@ -229,7 +229,6 @@ def vote_possible_better_translation():
         print(e)
     finally:
         driver.close()
-        return "{}"
 
 # added for running the server directly with the run button
 app.run(host=config.host, port=config.db_proxy_port)
