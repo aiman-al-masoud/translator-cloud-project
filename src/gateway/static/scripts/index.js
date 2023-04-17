@@ -1,7 +1,9 @@
 import hashGenerator from "./utils/hash_generator.js";
 import './utils/common.js';
-const URL = "/translate-api";
+const URL = "http://127.0.0.1:5000/translate-api";
 const URL1 = "/query-db-api";
+const URL2 = "http://127.0.0.1:5000/get-available-langs";
+
 const TIMEOUT = 1000; // milliseconds to wait for request the translate to the server
 const MAX_CACHE_SIZE = 100; //max number of cache entries in localStorage
 
@@ -10,13 +12,14 @@ const MAX_CACHE_SIZE = 100; //max number of cache entries in localStorage
  * Changes go to state first, then UI is updated with {@link update} following state.
  */
 const state = {
-  fromLangCode : 'it',
-  toLangCode : 'en',
-  fromText : '',
-  toText : '',
-  timer : -1, // reference to (possibly existing) old timer to be cleared
-  complainButtonActive : false
+  fromLangCode: 'it',
+  toLangCode: 'en',
+  fromText: '',
+  toText: '',
+  timer: -1, // reference to (possibly existing) old timer to be cleared
+  complainButtonActive: false
 }
+
 
 function focusOnInput() {
   document.getElementById("from_text").focus();
@@ -32,13 +35,13 @@ async function sendText() {
   request.id = hashGenerator(request.from_text + request.to); //generating the hash of the input string AND THE OUTPUT LANGUAGE
 
   //clearing the localStorage of the browser to prevent hash collisions after caching 100 entries
-  if(localStorage.length >= MAX_CACHE_SIZE){
+  if (localStorage.length >= MAX_CACHE_SIZE) {
     localStorage.clear();
   }
 
   let cached = localStorage.getItem(request.id)
 
-  if(cached){
+  if (cached) {
     state.toText = cached;
     state.complainButtonActive = true
     update()
@@ -51,7 +54,7 @@ async function sendText() {
     body: JSON.stringify(request)
   })
 
-  if (!res.ok){
+  if (!res.ok) {
     alert(await res.text())
     return
   }
@@ -74,14 +77,14 @@ async function sendQueryToDB() {
 
   try {
     let res = await fetch(URL1, {
-    method: "POST",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(request)
-  })
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(request)
+    })
   } catch (error) {
     console.log(error); //Translation with this id is already under supervision
   }
-  finally{
+  finally {
     alert("Thank you for your feedback")
     state.complainButtonActive = false
     update()
@@ -105,7 +108,7 @@ function switchLang() {
 function sendTextDelayed() {
   document.getElementById('to_text').value = "...";
   clearTimeout(state.timer);
-  state.timer = setTimeout(function(){
+  state.timer = setTimeout(function () {
     sendText();
   }, TIMEOUT);
 }
@@ -115,7 +118,7 @@ function sendTextDelayed() {
  * @param {string} languageCode
  * @param {string} text
  */
-function speak(languageCode, text){
+function speak(languageCode, text) {
   const speech = new SpeechSynthesisUtterance();
   speech.lang = languageCode
   speech.text = text
@@ -144,7 +147,7 @@ async function pasteFromClipboard() {
 /**
  * Updates the UI, to be called after {@link state} has been modified.
  */
- function update(){
+function update() {
   document.getElementById("to_text").value = state.toText
   document.getElementById("from_text").value = state.fromText
   document.getElementById("from").value = state.fromLangCode.toUpperCase()
@@ -152,30 +155,48 @@ async function pasteFromClipboard() {
   document.getElementById("button_query_to_db").disabled = !state.complainButtonActive
 }
 
-document.body.onload=focusOnInput;sendQueryToDB
-document.getElementById("button_query_to_db").onclick=sendQueryToDB;
-document.getElementById("translate").onclick=sendText;
-document.getElementById("invert").onclick=switchLang;
-document.getElementById("from_text").onkeyup=sendTextDelayed;
-document.getElementById("button_copy_to").onclick=copyToClipboard;
-document.getElementById("button_paste_from").onclick=pasteFromClipboard;
-document.getElementById("button_speak_from").onclick = ()=> speak(state.fromLangCode, state.fromText)
-document.getElementById("button_speak_to").onclick = ()=> speak(state.toLangCode, state.toText)
+document.body.onload = focusOnInput; sendQueryToDB
+document.getElementById("button_query_to_db").onclick = sendQueryToDB;
+document.getElementById("translate").onclick = sendText;
+document.getElementById("invert").onclick = switchLang;
+document.getElementById("from_text").onkeyup = sendTextDelayed;
+document.getElementById("button_copy_to").onclick = copyToClipboard;
+document.getElementById("button_paste_from").onclick = pasteFromClipboard;
+document.getElementById("button_speak_from").onclick = () => speak(state.fromLangCode, state.fromText)
+document.getElementById("button_speak_to").onclick = () => speak(state.toLangCode, state.toText)
 
-document.getElementById("from_text").oninput = ()=>{
+document.getElementById("from_text").oninput = () => {
   state.fromText = document.getElementById("from_text").value.toLowerCase();
 }
 
-document.getElementById("to_text").oninput = ()=>{
+document.getElementById("to_text").oninput = () => {
   state.toText = document.getElementById("to_text").value
 }
 
-document.getElementById("from").oninput = ()=>{
+document.getElementById("from").oninput = () => {
   state.fromLangCode = document.getElementById("from").value.toLowerCase();
 }
 
-document.getElementById("to").oninput = ()=>{
+document.getElementById("to").oninput = () => {
   state.toLangCode = document.getElementById("to").value.toLowerCase();
 }
 
-update() //do not remove this
+(async () => {
+  const langs = await fetch(URL2, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(x => x.json())
+  // console.log(langs)
+  Object.entries(langs).forEach(l => {
+    const option = document.createElement('option')
+    option.innerHTML = l[1]
+    document.getElementById('from').appendChild(option)
+    document.getElementById('to').appendChild(option.cloneNode(true))
+  })
+  update()
+  document.getElementById("from").value = 'Italian'
+  document.getElementById("to").value = 'English'
+})()
+
+

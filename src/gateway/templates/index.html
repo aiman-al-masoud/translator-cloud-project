@@ -10,16 +10,16 @@
   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 
-<link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+<link rel="stylesheet" href="../static/css/index.css">
 </link>
 
 
 <body>
   <ul class="topnav">
-    <li><a class="logo" title="Home" href="/"><img src="static/res/logoCloudTranslatorSvg.svg"></a></li>
-    <li><a class="active" href="/"><img src="static/res/home-2-line-white.png" class="navbar-image">&nbsp;Home</a></li>
-    <li><a href="community"><img src="static/res/team-line.png" class="navbar-image">&nbsp;Community</a></li>
-    <li class="right"><a href="about"><img src="static/res/information-line.png" class="navbar-image">&nbsp;About</a></li>
+    <li><a class="logo" title="Home" href="/"><img src="../static/res/logoCloudTranslatorSvg.svg"></a></li>
+    <li><a class="active" href="/"><img src="../static/res/home-2-line-white.png" class="navbar-image">&nbsp;Home</a></li>
+    <li><a href="community"><img src="../static/res/team-line.png" class="navbar-image">&nbsp;Community</a></li>
+    <li class="right"><a href="about"><img src="../static/res/information-line.png" class="navbar-image">&nbsp;About</a></li>
   </ul>
 
   <div class="short-bio">
@@ -35,42 +35,34 @@
     <p class="selects_line">
 
       <select id="from" name="from" class="from" data-placeholder="Choose a Language...">
-
-        {% for row in langs %}
-        <option value="{{ row[0] }}">{{ row[1] }}</option>
-        {% endfor %}
-
+        <!-- populated by index.js -->
       </select>
 
-      <button type="button" name="invert" id="invert" class="button"><img src="static/res/arrow-left-right-fill.png" class="button-image">
-        <img src="static/res/arrow-left-right-fill-hover.png" class="button-hover-image"></button>
+      <button type="button" name="invert" id="invert" class="button"><img src="../static/res/arrow-left-right-fill.png" class="button-image">
+        <img src="../static/res/arrow-left-right-fill-hover.png" class="button-hover-image"></button>
       </button>
 
       <select id="to" name="to" class="to" data-placeholder="Choose a Language...">
-
-        {% for row in langs %}
-        <option value="{{ row[0] }}">{{ row[1] }}</option>
-        {% endfor %}
-
+        <!-- populated by index.js -->
       </select>
     </p>
 
     <p class="textareas_line">
       <textarea id="from_text" name="from_text"></textarea>
       <span class="vertical_buttons">
-        <button id="button_speak_from" class="speaker"><img src="static/res/volume-up-line.png"></button>
-        <button id="button_paste_from"><img src="static/res/clipboard-line.png"></button>
+        <button id="button_speak_from" class="speaker"><img src="../static/res/volume-up-line.png"></button>
+        <button id="button_paste_from"><img src="../static/res/clipboard-line.png"></button>
       </span>
 
       <textarea readonly id="to_text" class="to_text" name="to_text"></textarea><br>
       <span class="vertical_buttons">
-        <button id="button_speak_to" class="speaker"><img src="static/res/volume-up-line.png"></button>
-        <button id="button_copy_to"><img src="static/res/file-copy-line.png"></button>
-        <button id="button_query_to_db"><img src="static/res/emotion-sad-line.png"></button>
+        <button id="button_speak_to" class="speaker"><img src="../static/res/volume-up-line.png"></button>
+        <button id="button_copy_to"><img src="../static/res/file-copy-line.png"></button>
+        <button id="button_query_to_db"><img src="../static/res/emotion-sad-line.png"></button>
       </span>
     </p>
-    <button id="translate" class="button" name="translate"><img src="static/res/translate.png" class="button-image">
-      <img src="static/res/translate-hover.png" class="button-hover-image"></button>
+    <button id="translate" class="button" name="translate"><img src="../static/res/translate.png" class="button-image">
+      <img src="../static/res/translate-hover.png" class="button-hover-image"></button>
   </div>
 
   <footer id="footer">
@@ -85,6 +77,6 @@
 
 </body>
 
-<script type="module" src="{{url_for('static', filename='scripts/index.js')}}"></script>
+<script type="module" src="../static/scripts/index.js"></script>
 
 </html>

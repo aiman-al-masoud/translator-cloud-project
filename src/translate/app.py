@@ -1,40 +1,29 @@
 import json
 import os
-from flask import Flask, request, render_template
+from flask import Flask, request
 import argostranslate.package
 import argostranslate.translate
 import argostranslate
 from ..config.config import get_config
 
+from flask_cors import CORS
 app = Flask(__name__)  # init app
+CORS(app)
 
 LANGS = os.path.join(app.root_path, '..', 'config', 'langs.json')
 langs = json.loads(open(LANGS).read())
-
 config = get_config(app.root_path)
 
-def check_json(request):
-    if request.json is None:
-        return 'error: must include json in request', 400
 
-    for k in ['from', 'to', 'from_text', 'id']:
-        if k not in request.json:
-            return f'error: missing {k} in json', 400
-
-    if not request.json['from_text'].strip():
-        return 'error: empty requested translation', 400
-
-    return 1
-
+@app.route('/get-available-langs', methods=['GET', 'POST'])
+def get_available_langs():
+    return json.dumps(langs)
 
 @app.route('/translate-api', methods=['GET', 'POST'])
 def translate():
 
-    if (check:=check_json(request)) != 1:
-        return check
-
-    _from = request.json['from']
-    to = request.json['to']
+    _from = request.json['from'] or 'it'
+    to = request.json['to'] or 'en'
 
     installed_languages = argostranslate.translate.get_installed_languages()
     installed_lang_codes = {l.code for l in installed_languages}
