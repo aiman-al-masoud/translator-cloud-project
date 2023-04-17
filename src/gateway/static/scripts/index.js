@@ -187,16 +187,15 @@ document.getElementById("to").oninput = () => {
     headers: { 'Content-Type': 'application/json' }
   })
     .then(x => x.json())
-  // console.log(langs)
+
   Object.entries(langs).forEach(l => {
     const option = document.createElement('option')
     option.innerHTML = l[1]
+    option.value = l[0]
     document.getElementById('from').appendChild(option)
     document.getElementById('to').appendChild(option.cloneNode(true))
   })
   update()
-  document.getElementById("from").value = 'Italian'
-  document.getElementById("to").value = 'English'
 })()
 
 
