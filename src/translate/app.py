@@ -19,11 +19,12 @@ config = get_config(app.root_path)
 def get_available_langs():
     return json.dumps(langs)
 
+
 @app.route('/translate-api', methods=['GET', 'POST'])
 def translate():
 
-    _from = request.json['from'] or 'it'
-    to = request.json['to'] or 'en'
+    _from = request.json['from']
+    to = request.json['to']
 
     installed_languages = argostranslate.translate.get_installed_languages()
     installed_lang_codes = {l.code for l in installed_languages}
@@ -46,5 +47,5 @@ def translate():
         'id': int(request.json['id'])
     })
 
-# added for running the server directly with the run button
-app.run(host=config.host, port=config.translate_port)
+
+app.run(host=config.host, port=config.translate_port)  # run with config

@@ -1,8 +1,8 @@
-import hashGenerator from "./utils/hash_generator.js";
 import './utils/common.js';
-const URL = "http://127.0.0.1:5000/translate-api";
-const URL1 = "/query-db-api";
-const URL2 = "http://127.0.0.1:5000/get-available-langs";
+import hashGenerator from "./utils/hash_generator.js";
+const TRANSLATE = "http://127.0.0.1:5000/translate-api";
+const AVAILABLE_LANGS = "http://127.0.0.1:5000/get-available-langs";
+const DB_QUERY = "/query-db-api";
 
 const TIMEOUT = 1000; // milliseconds to wait for request the translate to the server
 const MAX_CACHE_SIZE = 100; //max number of cache entries in localStorage
@@ -48,7 +48,7 @@ async function sendText() {
     return
   }
 
-  let res = await fetch(URL, {
+  let res = await fetch(TRANSLATE, {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request)
@@ -76,7 +76,7 @@ async function sendQueryToDB() {
   request.id = hashGenerator(request.from_text + request.to); //will be changed
 
   try {
-    let res = await fetch(URL1, {
+    let res = await fetch(DB_QUERY, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(request)
@@ -182,7 +182,7 @@ document.getElementById("to").oninput = () => {
 }
 
 (async () => {
-  const langs = await fetch(URL2, {
+  const langs = await fetch(AVAILABLE_LANGS, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   })
@@ -197,5 +197,4 @@ document.getElementById("to").oninput = () => {
   })
   update()
 })()
-
 
