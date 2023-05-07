@@ -5,8 +5,8 @@ import argostranslate.package
 import argostranslate.translate
 import argostranslate
 from ..config.config import get_config
-
 from flask_cors import CORS
+
 app = Flask(__name__)  # init app
 CORS(app)
 

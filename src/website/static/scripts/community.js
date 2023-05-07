@@ -2,10 +2,11 @@ import hashGenerator from "./utils/hash_generator.js";
 import './utils/common.js';
 import { io } from "./utils/socket.io.esm.min.js"
 
-const URL2 = "/query-db-api2";
-const URL3 = "/query-db-api3";
-const URL4 = "/query-db-api4";
-const URL5 = "/query-db-api5";
+const URLdb = "http://127.0.0.1:8080";
+const URL2 = URLdb + "/insert-possible-better-translation";
+const URL3 = URLdb + "/read-bad-translations";
+const URL4 = URLdb + "/read-possible-better-translation-by-id";
+const URL5 = URLdb + "/vote-possible-better-translation";
 
 // const socket = io("ws://172.17.0.4:8080")
 const socket = io()

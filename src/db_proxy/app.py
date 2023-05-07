@@ -3,9 +3,11 @@ from flask import Flask, request
 from neo4j import GraphDatabase
 from neo4j.exceptions import ConstraintError
 from ..config.config import get_config
+from flask_cors import CORS
 
 app = Flask(__name__)  # init app
 config = get_config(app.root_path)
+CORS(app)
 
 # connection with db
 driver = GraphDatabase.driver(f'neo4j://{config.IP_db}:{config.neo4j_port}', auth=(config.neo4j_user, config.neo4j_password))
