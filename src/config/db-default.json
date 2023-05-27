@@ -2,7 +2,7 @@
     "IP_gateway": "172.17.0.2",
     "IP_translate": "172.17.0.3",
     "IP_db_proxy": "172.17.0.4",
-    "IP_db": "172.17.0.5",
+    "IP_db": "34.238.220.232",
     "neo4j_user" : "neo4j",
     "neo4j_password" : "password",
     "neo4j_port" : 7687,
