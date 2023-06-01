@@ -213,7 +213,7 @@ async function sendQueryToDB2(idTextarea) {
  */
 async function getData() {
   try {
-    var res = await fetch(URL3, {
+    var res = await fetch(URL3, { 
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ page: state.page })
@@ -223,9 +223,6 @@ async function getData() {
   }
   state.page += 1;
 
-  var prova = await res;
-  console.log(prova)
-  console.log(res.json())
   let result = await res.json();
 
   if (Object.keys(result).length == 0) {

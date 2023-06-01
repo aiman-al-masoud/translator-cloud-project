@@ -77,7 +77,6 @@ async function sendQueryToDB() {
 
   try {
     let res = await fetch(DB_QUERY, {
-      mode: 'no-cors',
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(request)
