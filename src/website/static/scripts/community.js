@@ -9,7 +9,7 @@ const URL4 = URLdb + "/read-possible-better-translation-by-id";
 const URL5 = URLdb + "/vote-possible-better-translation";
 
 // const socket = io("ws://172.17.0.4:8080")
-const socket = io()
+// const socket = io()
 
 
 const state = {
@@ -222,6 +222,10 @@ async function getData() {
     console.log(error);
   }
   state.page += 1;
+
+  var prova = await res;
+  console.log(prova)
+  console.log(res.json())
   let result = await res.json();
 
   if (Object.keys(result).length == 0) {
@@ -242,13 +246,13 @@ window.loadPossibleTranslations = loadPossibleTranslations; //do not remove
 window.showMoreBetterTranslations = showMoreBetterTranslations; //do not remove
 window.likeToPossibleBetterTranslations = likeToPossibleBetterTranslations; //do not remove
 
-socket.on('votes-update', data => {
+// socket.on('votes-update', data => {
   
-  console.log(data)
-  const dataObj = JSON.parse(data)
-  console.log(dataObj)
+//   console.log(data)
+//   const dataObj = JSON.parse(data)
+//   console.log(dataObj)
 
-  if (dataObj.fid == state.openDetails) {
-    document.getElementById("votes-field-" + dataObj.secondid).innerHTML = `VOTES : ${dataObj.votes}`;
-  }
-})
+//   if (dataObj.fid == state.openDetails) {
+//     document.getElementById("votes-field-" + dataObj.secondid).innerHTML = `VOTES : ${dataObj.votes}`;
+//   }
+// })
