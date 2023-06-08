@@ -1,6 +1,6 @@
 import hashGenerator from "./utils/hash_generator.js";
 import './utils/common.js';
-import { io } from "./utils/socket.io.esm.min.js"
+//import { io } from "./utils/socket.io.esm.min.js"
 
 const URLdb = "https://6babld8pi8.execute-api.us-east-1.amazonaws.com/first-stage";
 const URL2 = URLdb + "/insert-possible-better-translation";
@@ -97,7 +97,9 @@ async function asyncCallForBetterTranslations(request) {
   let innerEl = document.getElementById(`inner-${state.openDetails}`)
   state.possibleTranslations[state.openDetails] = result
 
-  state.possibleTranslations[state.openDetails].forEach(e => {
+  let possibleTranslationsArray = (JSON.parse(state.possibleTranslations[state.openDetails]))
+
+  possibleTranslationsArray.forEach(e => {
     let html = `<div class="possible-translation-el">
     <span class="left">${e['to_text']}</span>
       <span class="right-votes">
