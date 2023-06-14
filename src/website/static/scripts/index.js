@@ -1,7 +1,7 @@
 import './utils/common.js';
 import hashGenerator from "./utils/hash_generator.js";
-const TRANSLATE = "http://127.0.0.1:8081/translate-api";
-const AVAILABLE_LANGS = "http://127.0.0.1:8081/get-available-langs";
+const TRANSLATE = "https://6babld8pi8.execute-api.us-east-1.amazonaws.com/first-stage/translate-api";
+// const AVAILABLE_LANGS = "http://127.0.0.1:8081/get-available-langs";
 const DB_QUERY = "https://6babld8pi8.execute-api.us-east-1.amazonaws.com/first-stage/insert-bad-translation";
 
 const TIMEOUT = 1000; // milliseconds to wait for request the translate to the server
@@ -181,20 +181,20 @@ document.getElementById("to").oninput = () => {
   state.toLangCode = document.getElementById("to").value.toLowerCase();
 }
 
-(async () => {
-  const langs = await fetch(AVAILABLE_LANGS, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
-  })
-    .then(x => x.json())
+// (async () => {
+//   const langs = await fetch(AVAILABLE_LANGS, {
+//     method: 'GET',
+//     headers: { 'Content-Type': 'application/json' }
+//   })
+//     .then(x => x.json())
 
-  Object.entries(langs).forEach(l => {
-    const option = document.createElement('option')
-    option.innerHTML = l[1]
-    option.value = l[0]
-    document.getElementById('from').appendChild(option)
-    document.getElementById('to').appendChild(option.cloneNode(true))
-  })
-  update()
-})()
+//   Object.entries(langs).forEach(l => {
+//     const option = document.createElement('option')
+//     option.innerHTML = l[1]
+//     option.value = l[0]
+//     document.getElementById('from').appendChild(option)
+//     document.getElementById('to').appendChild(option.cloneNode(true))
+//   })
+//   update()
+// })()
 
