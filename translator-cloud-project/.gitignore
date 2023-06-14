@@ -1,0 +1,7 @@
+__pycache__/
+.venv/
+.DS_Store
+db.json
+gateway.log
+db_proxy.log
+translate.log
