@@ -14,17 +14,34 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
         - uses: actions/checkout@v3
-#         - name: Deploy to s3
-#           uses: nosuchmoduleerror/translator-cloud-project@master
-        - name: S3 Deploy
-          uses: Reggionick/s3-deploy@v3
+        
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v1
           with:
-            folder: .
-            bucket: ${{ secrets.S3_BUCKET }}
-            bucket-region: ${{ secrets.S3_BUCKET_REGION }}
-            dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-            invalidation: /
-            delete-removed: true
-            no-cache: true
-            private: true
-            files-to-include: ".*/*,*/*,**"
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ secrets.AWS_REGION }}
+
+        - name: Deploy dashboard to bucket
+          run: aws s3 sync ./src/website s3://${{ secrets.S3_BUCKET }}
+
+        - name: Invalidate dashboard cloudfront
+          run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/"
+          
+# #         - name: Deploy to s3
+# #           uses: nosuchmoduleerror/translator-cloud-project@master
+#         - name: S3 Deploy
+#           uses: Reggionick/s3-deploy@v3
+#           with:
+#             folder: .
+#             bucket: ${{ secrets.S3_BUCKET }}
+#             bucket-region: ${{ secrets.S3_BUCKET_REGION }}
+#             dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+#             invalidation: /
+#             delete-removed: true
+#             no-cache: true
+#             private: true
+#             files-to-include: ".*/*,*/*,**"
+
+
+ 
