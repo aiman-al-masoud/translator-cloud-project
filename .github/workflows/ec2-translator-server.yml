@@ -1,0 +1,45 @@
+name: "Deploy Site"
+
+on:
+  push:
+    branches:
+    - master
+    paths: 
+      src/translate/**
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9]
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@rm-flask
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@rm-flask
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Set AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          
+    - name: Deploy to EC2
+      run: |
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOST_NAME} "
+        cd ${APP_DIR} &&
+        git pull &&
+        echo ${USER_PASSWORD} | sudo -S systemctl restart ${SERVICE_NAME} "
+        
