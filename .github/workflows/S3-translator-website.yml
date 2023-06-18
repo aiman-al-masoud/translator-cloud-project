@@ -14,9 +14,10 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
         - uses: actions/checkout@v3
-        
-        - name: Deploy to s3
-          uses: nosuchmoduleerror/translator-cloud-project@master
+#         - name: Deploy to s3
+#           uses: nosuchmoduleerror/translator-cloud-project@master
+        - name: S3 Deploy
+          uses: Reggionick/s3-deploy@v4.0.0
           with:
             folder: src/website
             bucket: ${{ secrets.S3_BUCKET }}
