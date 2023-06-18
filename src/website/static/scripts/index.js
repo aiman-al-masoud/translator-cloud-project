@@ -1,4 +1,5 @@
 import './utils/common.js';
+
 import hashGenerator from "./utils/hash_generator.js";
 const TRANSLATE = "https://api.cloud-translator.com/translate-api";
 // const AVAILABLE_LANGS = "http://127.0.0.1:8081/get-available-langs";
