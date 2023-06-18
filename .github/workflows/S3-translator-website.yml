@@ -17,7 +17,7 @@ jobs:
 #         - name: Deploy to s3
 #           uses: nosuchmoduleerror/translator-cloud-project@master
         - name: S3 Deploy
-          uses: Reggionick/s3-deploy@v4.0.0
+          uses: Reggionick/s3-deploy@v3
           with:
             folder: .
             bucket: ${{ secrets.S3_BUCKET }}
