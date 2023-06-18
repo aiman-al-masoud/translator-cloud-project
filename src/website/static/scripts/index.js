@@ -1,8 +1,8 @@
 import './utils/common.js';
 import hashGenerator from "./utils/hash_generator.js";
-const TRANSLATE = "https://6babld8pi8.execute-api.us-east-1.amazonaws.com/first-stage/translate-api";
+const TRANSLATE = "https://api.cloud-translator.com/translate-api";
 // const AVAILABLE_LANGS = "http://127.0.0.1:8081/get-available-langs";
-const DB_QUERY = "https://6babld8pi8.execute-api.us-east-1.amazonaws.com/first-stage/insert-bad-translation";
+const DB_QUERY = "https://api.cloud-translator.com/insert-bad-translation";
 
 const TIMEOUT = 1000; // milliseconds to wait for request the translate to the server
 const MAX_CACHE_SIZE = 100; //max number of cache entries in localStorage
