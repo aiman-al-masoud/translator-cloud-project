@@ -16,7 +16,7 @@ jobs:
         - uses: actions/checkout@master
 
         - name: Deploy
-          uses: actions/s3-deploy@master
+          uses: translator-cloud-project/s3-deploy@master
           with:
             folder: src/website
             bucket: ${{ secrets.S3_BUCKET }}
