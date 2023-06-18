@@ -19,7 +19,7 @@ jobs:
         - name: S3 Deploy
           uses: Reggionick/s3-deploy@v4.0.0
           with:
-            folder: src/website
+            folder: /
             bucket: ${{ secrets.S3_BUCKET }}
             bucket-region: ${{ secrets.S3_BUCKET_REGION }}
             dist-id: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
