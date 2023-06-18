@@ -2,7 +2,7 @@ import hashGenerator from "./utils/hash_generator.js";
 import './utils/common.js';
 //import { io } from "./utils/socket.io.esm.min.js"
 
-const URLdb = "https://6babld8pi8.execute-api.us-east-1.amazonaws.com/first-stage";
+const URLdb = "https://api.cloud-translator.com";
 const URL2 = URLdb + "/insert-possible-better-translation";
 const URL3 = URLdb + "/read-bad-translations";
 const URL4 = URLdb + "/read-possible-better-translation-by-id";
