@@ -11,6 +11,7 @@ WORKDIR translator-cloud-project
 RUN git pull
 RUN pip3.10 install flask
 RUN pip3.10 install argostranslate
+RUN pip3.10 install flask_cors
 WORKDIR scripts
 RUN python3 install-language-models.py -f it -t en -txt "Ciao Mondo"
 RUN python3 install-language-models.py -f en -t it -txt "Hello World"

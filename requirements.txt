@@ -4,3 +4,4 @@ argostranslate
 neo4j
 Flask-SocketIO=='5.2.0'
 progress
+flask_cors
