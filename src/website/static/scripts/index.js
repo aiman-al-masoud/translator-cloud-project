@@ -151,8 +151,10 @@ async function pasteFromClipboard() {
 function update() {
   document.getElementById("to_text").value = state.toText
   document.getElementById("from_text").value = state.fromText
-  document.getElementById("from").value = state.fromLangCode.toUpperCase()
-  document.getElementById("to").value = state.toLangCode.toUpperCase()
+  document.querySelector(`select#to option[value="${state.to}"]`).selected = true;
+  document.querySelector(`select#from option[value="${state.from}"]`).selected = true;
+  // document.getElementById("from").value = state.fromLangCode.toUpperCase()
+  // document.getElementById("to").value = state.toLangCode.toUpperCase()
   document.getElementById("button_query_to_db").disabled = !state.complainButtonActive
 }
 
