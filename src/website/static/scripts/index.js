@@ -7,6 +7,13 @@ const DB_QUERY = "https://api.cloud-translator.com/insert-bad-translation";
 
 const TIMEOUT = 1000; // milliseconds to wait for request the translate to the server
 const MAX_CACHE_SIZE = 100; //max number of cache entries in localStorage
+const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3').then(FingerprintJS => FingerprintJS.load());
+
+async function getFingerprint() {
+  const fp = await fpPromise;
+  const result = await fp.get();
+  return result.visitorId;
+}
 
 /**
  * All mutable state from the session should go in here.
@@ -75,6 +82,7 @@ async function sendQueryToDB() {
   request.from_text = state.fromText;
   request.to_text = state.toText;
   request.id = hashGenerator(request.from_text + request.to); //will be changed
+  request.fingerprint = await getFingerprint();
 
   try {
     let res = await fetch(DB_QUERY, {
