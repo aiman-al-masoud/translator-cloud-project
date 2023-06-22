@@ -54,10 +54,10 @@ health_status = True
 def health():
     if health_status:
         resp = jsonify(health="healthy")
-        resp.status_code = 222
+        resp.status_code = 200
     else:
         resp = jsonify(health="unhealthy")
-        resp.status_code = 555
+        resp.status_code = 500
 
     return resp
 
