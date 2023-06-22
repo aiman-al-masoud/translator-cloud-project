@@ -1,6 +1,6 @@
 import json
 import os
-from flask import Flask, request
+from flask import Flask, jsonify, request
 import argostranslate.package
 import argostranslate.translate
 import argostranslate
@@ -47,5 +47,18 @@ def translate():
         'id': int(request.json['id'])
     })
 
+
+health_status = True
+
+@app.route('/health-check')
+def health():
+    if health_status:
+        resp = jsonify(health="healthy")
+        resp.status_code = 222
+    else:
+        resp = jsonify(health="unhealthy")
+        resp.status_code = 555
+
+    return resp
 
 app.run(host=config.host, port=config.translate_port)  # run with config

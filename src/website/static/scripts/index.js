@@ -151,8 +151,8 @@ async function pasteFromClipboard() {
 function update() {
   document.getElementById("to_text").value = state.toText
   document.getElementById("from_text").value = state.fromText
-  document.querySelector(`select#to option[value="${state.to}"]`).selected = true;
-  document.querySelector(`select#from option[value="${state.from}"]`).selected = true;
+  document.querySelector(`select#to option[value="${state.toLangCode}"]`).selected = true;
+  document.querySelector(`select#from option[value="${state.fromLangCode}"]`).selected = true;
   document.getElementById("button_query_to_db").disabled = !state.complainButtonActive
 }
 
