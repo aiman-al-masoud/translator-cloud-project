@@ -11,6 +11,12 @@ const URL5 = URLdb + "/vote-possible-better-translation";
 // const socket = io("ws://172.17.0.4:8080")
 // const socket = io()
 
+const fpPromise = import('https://openfpcdn.io/fingerprintjs/v3').then(FingerprintJS => FingerprintJS.load());
+async function getFingerprint() {
+  const fp = await fpPromise;
+  const result = await fp.get();
+  return result.visitorId;
+}
 
 const state = {
   badTranslations: [],
@@ -132,6 +138,8 @@ async function likeToPossibleBetterTranslations(secondid) {
   }
 
   request.operation = operation;
+  request.fingerprint = await getFingerprint();
+
 
   try {
     let res = await fetch(URL5, {
@@ -192,6 +200,8 @@ async function sendQueryToDB2(idTextarea) {
   request.to_text = document.getElementById(idTextarea).getElementsByClassName("to_text_possible")[0].value;
   request.secondid = hashGenerator(request.from_text + request.to_text); //will be changed ?!
   request.fid = parseInt(idTextarea);
+  request.fingerprint = await getFingerprint();
+
 
   try {
     let res = await fetch(URL2, {
