@@ -15,6 +15,7 @@ langs = json.loads(open(LANGS).read())
 config = get_config(app.root_path)
 
 
+
 @app.route('/get-available-langs', methods=['GET', 'POST'])
 def get_available_langs():
     return json.dumps(langs)
