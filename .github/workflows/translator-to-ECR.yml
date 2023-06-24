@@ -25,7 +25,7 @@ jobs:
         path: src/
 
     - name: Build Docker image
-      id: build translator image
+      id: build-translator-image
       run: |
         docker build -t translator-container .
         docker save translator-container > /tmp/translator-container.tar
