@@ -23,7 +23,7 @@ jobs:
       run: |
         docker build -t translator-container .
         docker save translator-container > /tmp/translator-container.tar
-      working-directory: /scripts/docker-files/translate/
+      working-directory: ./scripts/docker-files/translate/
 
     - name: Upload image artifact in a tmp file
       uses: actions/upload-artifact@v3
