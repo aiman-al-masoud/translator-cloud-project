@@ -31,5 +31,51 @@ jobs:
         name: translator-container
         path: /tmp/translator-container.tar
         
+        
+        
+        
+  #Push translator on AWS ECR
+  deploy-ecs:
+    name: Deploy to ECR
+    runs-on: ubuntu-latest
+    environment: Production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: ecr-login
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Download image artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: translator-container
+        path: /tmp
+
+    - name: Load Docker image
+      run: |
+        docker load --input /tmp/tranlsator-container.tar
+
+    - name: Push image to Amazon ECR
+      id: push-image
+      env:
+        ECR_REGISTRY: translator-repository:latest 483451515855.dkr.ecr.us-east-1.amazonaws.com
+      run: |
+        docker tag lcs-container ${ECR_REGISTRY}/translator-repository:latest
+        docker push ${ECR_REGISTRY}/translator-repository:latest
+        echo "::set-output name=image::${ECR_REGISTRY}/translator-repository:latest"
+        
+        
+        
+        
   
       
