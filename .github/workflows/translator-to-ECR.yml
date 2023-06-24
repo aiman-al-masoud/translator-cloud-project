@@ -51,7 +51,7 @@ jobs:
 
     - name: Load Docker image
       run: |
-        docker load --input /tmp/tranlsator-container.tar
+        docker load --input /tmp/translator-container.tar
 
     - name: Push image to Amazon ECR
       id: push-image
