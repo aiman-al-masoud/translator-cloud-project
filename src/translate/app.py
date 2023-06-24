@@ -10,7 +10,6 @@ from flask_cors import CORS
 app = Flask(__name__)  # init app
 CORS(app)
 
-
 LANGS = os.path.join(app.root_path, '..', 'config', 'langs.json')
 langs = json.loads(open(LANGS).read())
 config = get_config(app.root_path)
