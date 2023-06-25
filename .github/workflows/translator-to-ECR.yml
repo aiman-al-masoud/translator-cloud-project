@@ -58,7 +58,7 @@ jobs:
       env:
         ECR_REGISTRY: 483451515855.dkr.ecr.us-east-1.amazonaws.com
       run: |
-        docker tag translator-container:latest ${ECR_REGISTRY}/translator-repository:latest
+        docker tag translator-repository:latest ${ECR_REGISTRY}/translator-repository:latest
         docker push ${ECR_REGISTRY}/translator-repository:latest
         echo "::set-output name=image::${ECR_REGISTRY}/translator-repository:latest"
 
