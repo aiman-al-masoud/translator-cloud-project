@@ -21,15 +21,15 @@ jobs:
     - name: Build Docker image
       id: build-translator-image
       run: |
-        docker build -t translator-container .
-        docker save translator-container > /tmp/translator-container.tar
+        docker build -t translator-repository .
+        docker save translator-repository > /tmp/translator-repository.tar
       working-directory: ./scripts/docker-files/translate/
 
     - name: Upload image artifact in a tmp file
       uses: actions/upload-artifact@v3
       with:
-        name: translator-container
-        path: /tmp/translator-container.tar
+        name: translator-repository
+        path: /tmp/translator-repository.tar
         
     #Push translator on AWS ECR
     - name: Configure AWS credentials
@@ -46,19 +46,19 @@ jobs:
     - name: Download image artifact
       uses: actions/download-artifact@v3
       with:
-        name: translator-container
+        name: translator-repository
         path: /tmp
 
     - name: Load Docker image
       run: |
-        docker load --input /tmp/translator-container.tar
+        docker load --input /tmp/translator-repository.tar
 
     - name: Push image to Amazon ECR
       id: push-image
       env:
-        ECR_REGISTRY: translator-repository:latest 483451515855.dkr.ecr.us-east-1.amazonaws.com
+        ECR_REGISTRY: 483451515855.dkr.ecr.us-east-1.amazonaws.com
       run: |
-        docker tag lcs-container ${ECR_REGISTRY}/translator-repository:latest
+        docker tag translator-container:latest ${ECR_REGISTRY}/translator-repository:latest
         docker push ${ECR_REGISTRY}/translator-repository:latest
         echo "::set-output name=image::${ECR_REGISTRY}/translator-repository:latest"
 
